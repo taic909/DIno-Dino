@@ -3,16 +3,28 @@
 [ext_resource type="Script" uid="uid://b8gompabdo7ot" path="res://scripts/player_controller.gd" id="1_controller"]
 [ext_resource type="Texture2D" uid="uid://b567eml5khq48" path="res://download.png" id="2_normal"]
 [ext_resource type="Texture2D" uid="uid://dnisvmartrlq3" path="res://assets/sprites/archeopteryx-white-blue-red-glide-right-v1.png" id="3_glide"]
+[ext_resource type="AudioStream" uid="uid://cpuqlndppep3b" path="res://assets/audio/jump.wav" id="4_jump"]
+[ext_resource type="AudioStream" uid="uid://cr3mk0sg0rllv" path="res://assets/audio/glide.wav" id="5_glide_sfx"]
+[ext_resource type="AudioStream" uid="uid://dpb4ofb2gg0qk" path="res://assets/audio/pounce.wav" id="6_pounce"]
+[ext_resource type="AudioStream" uid="uid://miji8mcsu38n" path="res://assets/audio/tail_swipe.wav" id="7_tail_swipe"]
+[ext_resource type="AudioStream" uid="uid://cdol6dj6w7sil" path="res://assets/audio/land.wav" id="8_land"]
+[ext_resource type="AudioStream" uid="uid://c0xrwvrltawcp" path="res://assets/audio/player_hurt.wav" id="9_hurt"]
+[ext_resource type="Texture2D" uid="uid://cgr7f3f4pg0ns" path="res://assets/sprites/archeopteryx-run-2f-v2.png" id="10_run"]
+[ext_resource type="Texture2D" uid="uid://dgxfc27abhwci" path="res://assets/sprites/archeopteryx-lateral-tail-strike-2f-v1.png" id="11_lateral_tail"]
+[ext_resource type="Texture2D" uid="uid://cha2cb0b6k5mg" path="res://assets/sprites/archeopteryx-frontflip-tail-down-2f-v1.png" id="12_down_tail"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yvhc3"]
 radius = 16.0
 height = 52.0
 
 [sub_resource type="RectangleShape2D" id="PounceShape"]
-size = Vector2(64, 42)
+size = Vector2(68, 42)
 
 [sub_resource type="ConvexPolygonShape2D" id="TailSwipeShape"]
 points = PackedVector2Array(0, -48, 31, -44, 58, -34, 76, -18, 82, 0, 76, 18, 58, 34, 31, 44, 0, 48)
+
+[sub_resource type="ConvexPolygonShape2D" id="DownwardTailSwipeShape"]
+points = PackedVector2Array(48, 0, 44, 31, 34, 58, 18, 76, 0, 82, -18, 76, -34, 58, -44, 31, -48, 0)
 
 [node name="Player" type="CharacterBody2D" unique_id=1223879638]
 script = ExtResource("1_controller")
@@ -21,39 +33,74 @@ script = ExtResource("1_controller")
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_yvhc3")
 
-[node name="PounceHitbox" type="Area2D" parent="."]
+[node name="PounceHitbox" type="Area2D" parent="." unique_id=70527516]
 collision_layer = 0
 collision_mask = 2
 monitoring = false
 
-[node name="HitboxShape" type="CollisionShape2D" parent="PounceHitbox"]
-position = Vector2(28, 0)
+[node name="HitboxShape" type="CollisionShape2D" parent="PounceHitbox" unique_id=563245453]
+position = Vector2(26, 7)
 shape = SubResource("PounceShape")
 
-[node name="TailSwipeHitbox" type="Area2D" parent="."]
+[node name="TailSwipeHitbox" type="Area2D" parent="." unique_id=410909738]
+visible = false
 collision_layer = 0
 collision_mask = 2
 monitoring = false
 
-[node name="HitboxShape" type="CollisionShape2D" parent="TailSwipeHitbox"]
+[node name="HitboxShape" type="CollisionShape2D" parent="TailSwipeHitbox" unique_id=781257603]
+visible = false
 shape = SubResource("TailSwipeShape")
 
-[node name="TailSwipeIndicator" type="Line2D" parent="."]
+[node name="TailSwipeIndicator" type="Line2D" parent="." unique_id=1295132843]
 visible = false
 z_index = 2
+position = Vector2(-1.3586957, 2.499998)
+scale = Vector2(0.7282609, 5.5000005)
 points = PackedVector2Array(0, 0, 82, 0)
 width = 5.0
-default_color = Color(1, 0.72, 0.2, 0.9)
+default_color = Color(0.3714973, 0.67652726, 0.57070065, 0.59607846)
 begin_cap_mode = 2
 end_cap_mode = 2
 antialiased = true
 
+[node name="DownwardTailSwipeHitbox" type="Area2D" parent="." unique_id=872337249]
+visible = false
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="HitboxShape" type="CollisionShape2D" parent="DownwardTailSwipeHitbox" unique_id=4124716]
+visible = false
+shape = SubResource("DownwardTailSwipeShape")
+
+[node name="DownwardTailSwipeIndicator" type="Line2D" parent="." unique_id=1309969617]
+visible = false
+z_index = 2
+points = PackedVector2Array(0, 0, 0, 82)
+width = 5.0
+default_color = Color(0.3714973, 0.67652726, 0.57070065, 0.59607846)
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1087409951]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hurtbox" unique_id=1992288856]
+visible = false
+polygon = PackedVector2Array(14, 1, -12, 5, -14, 8, -4, 19, 8, 18, 19, 2, 23, -2, 20, -6)
+
 [node name="Visuals" type="Node2D" parent="." unique_id=1290549559]
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=2128472244]
+visible = false
 position = Vector2(0, 0.99999994)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_normal")
+flip_h = true
 
 [node name="GlideSprite" type="Sprite2D" parent="Visuals" unique_id=833362885]
 visible = false
@@ -61,40 +108,25 @@ position = Vector2(0, 0.99999994)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_glide")
 
-[node name="Body" type="Polygon2D" parent="." unique_id=1861768097]
-visible = false
-color = Color(0.160784, 0.627451, 0.372549, 1)
-polygon = PackedVector2Array(-20, -17, 5, -22, 20, -11, 18, 15, 4, 25, -16, 18)
+[node name="RunSprite" type="Sprite2D" parent="Visuals" unique_id=2143618596]
+position = Vector2(0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("10_run")
+hframes = 2
 
-[node name="Snout" type="Polygon2D" parent="." unique_id=27763197]
+[node name="LateralTailSwipeSprite" type="Sprite2D" parent="Visuals" unique_id=169353105]
 visible = false
-color = Color(0.160784, 0.627451, 0.372549, 1)
-polygon = PackedVector2Array(8, -18, 31, -14, 34, -4, 13, -1)
+position = Vector2(0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("11_lateral_tail")
+hframes = 2
 
-[node name="Tail" type="Polygon2D" parent="." unique_id=672854423]
+[node name="DownwardTailSwipeSprite" type="Sprite2D" parent="Visuals" unique_id=825129133]
 visible = false
-color = Color(0.117647, 0.509804, 0.301961, 1)
-polygon = PackedVector2Array(-16, -8, -43, 2, -18, 10)
-
-[node name="LegBack" type="Polygon2D" parent="." unique_id=1406908070]
-visible = false
-color = Color(0.117647, 0.509804, 0.301961, 1)
-polygon = PackedVector2Array(-13, 13, -4, 15, -8, 31, -18, 31)
-
-[node name="LegFront" type="Polygon2D" parent="." unique_id=1142745550]
-visible = false
-color = Color(0.160784, 0.627451, 0.372549, 1)
-polygon = PackedVector2Array(7, 15, 16, 11, 19, 30, 8, 30)
-
-[node name="Eye" type="Polygon2D" parent="." unique_id=1662991856]
-visible = false
-color = Color(0.972549, 0.921569, 0.635294, 1)
-polygon = PackedVector2Array(13, -15, 18, -15, 18, -10, 13, -10)
-
-[node name="Pupil" type="Polygon2D" parent="." unique_id=1744881956]
-visible = false
-color = Color(0.0470588, 0.0588235, 0.0745098, 1)
-polygon = PackedVector2Array(16, -14, 18, -14, 18, -11, 16, -11)
+position = Vector2(0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("12_down_tail")
+hframes = 2
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1185614905]
 visible = false
@@ -102,5 +134,25 @@ position = Vector2(120, -40)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
+[node name="JumpSfx" type="AudioStreamPlayer" parent="." unique_id=805566667]
+stream = ExtResource("4_jump")
+
+[node name="GlideSfx" type="AudioStreamPlayer" parent="." unique_id=1327603161]
+stream = ExtResource("5_glide_sfx")
+
+[node name="PounceSfx" type="AudioStreamPlayer" parent="." unique_id=29834035]
+stream = ExtResource("6_pounce")
+
+[node name="TailSwipeSfx" type="AudioStreamPlayer" parent="." unique_id=1177434028]
+stream = ExtResource("7_tail_swipe")
+
+[node name="LandSfx" type="AudioStreamPlayer" parent="." unique_id=101158769]
+stream = ExtResource("8_land")
+
+[node name="HurtSfx" type="AudioStreamPlayer" parent="." unique_id=1269680532]
+stream = ExtResource("9_hurt")
+
 [connection signal="area_entered" from="PounceHitbox" to="." method="_on_pounce_hitbox_area_entered"]
 [connection signal="area_entered" from="TailSwipeHitbox" to="." method="_on_tail_swipe_hitbox_area_entered"]
+[connection signal="area_entered" from="DownwardTailSwipeHitbox" to="." method="_on_tail_swipe_hitbox_area_entered"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

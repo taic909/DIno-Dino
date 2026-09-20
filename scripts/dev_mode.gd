@@ -37,10 +37,12 @@ func _process(_delta: float) -> void:
 	var glide_state := "ACTIVE" if bool(player.call("is_gliding")) else "READY"
 	if float(player.get("glide_time_remaining")) <= 0.0:
 		glide_state = "EMPTY"
+	var health_state := "%d / %d" % [int(player.get("current_health")), int(player.get("max_health"))]
 
-	status_label.text = "DEV MODE\nF3 / Right Stick: Hide\nR / View: Reset room\nPosition: %s\nVelocity: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [
+	status_label.text = "DEV MODE\nF3 / Right Stick: Hide\nR / View: Reset room\nPosition: %s\nVelocity: %s\nHealth: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [ # Show health with movement state.
 		player.position.round(),
 		player.velocity.round(),
+		health_state, # Display current prototype health.
 		glide_state,
 		float(player.get("glide_time_remaining")),
 		rad_to_deg(float(player.get("glide_pitch"))),

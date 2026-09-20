@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blhvxgqkby8sc"
-path="res://.godot/imported/archeopteryx-white-blue-red-v2.png-166ea23f1ca91b7f5f1dc4277032576a.ctex"
+uid="uid://cgr7f3f4pg0ns"
+path="res://.godot/imported/archeopteryx-run-2f-v2.png-fe42efa53184e507223f2af1168360c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/archeopteryx-white-blue-red-v2.png"
-dest_files=["res://.godot/imported/archeopteryx-white-blue-red-v2.png-166ea23f1ca91b7f5f1dc4277032576a.ctex"]
+source_file="res://assets/sprites/archeopteryx-run-2f-v2.png"
+dest_files=["res://.godot/imported/archeopteryx-run-2f-v2.png-fe42efa53184e507223f2af1168360c0.ctex"]
 
 [params]
 

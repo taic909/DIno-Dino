@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var max_speed := 240.0
+@export var max_speed := 300.0
 @export var ground_acceleration := 650.0
 @export var ground_deceleration := 2200.0
 @export var air_acceleration := 1100.0
@@ -28,6 +28,9 @@ extends CharacterBody2D
 @export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_dive_angle := 80.0
 @export var glide_low_momentum_threshold := 150.0
 @export var glide_low_momentum_cancel_time := 0.2
+@export var glide_exit_momentum_time := 1.0
+@export var glide_exit_drag := 220.0
+@export var glide_exit_air_steering := 100.0
 
 @export_category("Air Rotation")
 @export var air_rotation_speed := 8.0
@@ -41,8 +44,8 @@ extends CharacterBody2D
 @export var pounce_stretch_scale := Vector2(1.24, 0.82)
 @export var pounce_rebound_speed := Vector2(220.0, -320.0)
 @export var pounce_rebound_scale := Vector2(0.86, 1.18)
-@export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.75
-@export var glide_pounce_rebound_speed_cap := 480.0
+@export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.9
+@export var glide_pounce_rebound_speed_cap := 560.0
 @export var glide_pounce_refill_time := 1.25
 @export_range(0.1, 3.0, 0.05) var glide_pounce_upward_bias := 1.0
 @export var glide_pounce_dome_half_width := 48.0
@@ -65,14 +68,37 @@ extends CharacterBody2D
 @export var landing_squash_scale := Vector2(1.12, 0.82)
 @export var landing_recovery_time := 0.12
 
+@export_category("Contact Damage")
+@export var max_health := 3
+@export var contact_invulnerability_time := 0.6
+@export var contact_knockback := Vector2(260.0, -260.0)
+@export var damage_flash_color := Color(1.0, 0.35, 0.35, 1.0)
+@export var damage_flash_time := 0.14
+
+@export_category("Animation")
+@export var run_animation_fps := 8.0
+@export var run_frame_zero_offset := Vector2(-3.4, 0.0)
+@export var run_frame_one_offset := Vector2(3.4, 0.4)
+
 @onready var visuals: Node2D = $Visuals
 @onready var sprite: Sprite2D = $Visuals/Sprite2D
 @onready var glide_sprite: Sprite2D = $Visuals/GlideSprite
+@onready var run_sprite: Sprite2D = $Visuals/RunSprite
+@onready var lateral_tail_swipe_sprite: Sprite2D = $Visuals/LateralTailSwipeSprite
+@onready var downward_tail_swipe_sprite: Sprite2D = $Visuals/DownwardTailSwipeSprite
 @onready var pounce_hitbox: Area2D = $PounceHitbox
 @onready var pounce_hitbox_shape: CollisionShape2D = $PounceHitbox/HitboxShape
 @onready var tail_swipe_hitbox: Area2D = $TailSwipeHitbox
 @onready var tail_swipe_hitbox_shape: CollisionShape2D = $TailSwipeHitbox/HitboxShape
 @onready var tail_swipe_indicator: Line2D = $TailSwipeIndicator
+@onready var downward_tail_swipe_hitbox: Area2D = $DownwardTailSwipeHitbox
+@onready var downward_tail_swipe_indicator: Line2D = $DownwardTailSwipeIndicator
+@onready var jump_sfx: AudioStreamPlayer = $JumpSfx
+@onready var glide_sfx: AudioStreamPlayer = $GlideSfx
+@onready var pounce_sfx: AudioStreamPlayer = $PounceSfx
+@onready var tail_swipe_sfx: AudioStreamPlayer = $TailSwipeSfx
+@onready var land_sfx: AudioStreamPlayer = $LandSfx
+@onready var hurt_sfx: AudioStreamPlayer = $HurtSfx
 
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
@@ -82,6 +108,8 @@ var glide_momentum := 0.0
 var glide_speed_limit := 0.0
 var glide_pitch := 0.0
 var glide_low_momentum_timer := 0.0
+var glide_exit_timer := 0.0
+var glide_exit_active := false
 var pounce_timer := 0.0
 var pounce_cooldown_timer := 0.0
 var pounce_direction := 1.0
@@ -92,15 +120,20 @@ var tail_swipe_timer := 0.0
 var tail_swipe_cooldown_timer := 0.0
 var tail_swipe_direction := Vector2.RIGHT
 var facing_direction := 1.0
+var current_health := 0
+var contact_invulnerability_timer := 0.0
 var visuals_rest_scale := Vector2.ONE
 var feedback_tween: Tween
+var damage_tween: Tween
 
 
 func _ready() -> void:
 	visuals_rest_scale = visuals.scale
 	glide_time_remaining = glide_duration
+	current_health = max_health # Fill the prototype health value.
 	pounce_hitbox.monitoring = false
 	tail_swipe_hitbox.monitoring = false
+	downward_tail_swipe_hitbox.monitoring = false # Disable the downward attack at startup.
 	_update_sprite_facing()
 	_update_sprite_state()
 
@@ -152,11 +185,20 @@ func _update_timers(delta: float) -> void:
 	pounce_cooldown_timer = maxf(pounce_cooldown_timer - delta, 0.0)
 	tail_swipe_timer = maxf(tail_swipe_timer - delta, 0.0)
 	tail_swipe_cooldown_timer = maxf(tail_swipe_cooldown_timer - delta, 0.0)
+	glide_exit_timer = maxf(glide_exit_timer - delta, 0.0) # Count down the soft momentum window.
+	contact_invulnerability_timer = maxf(contact_invulnerability_timer - delta, 0.0) # Count down contact protection.
 
 
 func _apply_horizontal_movement(direction: float, delta: float) -> void:
 	var target_speed := direction * max_speed
 	var acceleration := air_acceleration
+
+	if not is_on_floor() and glide_exit_active: # Use gentle air handling after Glide.
+		velocity.x = move_toward(velocity.x, 0.0, glide_exit_drag * delta) # Bleed horizontal momentum gradually.
+		velocity.x += direction * glide_exit_air_steering * delta # Allow mild steering during the carry.
+		if glide_exit_timer <= 0.0 and absf(velocity.x) <= max_speed: # End after speed returns to running range.
+			glide_exit_active = false # Restore ordinary air movement.
+		return # Skip the normal speed clamp.
 
 	if is_on_floor():
 		acceleration = ground_acceleration if direction != 0.0 else ground_deceleration
@@ -178,6 +220,7 @@ func _apply_gravity(delta: float) -> void:
 func _handle_jump() -> void:
 	if jump_buffer_timer > 0.0 and coyote_timer > 0.0:
 		velocity.y = jump_velocity
+		jump_sfx.play() # Play the placeholder jump sound.
 		jump_buffer_timer = 0.0
 		coyote_timer = 0.0
 
@@ -190,6 +233,7 @@ func _update_glide(delta: float) -> void:
 		glide_time_remaining = glide_duration
 		gliding = false
 		glide_low_momentum_timer = 0.0
+		glide_exit_active = false # Stop carrying Glide momentum on landing.
 		return
 
 	if pounce_timer > 0.0:
@@ -212,7 +256,7 @@ func _update_glide(delta: float) -> void:
 		return
 
 	if gliding and Input.is_action_just_pressed("jump"):
-		gliding = false
+		_begin_glide_exit() # Preserve speed when Glide is canceled.
 		jump_buffer_timer = 0.0
 		glide_low_momentum_timer = 0.0
 		return
@@ -240,7 +284,7 @@ func _update_glide(delta: float) -> void:
 			glide_low_momentum_timer = 0.0
 
 		if glide_time_remaining <= 0.0 or glide_low_momentum_timer >= glide_low_momentum_cancel_time:
-			gliding = false
+			_begin_glide_exit() # Ease out when Glide ends naturally.
 			glide_low_momentum_timer = 0.0
 	else:
 		glide_low_momentum_timer = 0.0
@@ -266,6 +310,14 @@ func _begin_glide() -> void:
 	glide_pitch = deg_to_rad(neutral_glide_pitch)
 	glide_momentum = maxf(velocity.length(), glide_speed)
 	glide_speed_limit = maxf(glide_max_speed, glide_momentum)
+	glide_exit_active = false # Stop any previous exit carry.
+	glide_sfx.play() # Play the placeholder Glide sound.
+
+
+func _begin_glide_exit() -> void: # Start a soft transition from Glide.
+	gliding = false # Leave active Glide physics.
+	glide_exit_active = true # Keep overspeed air movement temporarily.
+	glide_exit_timer = glide_exit_momentum_time # Set the minimum carry time.
 
 
 func _apply_glide_movement(pitch_input: float, delta: float) -> void:
@@ -335,6 +387,7 @@ func _start_pounce(direction: float) -> void:
 	gliding = pounce_started_from_glide
 	pounce_timer = pounce_duration
 	pounce_cooldown_timer = pounce_cooldown
+	pounce_sfx.play() # Play the placeholder Pounce sound.
 	_play_sprite_feedback(pounce_stretch_scale, pounce_duration)
 
 
@@ -375,13 +428,15 @@ func _start_tail_swipe(horizontal_input: float, vertical_input: float) -> void:
 		and vertical_input > absf(horizontal_input)
 	)
 	tail_swipe_direction = Vector2.DOWN if down_is_dominant else Vector2(facing_direction, 0.0)
-	gliding = false
+	if gliding: # Detect a Swipe used to cancel Glide.
+		_begin_glide_exit() # Preserve Glide momentum after the Swipe.
 	if down_is_dominant:
 		# The downward version keeps a brief vertical stutter for aiming, but it
 		# does not erase horizontal travel. Lateral Swipes preserve all momentum.
 		velocity.y *= tail_swipe_down_stutter_vertical_retention
 	tail_swipe_timer = tail_swipe_duration
 	tail_swipe_cooldown_timer = tail_swipe_cooldown
+	tail_swipe_sfx.play() # Play the placeholder Tail Swipe sound.
 	_play_sprite_feedback(tail_swipe_scale, tail_swipe_duration)
 
 
@@ -394,18 +449,17 @@ func is_tail_swiping() -> bool:
 	return tail_swipe_timer > 0.0
 
 
-func _update_tail_swipe_hitbox() -> void:
+func _update_tail_swipe_hitbox() -> void: # Select the matching Tail Swipe presentation.
 	var active := is_tail_swiping()
-	# The convex shape is authored as a right-facing half-circle rooted at the
-	# player, then rotated to the direction that was locked at attack start.
-	tail_swipe_hitbox_shape.position = Vector2.ZERO
-	tail_swipe_hitbox_shape.rotation = tail_swipe_direction.angle()
-	tail_swipe_hitbox.monitoring = active
-	tail_swipe_indicator.points = PackedVector2Array([
-		Vector2.ZERO,
-		tail_swipe_direction * tail_swipe_reach,
-	])
-	tail_swipe_indicator.visible = active
+	var downward_active := active and tail_swipe_direction == Vector2.DOWN
+	var lateral_active := active and not downward_active
+	tail_swipe_hitbox_shape.position = Vector2.ZERO # Keep the lateral shape rooted at the player.
+	tail_swipe_hitbox_shape.rotation = tail_swipe_direction.angle() # Face the lateral shape left or right.
+	tail_swipe_hitbox.monitoring = lateral_active # Enable only the lateral attack area.
+	downward_tail_swipe_hitbox.monitoring = downward_active # Enable only the downward attack area.
+	tail_swipe_indicator.points = PackedVector2Array([Vector2.ZERO, tail_swipe_direction * tail_swipe_reach]) # Point the lateral line toward the attack.
+	tail_swipe_indicator.visible = lateral_active # Show only the lateral indicator.
+	downward_tail_swipe_indicator.visible = downward_active # Show only the downward indicator.
 
 
 func _on_pounce_hitbox_area_entered(area: Area2D) -> void:
@@ -420,18 +474,51 @@ func _on_tail_swipe_hitbox_area_entered(area: Area2D) -> void:
 	area.call("receive_tail_swipe", self)
 
 
-func rebound_from_tail_swipe(hit_position: Vector2) -> void:
-	if tail_swipe_direction == Vector2.DOWN:
-		velocity.y = minf(velocity.y, -tail_swipe_down_bounce_speed)
-	else:
-		var recoil_direction := signf(global_position.x - hit_position.x)
-		if is_zero_approx(recoil_direction):
-			recoil_direction = -tail_swipe_direction.x
-		var retained_speed := absf(velocity.x) * tail_swipe_lateral_hit_momentum_retention
-		velocity.x = recoil_direction * maxf(tail_swipe_lateral_recoil_speed, retained_speed)
+func _on_hurtbox_area_entered(area: Area2D) -> void: # Handle enemy contact through the player Hurtbox.
+	if contact_invulnerability_timer > 0.0: # Ignore contact during protection.
+		return # Prevent repeated damage.
+	if not area.has_method("get_contact_damage"): # Accept only enemy damage areas.
+		return # Ignore unrelated areas.
+	var damage := int(area.call("get_contact_damage"))
+	_take_contact_damage(damage, area.global_position) # Apply enemy contact damage.
 
-	tail_swipe_timer = 0.0
-	tail_swipe_hitbox.set_deferred("monitoring", false)
+
+func _take_contact_damage(damage: int, hit_position: Vector2) -> void: # Apply the prototype damage response.
+	if damage <= 0: # Reject harmless contacts.
+		return # Keep the current state.
+	current_health = maxi(current_health - damage, 0) # Reduce health without going negative.
+	contact_invulnerability_timer = contact_invulnerability_time # Start brief protection.
+	gliding = false # End Glide on a damaging impact.
+	glide_exit_active = false # Let knockback replace carried momentum.
+	var knockback_direction := signf(global_position.x - hit_position.x)
+	if is_zero_approx(knockback_direction): # Resolve centered contact.
+		knockback_direction = -facing_direction # Push opposite the facing direction.
+	velocity = Vector2(knockback_direction * contact_knockback.x, contact_knockback.y) # Apply visible knockback.
+	hurt_sfx.play() # Play the placeholder player-hurt sound.
+	_play_damage_feedback() # Flash the player sprite.
+
+
+func _play_damage_feedback() -> void: # Show temporary damage feedback.
+	if damage_tween and damage_tween.is_valid(): # Check for an older flash.
+		damage_tween.kill() # Stop the older flash.
+	visuals.modulate = damage_flash_color # Tint the player immediately.
+	damage_tween = create_tween() # Create the recovery animation.
+	damage_tween.tween_property(visuals, "modulate", Color.WHITE, damage_flash_time) # Restore the normal color.
+
+
+func rebound_from_tail_swipe(hit_position: Vector2) -> void: # Apply the matching enemy-hit response.
+	if tail_swipe_direction == Vector2.DOWN: # Check for the downward attack.
+		velocity.y = minf(velocity.y, -tail_swipe_down_bounce_speed) # Bounce upward from the enemy.
+	else: # Handle a lateral enemy hit.
+		var recoil_direction := signf(global_position.x - hit_position.x)
+		if is_zero_approx(recoil_direction): # Resolve a centered hit.
+			recoil_direction = -tail_swipe_direction.x # Recoil opposite the attack.
+		var retained_speed := absf(velocity.x) * tail_swipe_lateral_hit_momentum_retention
+		velocity.x = recoil_direction * maxf(tail_swipe_lateral_recoil_speed, retained_speed) # Redirect retained momentum away from the enemy.
+
+	tail_swipe_timer = 0.0 # End the attack after one enemy hit.
+	tail_swipe_hitbox.set_deferred("monitoring", false) # Disable the lateral hitbox safely.
+	downward_tail_swipe_hitbox.set_deferred("monitoring", false) # Disable the downward hitbox safely.
 
 
 func rebound_from_pounce(hit_position: Vector2) -> void:
@@ -498,11 +585,28 @@ func _update_sprite_facing() -> void:
 	# The normal artwork faces left, while the glide artwork faces right.
 	sprite.flip_h = facing_direction > 0.0
 	glide_sprite.flip_h = facing_direction < 0.0
+	run_sprite.flip_h = facing_direction > 0.0 # Face the running sheet toward movement.
+	lateral_tail_swipe_sprite.flip_h = facing_direction > 0.0 # Face the lateral strike toward its target.
+	downward_tail_swipe_sprite.flip_h = facing_direction > 0.0 # Match the downward strike to player facing.
 
 
-func _update_sprite_state() -> void:
-	sprite.visible = not gliding
-	glide_sprite.visible = gliding
+func _update_sprite_state() -> void: # Select and advance the current player artwork.
+	var tail_swiping := is_tail_swiping()
+	var downward_swiping := tail_swiping and tail_swipe_direction == Vector2.DOWN
+	var lateral_swiping := tail_swiping and not downward_swiping
+	var running := is_on_floor() and absf(velocity.x) > 10.0 and not tail_swiping and not is_pouncing()
+	sprite.visible = not gliding and not running and not tail_swiping # Show idle and ordinary airborne artwork.
+	glide_sprite.visible = gliding and not tail_swiping # Show Glide artwork only during Glide.
+	run_sprite.visible = running # Show the running sheet during grounded movement.
+	lateral_tail_swipe_sprite.visible = lateral_swiping # Show the lateral strike sheet for forward attacks.
+	downward_tail_swipe_sprite.visible = downward_swiping # Show the front-flip sheet for downward attacks.
+	run_sprite.frame = int(Time.get_ticks_msec() * run_animation_fps / 1000.0) % 2 # Loop the two running frames.
+	var run_frame_offset := run_frame_zero_offset if run_sprite.frame == 0 else run_frame_one_offset
+	run_sprite.position = Vector2(run_frame_offset.x * -facing_direction, 1.0 + run_frame_offset.y) # Stabilize the run-cycle anchor in either direction.
+	var tail_progress := 1.0 - tail_swipe_timer / maxf(tail_swipe_duration, 0.001)
+	var tail_frame := mini(int(tail_progress * 2.0), 1)
+	lateral_tail_swipe_sprite.frame = tail_frame # Advance the lateral strike once per attack.
+	downward_tail_swipe_sprite.frame = tail_frame # Advance the downward strike once per attack.
 
 
 func _update_air_rotation(delta: float) -> void:
@@ -520,6 +624,7 @@ func _handle_landing_feedback(was_on_floor: bool, fall_speed: float) -> void:
 	if not just_landed or fall_speed < minimum_squash_speed:
 		return
 
+	land_sfx.play() # Play the placeholder landing sound.
 	_play_sprite_feedback(landing_squash_scale, landing_recovery_time)
 
 

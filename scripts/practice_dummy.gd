@@ -10,9 +10,13 @@ extends Area2D
 @export var tail_swipe_damage := 1
 @export var stunned_tail_swipe_damage := 2
 @export var tail_swipe_hit_color := Color(1.0, 0.55, 0.35, 1.0)
+@export var contact_damage := 1
 
 @onready var visuals: Node2D = $Visuals
 @onready var stun_burst: CPUParticles2D = $StunBurst
+@onready var stun_sfx: AudioStreamPlayer2D = $StunSfx
+@onready var hit_sfx: AudioStreamPlayer2D = $HitSfx
+@onready var defeat_sfx: AudioStreamPlayer2D = $DefeatSfx
 
 var stunned := false
 var stun_sequence := 0
@@ -36,6 +40,7 @@ func receive_pounce(player: CharacterBody2D) -> void:
 		return
 
 	player.call("rebound_from_pounce", global_position)
+	stun_sfx.play() # Play the placeholder enemy-stun sound.
 	await _play_hit_pause()
 	stun_burst.restart()
 	stun_burst.emitting = true
@@ -56,6 +61,7 @@ func receive_tail_swipe(player: CharacterBody2D) -> void:
 	if health <= 0:
 		await _defeat()
 	else:
+		hit_sfx.play() # Play the placeholder enemy-hit sound.
 		await _play_hit_pause()
 		_play_tail_swipe_feedback()
 
@@ -104,6 +110,7 @@ func _play_tail_swipe_feedback() -> void:
 
 func _defeat() -> void:
 	defeated = true
+	defeat_sfx.play() # Play the placeholder enemy-defeat sound.
 	stun_sequence += 1
 	set_deferred("monitorable", false)
 	if stun_tween and stun_tween.is_valid():
@@ -119,6 +126,10 @@ func _defeat() -> void:
 
 func is_stunned() -> bool:
 	return stunned
+
+
+func get_contact_damage() -> int: # Report damage to a touching player Hurtbox.
+	return contact_damage # Return this enemy's contact damage.
 
 
 func _exit_tree() -> void:

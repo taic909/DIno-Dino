@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3jwu2opmh3t0"
-path="res://.godot/imported/archeopteryx-white-blue-red-v1.png-dbedd23d20bd6b88ea3d70f0ae95fda8.ctex"
+uid="uid://cha2cb0b6k5mg"
+path="res://.godot/imported/archeopteryx-frontflip-tail-down-2f-v1.png-fcb6ba567b9aca76c7fdb25e5d418761.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/archeopteryx-white-blue-red-v1.png"
-dest_files=["res://.godot/imported/archeopteryx-white-blue-red-v1.png-dbedd23d20bd6b88ea3d70f0ae95fda8.ctex"]
+source_file="res://assets/sprites/archeopteryx-frontflip-tail-down-2f-v1.png"
+dest_files=["res://.godot/imported/archeopteryx-frontflip-tail-down-2f-v1.png-fcb6ba567b9aca76c7fdb25e5d418761.ctex"]
 
 [params]
 

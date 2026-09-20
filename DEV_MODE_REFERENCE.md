@@ -8,6 +8,7 @@ Press **F3** or click the **right stick** to show or hide the developer overlay.
 
 - **R** or **View / Create** reloads the current room.
 - The overlay shows the player's rounded position and velocity.
+- The overlay shows current prototype health.
 - The overlay shows Glide state, remaining time, pitch angle, and preserved momentum speed.
 - The overlay shows whether Pounce is ready, active, or cooling down.
 

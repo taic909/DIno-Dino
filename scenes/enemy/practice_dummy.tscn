@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dekhnf2gwno1e"]
 
 [ext_resource type="Script" uid="uid://bu061itn1thhu" path="res://scripts/practice_dummy.gd" id="1_dummy"]
+[ext_resource type="AudioStream" path="res://assets/audio/enemy_stun.wav" id="2_stun"]
+[ext_resource type="AudioStream" path="res://assets/audio/enemy_hit.wav" id="3_hit"]
+[ext_resource type="AudioStream" path="res://assets/audio/enemy_defeat.wav" id="4_defeat"]
 
 [sub_resource type="RectangleShape2D" id="DummyShape"]
 size = Vector2(51, 73)
@@ -36,3 +39,12 @@ one_shot = true
 explosiveness = 1.0
 randomness = 0.35
 color = Color(0.984314, 0.74902, 0.27451, 1)
+
+[node name="StunSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_stun")
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_hit")
+
+[node name="DefeatSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_defeat")
