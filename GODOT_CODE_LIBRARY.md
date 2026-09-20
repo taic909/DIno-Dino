@@ -141,16 +141,18 @@ The game is controller-first, while keeping complete keyboard controls for the c
 | Glide Dive | Left stick down or D-pad down | S |
 | Jump / Glide | Bottom face button (A on Xbox, Cross on PlayStation) | Space |
 | Pounce | Left shoulder button (LB on Xbox, L1 on PlayStation) | E or left mouse button |
-| Tail Swipe | Unassigned; not implemented yet | Unassigned; not implemented yet |
+| Tail Swipe | Right shoulder button (RB on Xbox, R1 on PlayStation) | Q or right mouse button |
 | Pause | Menu / Options | Escape |
 
 Open **Pause > Controls** to replace keyboard/mouse and controller bindings independently. Changes are saved in Godot's per-user data folder, not in the project files. Use **Restore Defaults** to return to the bindings above.
 
-Tap or hold the first Jump press to control jump height. Release it, then press Jump again while airborne to start a Glide lasting up to 2 seconds; holding the original jump does not activate Glide, and releasing the second press does not cancel it. The Glide timer resets when the player lands. Glide uses conventional flight controls: push the left stick up or press W to climb, and push it down or press S to dive. Pitch is unrestricted, so continued input can rotate through a complete loop. With no pitch input, the dinosaur gradually settles into a shallow descent instead of flying perfectly horizontally. Steeper downward angles accelerate more strongly. Glide inherits existing speed so Pounce and rebound momentum can carry into it. Outside Glide, Pounce uses a fixed launch speed. During Glide, Pounce launch speed is a multiplier of current overall speed, the Glide artwork remains active, and the Glide timer pauses until the short burst ends. Enemies behave like curved bounce surfaces: off-center hits send the dinosaur upward and away, while a centered hit from above sends it straight up. A successful Glide Pounce refills the timer for another chain.
+Tap or hold the first Jump press to control jump height. Release it, then press Jump again while airborne to start a Glide lasting up to 5 seconds; holding the original jump does not activate Glide. Pressing Jump again cancels an active Glide. The Glide timer resets when the player lands. Glide uses conventional flight controls: push the left stick up or press W to climb, and push it down or press S to dive. With no pitch input, the dinosaur gradually settles into a shallow descent. Steeper downward angles accelerate more strongly, while climbing spends momentum. Outside Glide, Pounce uses a fixed launch speed. During Glide, Pounce launch speed is a multiplier of current speed, the Glide artwork remains active, and the Glide timer pauses until the burst ends. Enemy rebounds use the pre-Pounce speed, retain 75%, and cap at 480 by default. A successful hit ensures at least `glide_pounce_refill_time` remains—1.25 seconds by default—without refilling the entire `glide_duration`. Both values are exported separately in the Player Inspector.
+
+Tail Swipe cancels Glide but a lateral attack does not change velocity until it actually hits an enemy. A lateral hit then recoils away while retaining 60% of horizontal speed, with a minimum recoil of 180. Hold down as the dominant movement direction to attack below: this preserves horizontal speed, briefly reduces vertical speed to 35%, and launches upward at a minimum speed of 420 when it connects. The attack uses an 82-pixel convex semicircle, and a temporary orange line shows its locked direction and reach. The practice dummy is defeated by two ordinary Tail Swipes or one Tail Swipe while Pounce-stunned.
 
 Developer-only controls are separate from player bindings:
 
 | Developer action | Controller | Keyboard |
 | --- | --- | --- |
-| Toggle developer overlay | — | F3 |
+| Toggle developer overlay | Right stick click | F3 |
 | Reset the current room while developer mode is visible | View / Create | R |

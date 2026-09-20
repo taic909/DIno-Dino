@@ -4,7 +4,7 @@ extends CanvasLayer
 @onready var status_label: Label = $Overlay/Margin/Status
 @onready var player: CharacterBody2D = get_parent().get_node("Player") as CharacterBody2D
 
-var enabled := true
+var enabled := false
 
 
 func _ready() -> void:
@@ -38,7 +38,7 @@ func _process(_delta: float) -> void:
 	if float(player.get("glide_time_remaining")) <= 0.0:
 		glide_state = "EMPTY"
 
-	status_label.text = "DEV MODE\nF3: Hide\nR / View: Reset room\nPosition: %s\nVelocity: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [
+	status_label.text = "DEV MODE\nF3 / Right Stick: Hide\nR / View: Reset room\nPosition: %s\nVelocity: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [
 		player.position.round(),
 		player.velocity.round(),
 		glide_state,

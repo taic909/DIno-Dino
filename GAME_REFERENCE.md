@@ -107,21 +107,21 @@ The protagonist should feel good before collecting an artifact.
 - Variable-height jump
 - Coyote time and jump buffering
 - Useful but controlled air steering
-- A 2-second airborne glide started by a second Jump press in the air, with conventional vertical-stick pitch, unrestricted rotation, dive-scaled acceleration, and momentum inherited from jumps, Pounces, and rebounds
+- A 5-second airborne glide started by a second Jump press in the air, with conventional vertical-stick pitch, dive-scaled acceleration, and momentum inherited from jumps, Pounces, and rebounds
 - Glide visuals pitch with the movement arc while normal airborne movement and the upright collision shape remain stable
 - Clear landing, turnaround, and hit feedback
 - A movement attack tentatively called **Pounce**
-- A quick, short-range fallback attack, tentatively a **Tail Swipe**
+- A quick, short-range fallback attack called **Tail Swipe**
 
 ### Prototype combat hypothesis
 
-**Pounce** is a short horizontal burst that preserves vertical momentum and follows a shallow arc under reduced gravity. Outside Glide, its horizontal speed is fixed and predictable. During Glide, its horizontal speed is calculated by multiplying the dinosaur's current overall speed, rewarding built-up momentum. It does not deal direct damage; striking an enemy stuns it and rebounds the dinosaur. A Pounce started during Glide remains in the Glide state and keeps the Glide artwork; its timer pauses during the short burst, then resumes afterward. Enemies act like rounded bounce surfaces: off-center hits launch the dinosaur upward and away, while a centered hit from directly above launches it vertically. The rebound updates Glide's stored momentum and pitch so the new trajectory persists and remains steerable. A successful hit refills the Glide timer, allowing repeated glide-pogo chains. Missing creates a brief vulnerable recovery. The exact cooldown and recovery must be tested rather than assumed.
+**Pounce** is a short horizontal burst that preserves vertical momentum and follows a shallow arc under reduced gravity. Outside Glide, its horizontal speed is fixed and predictable. During Glide, its horizontal speed is calculated by multiplying the dinosaur's current overall speed, rewarding built-up momentum. It does not deal direct damage; striking an enemy stuns it and rebounds the dinosaur. A Pounce started during Glide remains in the Glide state and keeps the Glide artwork; its timer pauses during the short burst, then resumes afterward. Enemies act like rounded bounce surfaces: off-center hits launch the dinosaur upward and away, while a centered hit from directly above launches it vertically. Rebound strength uses the speed from before the Pounce multiplier and has a separate cap, preventing repeated hits from multiplying momentum indefinitely. A successful hit restores an independently tunable amount of Glide time rather than the full Glide duration, allowing controlled glide-pogo chains even when the total duration is increased.
 
-**Tail Swipe** is safer and easier but has limited range, modest damage, and little mobility. It prevents the player from feeling helpless without becoming the optimal solution to every encounter.
+**Tail Swipe** is safer and easier but has close range and little mobility. A lateral Swipe cancels Glide without changing the dinosaur's existing velocity; momentum changes only after hitting an enemy, which produces a controlled recoil away from it. The downward version preserves horizontal speed but briefly softens vertical movement for aiming, then bounces the dinosaur upward when it connects. Tail Swipe damages enemies directly: the practice dummy takes two ordinary Swipes, or one Swipe while stunned by Pounce. The attack uses an 82-pixel semicircular hitbox in front of the dinosaur by default and rotates below when down is the dominant movement input. Until final attack art exists, an orange line displays the chosen direction and reach during the active frames.
 
 The first enemy should communicate a clear opening, react strongly to a successful hit, and die in a way that makes momentum and impact obvious. Start with one excellent interaction rather than several enemy types.
 
-For prototype collision, keep the player environment collider, enemy hurtboxes, and attack hitboxes separate and simple. Normal body contact is harmless; only an active Pounce hitbox should stun the practice dummy.
+For prototype collision, keep the player environment collider, enemy hurtboxes, and attack hitboxes separate and simple. Normal body contact is harmless. The active Pounce hitbox stuns the practice dummy, while the separate Tail Swipe hitbox damages it.
 
 ## Artifact design rules
 
@@ -282,3 +282,9 @@ Copy the following into a new Codex task opened in this project folder:
 - **2026-09-19:** Split Pounce launch speed into two modes: a fixed speed outside Glide and a multiplier of current overall speed during Glide.
 - **2026-09-19:** Made Glide Pounce preserve the active Glide state and artwork, pausing the Glide timer during the burst and resuming it afterward.
 - **2026-09-19:** Changed Glide to conventional pitch controls (up climbs, down dives), removed the pitch-angle limits, and made enemy Glide-Pounce rebounds behave like upward-launching domes with vertical rebounds at top center.
+- **2026-09-19:** Bounded Glide-Pounce rebound momentum using pre-Pounce speed and a separate rebound cap. Successful hits now restore the exported Glide refill amount instead of the full, independently tunable Glide duration.
+- **2026-09-19:** Implemented Tail Swipe as a close-range damage/finisher attack that sheds momentum; stunned practice dummies are defeated in one Swipe and unstunned dummies in two.
+- **2026-09-19:** Fixed the developer overlay so F3 shows it on the first press and added right-stick click as a controller toggle.
+- **2026-09-19:** Changed Tail Swipe aiming from behind the dinosaur to forward-or-down directional aiming and added a temporary line indicator aligned with its hitbox.
+- **2026-09-19:** Extended Tail Swipe reach to 82 pixels and replaced its rectangular attack area with a rotating semicircular hitbox.
+- **2026-09-19:** Removed Tail Swipe's universal startup momentum loss. Lateral Swipes preserve velocity until an enemy hit causes recoil; downward Swipes keep a vertical-only stutter and bounce upward on contact.

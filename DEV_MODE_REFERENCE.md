@@ -4,7 +4,7 @@ Dev mode is a small testing overlay for development builds. It should make the c
 
 ## Current tools
 
-Press **F3** to show or hide the developer overlay. While it is visible:
+Press **F3** or click the **right stick** to show or hide the developer overlay. The first press shows it. While it is visible:
 
 - **R** or **View / Create** reloads the current room.
 - The overlay shows the player's rounded position and velocity.
@@ -72,7 +72,7 @@ The pause menu builds its rows from `CONTROL_ACTIONS` and `CONTROL_LABELS` near 
 4. Update the current-controls table in `GODOT_CODE_LIBRARY.md` after the control is implemented or deliberately assigned.
 5. Verify keyboard/mouse and controller slots independently, restart the game, and confirm the saved bindings return.
 
-The empty Tail Swipe row is the current example. It is visible and rebindable, but no attack behavior has been built yet.
+Tail Swipe is the current implemented example. Older control files saved it as an empty slot, so the versioned binding migration preserves its new defaults while continuing to respect later player rebindings.
 
 ## Guardrails
 

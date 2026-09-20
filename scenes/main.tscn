@@ -23,8 +23,9 @@ size = Vector2(48, 524)
 layer = -10
 
 [node name="Sky" type="ColorRect" parent="Backdrop" unique_id=81821060]
+offset_left = -4788.0
 offset_top = -282.0
-offset_right = 2398.0
+offset_right = 10814.0
 offset_bottom = 648.0
 mouse_filter = 2
 color = Color(0.0470588, 0.0705882, 0.0941176, 1)
@@ -49,6 +50,7 @@ visible = false
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=1244781966]
 position = Vector2(576, 614)
+scale = Vector2(5, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=611096884]
 position = Vector2(549.5, 0)
@@ -107,3 +109,15 @@ position = Vector2(-1228, -119)
 scale = Vector2(1, 1.4611111)
 color = Color(0.180392, 0.231373, 0.235294, 1)
 polygon = PackedVector2Array(-24, -180, 24, -180, 24, 180, -24, 180)
+
+[node name="PracticeDummy3" parent="." unique_id=2093642951 instance=ExtResource("2_dummy")]
+position = Vector2(4130, 507)
+
+[node name="PracticeDummy4" parent="." unique_id=1608667014 instance=ExtResource("2_dummy")]
+position = Vector2(2997, 510)
+
+[node name="PracticeDummy2" parent="." unique_id=67386237 instance=ExtResource("2_dummy")]
+position = Vector2(1864, 513)
+
+[node name="PracticeDummy5" parent="." unique_id=1532968793 instance=ExtResource("2_dummy")]
+position = Vector2(5263, 504)

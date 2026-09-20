@@ -41,10 +41,24 @@ extends CharacterBody2D
 @export var pounce_stretch_scale := Vector2(1.24, 0.82)
 @export var pounce_rebound_speed := Vector2(220.0, -320.0)
 @export var pounce_rebound_scale := Vector2(0.86, 1.18)
-@export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.8
+@export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.75
+@export var glide_pounce_rebound_speed_cap := 480.0
+@export var glide_pounce_refill_time := 1.25
 @export_range(0.1, 3.0, 0.05) var glide_pounce_upward_bias := 1.0
 @export var glide_pounce_dome_half_width := 48.0
 @export var glide_pounce_vertical_snap_distance := 6.0
+
+@export_category("Tail Swipe")
+@export var tail_swipe_duration := 0.16
+@export var tail_swipe_cooldown := 0.3
+@export_range(0.0, 1.0, 0.05) var tail_swipe_down_stutter_vertical_retention := 0.35
+@export_range(0.0, 1.0, 0.05) var tail_swipe_gravity_multiplier := 0.4
+@export_range(0.0, 1.0, 0.05) var tail_swipe_lateral_hit_momentum_retention := 0.6
+@export var tail_swipe_lateral_recoil_speed := 180.0
+@export var tail_swipe_down_bounce_speed := 420.0
+@export var tail_swipe_scale := Vector2(1.12, 0.9)
+@export var tail_swipe_reach := 82.0
+@export_range(0.0, 1.0, 0.05) var tail_swipe_down_aim_threshold := 0.5
 
 @export_category("Landing Feedback")
 @export var minimum_squash_speed := 180.0
@@ -56,6 +70,9 @@ extends CharacterBody2D
 @onready var glide_sprite: Sprite2D = $Visuals/GlideSprite
 @onready var pounce_hitbox: Area2D = $PounceHitbox
 @onready var pounce_hitbox_shape: CollisionShape2D = $PounceHitbox/HitboxShape
+@onready var tail_swipe_hitbox: Area2D = $TailSwipeHitbox
+@onready var tail_swipe_hitbox_shape: CollisionShape2D = $TailSwipeHitbox/HitboxShape
+@onready var tail_swipe_indicator: Line2D = $TailSwipeIndicator
 
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
@@ -70,6 +87,10 @@ var pounce_cooldown_timer := 0.0
 var pounce_direction := 1.0
 var active_pounce_speed := 0.0
 var pounce_started_from_glide := false
+var glide_speed_before_pounce := 0.0
+var tail_swipe_timer := 0.0
+var tail_swipe_cooldown_timer := 0.0
+var tail_swipe_direction := Vector2.RIGHT
 var facing_direction := 1.0
 var visuals_rest_scale := Vector2.ONE
 var feedback_tween: Tween
@@ -79,6 +100,7 @@ func _ready() -> void:
 	visuals_rest_scale = visuals.scale
 	glide_time_remaining = glide_duration
 	pounce_hitbox.monitoring = false
+	tail_swipe_hitbox.monitoring = false
 	_update_sprite_facing()
 	_update_sprite_state()
 
@@ -94,11 +116,15 @@ func _physics_process(delta: float) -> void:
 	_update_glide(delta)
 	_update_facing(direction)
 	_try_start_pounce(direction)
+	_try_start_tail_swipe(direction, glide_pitch_input)
 	_update_pounce_hitbox()
+	_update_tail_swipe_hitbox()
 	_update_sprite_state()
 
 	if pounce_timer > 0.0:
 		_apply_pounce(delta)
+	elif tail_swipe_timer > 0.0:
+		_apply_tail_swipe(delta)
 	elif gliding:
 		_apply_glide_movement(glide_pitch_input, delta)
 	else:
@@ -124,6 +150,8 @@ func _update_timers(delta: float) -> void:
 
 	pounce_timer = maxf(pounce_timer - delta, 0.0)
 	pounce_cooldown_timer = maxf(pounce_cooldown_timer - delta, 0.0)
+	tail_swipe_timer = maxf(tail_swipe_timer - delta, 0.0)
+	tail_swipe_cooldown_timer = maxf(tail_swipe_cooldown_timer - delta, 0.0)
 
 
 func _apply_horizontal_movement(direction: float, delta: float) -> void:
@@ -283,7 +311,11 @@ func is_gliding() -> bool:
 
 
 func _try_start_pounce(direction: float) -> void:
-	if not Input.is_action_just_pressed("pounce") or pounce_cooldown_timer > 0.0:
+	if (
+		not Input.is_action_just_pressed("pounce")
+		or pounce_cooldown_timer > 0.0
+		or tail_swipe_timer > 0.0
+	):
 		return
 
 	_start_pounce(direction)
@@ -291,6 +323,7 @@ func _try_start_pounce(direction: float) -> void:
 
 func _start_pounce(direction: float) -> void:
 	pounce_started_from_glide = gliding
+	glide_speed_before_pounce = velocity.length() if gliding else 0.0
 	active_pounce_speed = (
 		velocity.length() * glide_pounce_speed_multiplier
 		if gliding
@@ -321,10 +354,84 @@ func _update_pounce_hitbox() -> void:
 	pounce_hitbox.monitoring = is_pouncing()
 
 
+func _try_start_tail_swipe(horizontal_input: float, vertical_input: float) -> void:
+	if (
+		not Input.is_action_just_pressed("tail_swipe")
+		or tail_swipe_cooldown_timer > 0.0
+		or pounce_timer > 0.0
+	):
+		return
+
+	_start_tail_swipe(horizontal_input, vertical_input)
+
+
+func _start_tail_swipe(horizontal_input: float, vertical_input: float) -> void:
+	if absf(horizontal_input) > 0.1:
+		facing_direction = signf(horizontal_input)
+		_update_sprite_facing()
+
+	var down_is_dominant := (
+		vertical_input >= tail_swipe_down_aim_threshold
+		and vertical_input > absf(horizontal_input)
+	)
+	tail_swipe_direction = Vector2.DOWN if down_is_dominant else Vector2(facing_direction, 0.0)
+	gliding = false
+	if down_is_dominant:
+		# The downward version keeps a brief vertical stutter for aiming, but it
+		# does not erase horizontal travel. Lateral Swipes preserve all momentum.
+		velocity.y *= tail_swipe_down_stutter_vertical_retention
+	tail_swipe_timer = tail_swipe_duration
+	tail_swipe_cooldown_timer = tail_swipe_cooldown
+	_play_sprite_feedback(tail_swipe_scale, tail_swipe_duration)
+
+
+func _apply_tail_swipe(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += gravity * tail_swipe_gravity_multiplier * delta
+
+
+func is_tail_swiping() -> bool:
+	return tail_swipe_timer > 0.0
+
+
+func _update_tail_swipe_hitbox() -> void:
+	var active := is_tail_swiping()
+	# The convex shape is authored as a right-facing half-circle rooted at the
+	# player, then rotated to the direction that was locked at attack start.
+	tail_swipe_hitbox_shape.position = Vector2.ZERO
+	tail_swipe_hitbox_shape.rotation = tail_swipe_direction.angle()
+	tail_swipe_hitbox.monitoring = active
+	tail_swipe_indicator.points = PackedVector2Array([
+		Vector2.ZERO,
+		tail_swipe_direction * tail_swipe_reach,
+	])
+	tail_swipe_indicator.visible = active
+
+
 func _on_pounce_hitbox_area_entered(area: Area2D) -> void:
 	if not is_pouncing() or not area.has_method("receive_pounce"):
 		return
 	area.call("receive_pounce", self)
+
+
+func _on_tail_swipe_hitbox_area_entered(area: Area2D) -> void:
+	if not is_tail_swiping() or not area.has_method("receive_tail_swipe"):
+		return
+	area.call("receive_tail_swipe", self)
+
+
+func rebound_from_tail_swipe(hit_position: Vector2) -> void:
+	if tail_swipe_direction == Vector2.DOWN:
+		velocity.y = minf(velocity.y, -tail_swipe_down_bounce_speed)
+	else:
+		var recoil_direction := signf(global_position.x - hit_position.x)
+		if is_zero_approx(recoil_direction):
+			recoil_direction = -tail_swipe_direction.x
+		var retained_speed := absf(velocity.x) * tail_swipe_lateral_hit_momentum_retention
+		velocity.x = recoil_direction * maxf(tail_swipe_lateral_recoil_speed, retained_speed)
+
+	tail_swipe_timer = 0.0
+	tail_swipe_hitbox.set_deferred("monitoring", false)
 
 
 func rebound_from_pounce(hit_position: Vector2) -> void:
@@ -337,7 +444,10 @@ func rebound_from_pounce(hit_position: Vector2) -> void:
 	pounce_hitbox.set_deferred("monitoring", false)
 	if pounce_started_from_glide:
 		_apply_glide_pounce_rebound(hit_position)
-		glide_time_remaining = glide_duration
+		glide_time_remaining = minf(
+			glide_duration,
+			maxf(glide_time_remaining, glide_pounce_refill_time)
+		)
 	else:
 		velocity = Vector2(rebound_direction * pounce_rebound_speed.x, pounce_rebound_speed.y)
 
@@ -348,7 +458,6 @@ func rebound_from_pounce(hit_position: Vector2) -> void:
 
 
 func _apply_glide_pounce_rebound(hit_position: Vector2) -> void:
-	var incoming_speed := velocity.length()
 	var horizontal_offset := global_position.x - hit_position.x
 	var dome_x := 0.0
 	if absf(horizontal_offset) > glide_pounce_vertical_snap_distance:
@@ -359,9 +468,14 @@ func _apply_glide_pounce_rebound(hit_position: Vector2) -> void:
 		)
 	var bounce_direction := Vector2(dome_x, -glide_pounce_upward_bias).normalized()
 	var minimum_rebound_speed := pounce_rebound_speed.length()
-	var rebound_speed := maxf(
+	var rebound_speed_cap := maxf(
 		minimum_rebound_speed,
-		incoming_speed * glide_pounce_momentum_retention
+		glide_pounce_rebound_speed_cap
+	)
+	var rebound_speed := clampf(
+		glide_speed_before_pounce * glide_pounce_momentum_retention,
+		minimum_rebound_speed,
+		rebound_speed_cap
 	)
 	velocity = bounce_direction * rebound_speed
 	gliding = true

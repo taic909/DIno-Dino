@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 const SETTINGS_PATH := "user://controls.cfg"
+const CONTROLS_VERSION := 2
 const KEYBOARD_DEVICE := "keyboard"
 const CONTROLLER_DEVICE := "controller"
 const CONTROL_ACTIONS: Array[StringName] = [
@@ -20,7 +21,7 @@ const CONTROL_LABELS: Dictionary = {
 	&"glide_climb": "Glide Dive",
 	&"jump": "Jump / Glide",
 	&"pounce": "Pounce",
-	&"tail_swipe": "Tail Swipe (not implemented)",
+	&"tail_swipe": "Tail Swipe",
 	&"pause": "Pause",
 }
 
@@ -269,6 +270,7 @@ func _reset_defaults() -> void:
 
 func _save_bindings(path: String = SETTINGS_PATH) -> Error:
 	var config := ConfigFile.new()
+	config.set_value("meta", "version", CONTROLS_VERSION)
 	for action: StringName in CONTROL_ACTIONS:
 		var saved_events: Array[InputEvent] = []
 		for event: InputEvent in InputMap.action_get_events(action):
@@ -282,10 +284,15 @@ func _load_bindings(path: String = SETTINGS_PATH) -> Error:
 	var load_error := config.load(path)
 	if load_error != OK:
 		return load_error
+	var saved_version := int(config.get_value("meta", "version", 1))
 
 	for action: StringName in CONTROL_ACTIONS:
 		var saved_events: Variant = config.get_value("controls", String(action), null)
 		if not saved_events is Array:
+			continue
+		# Tail Swipe used to be deliberately empty. Keep its new defaults when
+		# loading an older controls file instead of restoring that obsolete slot.
+		if action == &"tail_swipe" and saved_version < CONTROLS_VERSION and saved_events.is_empty():
 			continue
 		InputMap.action_erase_events(action)
 		for event: Variant in saved_events:

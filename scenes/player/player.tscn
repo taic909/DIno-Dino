@@ -11,6 +11,9 @@ height = 52.0
 [sub_resource type="RectangleShape2D" id="PounceShape"]
 size = Vector2(64, 42)
 
+[sub_resource type="ConvexPolygonShape2D" id="TailSwipeShape"]
+points = PackedVector2Array(0, -48, 31, -44, 58, -34, 76, -18, 82, 0, 76, 18, 58, 34, 31, 44, 0, 48)
+
 [node name="Player" type="CharacterBody2D" unique_id=1223879638]
 script = ExtResource("1_controller")
 
@@ -26,6 +29,24 @@ monitoring = false
 [node name="HitboxShape" type="CollisionShape2D" parent="PounceHitbox"]
 position = Vector2(28, 0)
 shape = SubResource("PounceShape")
+
+[node name="TailSwipeHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="HitboxShape" type="CollisionShape2D" parent="TailSwipeHitbox"]
+shape = SubResource("TailSwipeShape")
+
+[node name="TailSwipeIndicator" type="Line2D" parent="."]
+visible = false
+z_index = 2
+points = PackedVector2Array(0, 0, 82, 0)
+width = 5.0
+default_color = Color(1, 0.72, 0.2, 0.9)
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1290549559]
 
@@ -82,3 +103,4 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
 [connection signal="area_entered" from="PounceHitbox" to="." method="_on_pounce_hitbox_area_entered"]
+[connection signal="area_entered" from="TailSwipeHitbox" to="." method="_on_tail_swipe_hitbox_area_entered"]
