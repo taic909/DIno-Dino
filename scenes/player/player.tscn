@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://bt6d4yoex3xkt"]
+
+[ext_resource type="Script" uid="uid://b8gompabdo7ot" path="res://scripts/player_controller.gd" id="1_controller"]
+[ext_resource type="Texture2D" uid="uid://b567eml5khq48" path="res://download.png" id="2_normal"]
+[ext_resource type="Texture2D" uid="uid://dnisvmartrlq3" path="res://assets/sprites/archeopteryx-white-blue-red-glide-right-v1.png" id="3_glide"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yvhc3"]
+radius = 16.0
+height = 52.0
+
+[sub_resource type="RectangleShape2D" id="PounceShape"]
+size = Vector2(64, 42)
+
+[node name="Player" type="CharacterBody2D" unique_id=1223879638]
+script = ExtResource("1_controller")
+
+[node name="EnvironmentCollider" type="CollisionShape2D" parent="." unique_id=438265270]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_yvhc3")
+
+[node name="PounceHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="HitboxShape" type="CollisionShape2D" parent="PounceHitbox"]
+position = Vector2(28, 0)
+shape = SubResource("PounceShape")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1290549559]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=2128472244]
+position = Vector2(0, 0.99999994)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_normal")
+
+[node name="GlideSprite" type="Sprite2D" parent="Visuals" unique_id=833362885]
+visible = false
+position = Vector2(0, 0.99999994)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_glide")
+
+[node name="Body" type="Polygon2D" parent="." unique_id=1861768097]
+visible = false
+color = Color(0.160784, 0.627451, 0.372549, 1)
+polygon = PackedVector2Array(-20, -17, 5, -22, 20, -11, 18, 15, 4, 25, -16, 18)
+
+[node name="Snout" type="Polygon2D" parent="." unique_id=27763197]
+visible = false
+color = Color(0.160784, 0.627451, 0.372549, 1)
+polygon = PackedVector2Array(8, -18, 31, -14, 34, -4, 13, -1)
+
+[node name="Tail" type="Polygon2D" parent="." unique_id=672854423]
+visible = false
+color = Color(0.117647, 0.509804, 0.301961, 1)
+polygon = PackedVector2Array(-16, -8, -43, 2, -18, 10)
+
+[node name="LegBack" type="Polygon2D" parent="." unique_id=1406908070]
+visible = false
+color = Color(0.117647, 0.509804, 0.301961, 1)
+polygon = PackedVector2Array(-13, 13, -4, 15, -8, 31, -18, 31)
+
+[node name="LegFront" type="Polygon2D" parent="." unique_id=1142745550]
+visible = false
+color = Color(0.160784, 0.627451, 0.372549, 1)
+polygon = PackedVector2Array(7, 15, 16, 11, 19, 30, 8, 30)
+
+[node name="Eye" type="Polygon2D" parent="." unique_id=1662991856]
+visible = false
+color = Color(0.972549, 0.921569, 0.635294, 1)
+polygon = PackedVector2Array(13, -15, 18, -15, 18, -10, 13, -10)
+
+[node name="Pupil" type="Polygon2D" parent="." unique_id=1744881956]
+visible = false
+color = Color(0.0470588, 0.0588235, 0.0745098, 1)
+polygon = PackedVector2Array(16, -14, 18, -14, 18, -11, 16, -11)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1185614905]
+visible = false
+position = Vector2(120, -40)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[connection signal="area_entered" from="PounceHitbox" to="." method="_on_pounce_hitbox_area_entered"]

@@ -1,0 +1,116 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_pause"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_pause")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0196078, 0.027451, 0.0352941, 0.88)
+
+[node name="Center" type="CenterContainer" parent="Dimmer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuPanel" type="PanelContainer" parent="Dimmer/Center"]
+custom_minimum_size = Vector2(820, 590)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Dimmer/Center/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="MainPanel" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Resume"
+
+[node name="ControlsButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Controls"
+
+[node name="Hint" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+layout_mode = 2
+text = "Escape or Menu / Options resumes the game"
+horizontal_alignment = 1
+
+[node name="ControlsPanel" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="Header" type="HBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Action" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel/Header"]
+custom_minimum_size = Vector2(210, 30)
+layout_mode = 2
+text = "Action"
+
+[node name="Keyboard" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel/Header"]
+custom_minimum_size = Vector2(247, 30)
+layout_mode = 2
+text = "Keyboard / Mouse"
+horizontal_alignment = 1
+
+[node name="Controller" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel/Header"]
+custom_minimum_size = Vector2(247, 30)
+layout_mode = 2
+text = "Controller"
+horizontal_alignment = 1
+
+[node name="ControlsRows" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ControlsHelp" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Choose a slot, then press a new input. Delete clears it; Escape cancels."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ResetDefaultsButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Restore Defaults"
+
+[node name="BackButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Back"

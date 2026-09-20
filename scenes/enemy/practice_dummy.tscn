@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dekhnf2gwno1e"]
+
+[ext_resource type="Script" uid="uid://bu061itn1thhu" path="res://scripts/practice_dummy.gd" id="1_dummy"]
+
+[sub_resource type="RectangleShape2D" id="DummyShape"]
+size = Vector2(51, 73)
+
+[node name="PracticeDummy" type="Area2D" unique_id=67386237]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_dummy")
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="." unique_id=628083403]
+position = Vector2(-0.5, 1.5)
+shape = SubResource("DummyShape")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1404484801]
+
+[node name="Body" type="Polygon2D" parent="Visuals" unique_id=1874763163]
+color = Color(0.85098, 0.396078, 0.176471, 1)
+polygon = PackedVector2Array(-22, -34, 18, -34, 24, -24, 24, 30, 16, 36, -18, 36, -24, 28, -24, -24)
+
+[node name="Plate" type="Polygon2D" parent="Visuals" unique_id=1916877482]
+color = Color(0.984314, 0.74902, 0.27451, 1)
+polygon = PackedVector2Array(-17, -15, 17, -15, 17, 14, -17, 14)
+
+[node name="Mark" type="Polygon2D" parent="Visuals" unique_id=757886179]
+color = Color(0.239216, 0.14902, 0.12549, 1)
+polygon = PackedVector2Array(-4, -10, 5, -10, 5, -2, 12, -2, 12, 6, 5, 6, 5, 12, -4, 12, -4, 6, -11, 6, -11, -2, -4, -2)
+
+[node name="DefeatBurst" type="CPUParticles2D" parent="." unique_id=520458347]
+emitting = false
+amount = 14
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+randomness = 0.35
+color = Color(0.984314, 0.74902, 0.27451, 1)

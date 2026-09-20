@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://wwsluj2o3odc"]
+
+[ext_resource type="PackedScene" uid="uid://bt6d4yoex3xkt" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://dekhnf2gwno1e" path="res://scenes/enemy/practice_dummy.tscn" id="2_dummy"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="3_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dev_mode.tscn" id="4_dev"]
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(2499, 96)
+
+[sub_resource type="RectangleShape2D" id="PlatformShapeA"]
+size = Vector2(220, 28)
+
+[sub_resource type="RectangleShape2D" id="PlatformShapeB"]
+size = Vector2(180, 28)
+
+[sub_resource type="RectangleShape2D" id="WallShape"]
+size = Vector2(48, 220)
+
+[node name="Main" type="Node2D" unique_id=1121895818]
+
+[node name="Backdrop" type="CanvasLayer" parent="." unique_id=1975515625]
+layer = -10
+
+[node name="Sky" type="ColorRect" parent="Backdrop" unique_id=81821060]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.0470588, 0.0705882, 0.0941176, 1)
+
+[node name="DistantStone" type="Polygon2D" parent="." unique_id=441828444]
+z_index = -5
+color = Color(0.0862745, 0.141176, 0.156863, 1)
+polygon = PackedVector2Array(-100, 560, 100, 390, 260, 470, 430, 310, 620, 450, 790, 350, 940, 460, 1250, 300, 1300, 650, -100, 650)
+
+[node name="Player" parent="." unique_id=1190349441 instance=ExtResource("1_player")]
+position = Vector2(172, 495)
+
+[node name="PracticeDummy" parent="." unique_id=1664186485 instance=ExtResource("2_dummy")]
+position = Vector2(1010, 528)
+
+[node name="DevMode" parent="." unique_id=814075032 instance=ExtResource("4_dev")]
+
+[node name="PauseMenu" parent="." unique_id=275163722 instance=ExtResource("3_pause")]
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1244781966]
+position = Vector2(576, 614)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=611096884]
+position = Vector2(549.5, 0)
+shape = SubResource("GroundShape")
+
+[node name="VisibleGround" type="Polygon2D" parent="Ground" unique_id=912308127]
+position = Vector2(555.5, 0)
+scale = Vector2(1.7935715, 1)
+color = Color(0.180392, 0.231373, 0.235294, 1)
+polygon = PackedVector2Array(-700, -48, 700, -48, 700, 48, -700, 48)
+
+[node name="GroundEdge" type="Polygon2D" parent="Ground" unique_id=504148516]
+color = Color(0.356863, 0.627451, 0.431373, 1)
+polygon = PackedVector2Array(-700, -48, 700, -48, 700, -38, -700, -38)
+
+[node name="PlatformA" type="StaticBody2D" parent="." unique_id=1970444986]
+position = Vector2(470, 485)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformA" unique_id=250062897]
+shape = SubResource("PlatformShapeA")
+
+[node name="Visible" type="Polygon2D" parent="PlatformA" unique_id=819688172]
+color = Color(0.27451, 0.34902, 0.345098, 1)
+polygon = PackedVector2Array(-110, -14, 110, -14, 110, 14, -110, 14)
+
+[node name="Edge" type="Polygon2D" parent="PlatformA" unique_id=2093549055]
+color = Color(0.356863, 0.627451, 0.431373, 1)
+polygon = PackedVector2Array(-110, -14, 110, -14, 110, -8, -110, -8)
+
+[node name="PlatformB" type="StaticBody2D" parent="." unique_id=171030180]
+position = Vector2(790, 390)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformB" unique_id=1305007896]
+shape = SubResource("PlatformShapeB")
+
+[node name="Visible" type="Polygon2D" parent="PlatformB" unique_id=135253284]
+color = Color(0.27451, 0.34902, 0.345098, 1)
+polygon = PackedVector2Array(-90, -14, 90, -14, 90, 14, -90, 14)
+
+[node name="Edge" type="Polygon2D" parent="PlatformB" unique_id=1200955457]
+color = Color(0.356863, 0.627451, 0.431373, 1)
+polygon = PackedVector2Array(-90, -14, 90, -14, 90, -8, -90, -8)
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=228649160]
+position = Vector2(1128, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=2140771574]
+position = Vector2(0, 70)
+shape = SubResource("WallShape")
+
+[node name="Visible" type="Polygon2D" parent="RightWall" unique_id=1755850260]
+position = Vector2(0, 68)
+scale = Vector2(1, 0.62222224)
+color = Color(0.180392, 0.231373, 0.235294, 1)
+polygon = PackedVector2Array(-24, -180, 24, -180, 24, 180, -24, 180)
