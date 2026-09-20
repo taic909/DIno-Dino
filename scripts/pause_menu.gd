@@ -6,6 +6,8 @@ const CONTROLLER_DEVICE := "controller"
 const CONTROL_ACTIONS: Array[StringName] = [
 	&"move_left",
 	&"move_right",
+	&"glide_dive",
+	&"glide_climb",
 	&"jump",
 	&"pounce",
 	&"tail_swipe",
@@ -14,6 +16,8 @@ const CONTROL_ACTIONS: Array[StringName] = [
 const CONTROL_LABELS: Dictionary = {
 	&"move_left": "Move Left",
 	&"move_right": "Move Right",
+	&"glide_dive": "Glide Climb",
+	&"glide_climb": "Glide Dive",
 	&"jump": "Jump / Glide",
 	&"pounce": "Pounce",
 	&"tail_swipe": "Tail Swipe (not implemented)",

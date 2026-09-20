@@ -4,7 +4,7 @@ extends CanvasLayer
 @onready var status_label: Label = $Overlay/Margin/Status
 @onready var player: CharacterBody2D = get_parent().get_node("Player") as CharacterBody2D
 
-var enabled := false
+var enabled := true
 
 
 func _ready() -> void:

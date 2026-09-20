@@ -107,7 +107,7 @@ The protagonist should feel good before collecting an artifact.
 - Variable-height jump
 - Coyote time and jump buffering
 - Useful but controlled air steering
-- A 0.35-second airborne glide with player-controlled pitch, angle-scaled acceleration, and momentum inherited from jumps, Pounces, and rebounds
+- A 2-second airborne glide started by a second Jump press in the air, with conventional vertical-stick pitch, unrestricted rotation, dive-scaled acceleration, and momentum inherited from jumps, Pounces, and rebounds
 - Glide visuals pitch with the movement arc while normal airborne movement and the upright collision shape remain stable
 - Clear landing, turnaround, and hit feedback
 - A movement attack tentatively called **Pounce**
@@ -115,13 +115,13 @@ The protagonist should feel good before collecting an artifact.
 
 ### Prototype combat hypothesis
 
-**Pounce** is a short horizontal burst that preserves vertical momentum and follows a shallow arc under reduced gravity. Striking an enemy deals meaningful damage and rebounds the dinosaur, allowing the player to continue moving or chain into another action. Missing creates a brief vulnerable recovery. The exact cooldown and recovery must be tested rather than assumed.
+**Pounce** is a short horizontal burst that preserves vertical momentum and follows a shallow arc under reduced gravity. Outside Glide, its horizontal speed is fixed and predictable. During Glide, its horizontal speed is calculated by multiplying the dinosaur's current overall speed, rewarding built-up momentum. It does not deal direct damage; striking an enemy stuns it and rebounds the dinosaur. A Pounce started during Glide remains in the Glide state and keeps the Glide artwork; its timer pauses during the short burst, then resumes afterward. Enemies act like rounded bounce surfaces: off-center hits launch the dinosaur upward and away, while a centered hit from directly above launches it vertically. The rebound updates Glide's stored momentum and pitch so the new trajectory persists and remains steerable. A successful hit refills the Glide timer, allowing repeated glide-pogo chains. Missing creates a brief vulnerable recovery. The exact cooldown and recovery must be tested rather than assumed.
 
 **Tail Swipe** is safer and easier but has limited range, modest damage, and little mobility. It prevents the player from feeling helpless without becoming the optimal solution to every encounter.
 
 The first enemy should communicate a clear opening, react strongly to a successful hit, and die in a way that makes momentum and impact obvious. Start with one excellent interaction rather than several enemy types.
 
-For prototype collision, keep the player environment collider, enemy hurtboxes, and attack hitboxes separate and simple. Normal body contact is harmless; only an active attack hitbox should defeat the practice dummy.
+For prototype collision, keep the player environment collider, enemy hurtboxes, and attack hitboxes separate and simple. Normal body contact is harmless; only an active Pounce hitbox should stun the practice dummy.
 
 ## Artifact design rules
 
@@ -271,8 +271,14 @@ Copy the following into a new Codex task opened in this project folder:
 - **2026-09-19:** Kept the first artifact open pending a three-mechanic bake-off; Living Tether must be included.
 - **2026-09-19:** Confirmed controller-first controls with mouse-and-keyboard play remaining fully supported.
 - **2026-09-19:** Added an expandable developer overlay and persistent in-game control rebinding for prototype iteration.
-- **2026-09-19:** Added a baseline glide by holding Jump while falling; the current user-tuned duration is 0.35 seconds, with faster acceleration and a slightly higher speed than running.
+- **2026-09-19:** Added a baseline airborne Glide; the current user-tuned duration is 2 seconds, with faster acceleration and a slightly higher speed than running.
 - **2026-09-19:** Changed airborne Pounce to preserve vertical momentum and use reduced gravity instead of locking movement perfectly horizontal.
 - **2026-09-19:** Integrated dedicated glide artwork and visual rotation that is active only while gliding; normal jumps, Pounces, and rebounds remain visually upright.
 - **2026-09-19:** Split environment, enemy, and Pounce collision into simple dedicated shapes so attack reach is independent from platform collision.
 - **2026-09-19:** Changed Glide to preserve entry momentum and use player-controlled pitch; steeper dives accelerate harder and shallow glides accelerate gently.
+- **2026-09-19:** Moved Glide pitch to inverted left-stick controls (up dives, down climbs), mirrored by W/S on keyboard.
+- **2026-09-19:** Changed Pounce from direct damage to a temporary stun. Glide Pounces preserve part of their momentum, rebound upward, refill Glide time, and can be chained.
+- **2026-09-19:** Changed Glide activation to require a fresh second Jump press while airborne; holding the original jump no longer activates it. With no pitch input, Glide settles toward a shallow downward angle.
+- **2026-09-19:** Split Pounce launch speed into two modes: a fixed speed outside Glide and a multiplier of current overall speed during Glide.
+- **2026-09-19:** Made Glide Pounce preserve the active Glide state and artwork, pausing the Glide timer during the burst and resuming it afterward.
+- **2026-09-19:** Changed Glide to conventional pitch controls (up climbs, down dives), removed the pitch-angle limits, and made enemy Glide-Pounce rebounds behave like upward-launching domes with vertical rebounds at top center.

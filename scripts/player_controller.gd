@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var air_acceleration := 1100.0
 
 @export_category("Jump")
-@export var jump_velocity := -500.0
+@export var jump_velocity := -1000.0
 @export var gravity := 1200.0
 @export var fall_gravity_multiplier := 1.35
 @export var jump_release_multiplier := 0.5
@@ -15,26 +15,31 @@ extends CharacterBody2D
 @export var jump_buffer_time := 0.12
 
 @export_category("Glide")
-@export var glide_duration := .35
+@export var glide_duration := 2.0
 @export var glide_speed := 285.0
 @export var glide_acceleration := 1600.0
 @export var glide_shallow_acceleration := 80.0
 @export var glide_max_speed := 520.0
 @export var glide_pitch_speed := 100.0
+@export_range(0.0, 45.0, 1.0, "suffix:°") var neutral_glide_pitch := 10.0
+@export var neutral_glide_pitch_speed := 45.0
 
 @export_category("Air Rotation")
-@export_range(-45.0, 0.0, 1.0, "suffix:°") var minimum_air_rotation := -15.0
-@export_range(0.0, 60.0, 1.0, "suffix:°") var maximum_air_rotation := 35.0
 @export var air_rotation_speed := 8.0
 
 @export_category("Pounce")
 @export var pounce_speed := 520.0
+@export var glide_pounce_speed_multiplier := 1.2
 @export var pounce_duration := 0.2
 @export var pounce_cooldown := 0.35
 @export_range(0.0, 1.0, 0.05) var pounce_gravity_multiplier := 0.7
 @export var pounce_stretch_scale := Vector2(1.24, 0.82)
 @export var pounce_rebound_speed := Vector2(220.0, -320.0)
 @export var pounce_rebound_scale := Vector2(0.86, 1.18)
+@export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.8
+@export_range(0.1, 3.0, 0.05) var glide_pounce_upward_bias := 1.0
+@export var glide_pounce_dome_half_width := 48.0
+@export var glide_pounce_vertical_snap_distance := 6.0
 
 @export_category("Landing Feedback")
 @export var minimum_squash_speed := 180.0
@@ -57,6 +62,8 @@ var glide_pitch := 0.0
 var pounce_timer := 0.0
 var pounce_cooldown_timer := 0.0
 var pounce_direction := 1.0
+var active_pounce_speed := 0.0
+var pounce_started_from_glide := false
 var facing_direction := 1.0
 var visuals_rest_scale := Vector2.ONE
 var feedback_tween: Tween
@@ -72,6 +79,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
+	# These action names predate the switch to conventional controls. Reversing
+	# the axis here also updates existing saved bindings without discarding them.
+	var glide_pitch_input := Input.get_axis("glide_dive", "glide_climb")
 	var was_on_floor := is_on_floor()
 	var fall_speed := velocity.y
 	_update_timers(delta)
@@ -84,7 +94,7 @@ func _physics_process(delta: float) -> void:
 	if pounce_timer > 0.0:
 		_apply_pounce(delta)
 	elif gliding:
-		_apply_glide_movement(direction, delta)
+		_apply_glide_movement(glide_pitch_input, delta)
 	else:
 		_apply_horizontal_movement(direction, delta)
 		_apply_gravity(delta)
@@ -147,18 +157,27 @@ func _update_glide(delta: float) -> void:
 		gliding = false
 		return
 
-	var was_gliding := gliding
-	gliding = (
-		velocity.y >= 0.0
-		and Input.is_action_pressed("jump")
+	if pounce_timer > 0.0:
+		# A Glide Pounce remains part of the same Glide, including its artwork.
+		# Pause the Glide timer during the short burst so Pounce does not consume it.
+		gliding = pounce_started_from_glide
+		return
+
+	var should_start_glide := (
+		not gliding
+		and Input.is_action_just_pressed("jump")
+		and coyote_timer <= 0.0
 		and glide_time_remaining > 0.0
-		and pounce_timer <= 0.0
 	)
+	if should_start_glide:
+		gliding = true
+		jump_buffer_timer = 0.0
+		_begin_glide()
 
 	if gliding:
-		if not was_gliding:
-			_begin_glide()
 		glide_time_remaining = maxf(glide_time_remaining - delta, 0.0)
+		if glide_time_remaining <= 0.0:
+			gliding = false
 
 
 func _begin_glide() -> void:
@@ -169,28 +188,23 @@ func _begin_glide() -> void:
 	glide_momentum = maxf(velocity.length(), glide_speed)
 	glide_speed_limit = maxf(glide_max_speed, glide_momentum)
 	var horizontal_speed := maxf(absf(velocity.x), 0.1)
-	glide_pitch = clampf(
-		atan2(velocity.y, horizontal_speed),
-		deg_to_rad(minimum_air_rotation),
-		deg_to_rad(maximum_air_rotation)
-	)
+	glide_pitch = atan2(velocity.y, horizontal_speed)
 
 
-func _apply_glide_movement(direction: float, delta: float) -> void:
-	# Forward input dives; backward input raises the nose without reversing direction.
-	var pitch_input := direction * facing_direction
-	var pitch_change := deg_to_rad(glide_pitch_speed) * pitch_input * delta
-	glide_pitch = clampf(
-		glide_pitch + pitch_change,
-		deg_to_rad(minimum_air_rotation),
-		deg_to_rad(maximum_air_rotation)
-	)
+func _apply_glide_movement(pitch_input: float, delta: float) -> void:
+	if absf(pitch_input) > 0.05:
+		var pitch_change := deg_to_rad(glide_pitch_speed) * pitch_input * delta
+		glide_pitch += pitch_change
+	else:
+		glide_pitch = move_toward(
+			glide_pitch,
+			deg_to_rad(neutral_glide_pitch),
+			deg_to_rad(neutral_glide_pitch_speed) * delta
+		)
+	glide_pitch = wrapf(glide_pitch, -PI, PI)
 
-	var angle_factor := inverse_lerp(
-		deg_to_rad(minimum_air_rotation),
-		deg_to_rad(maximum_air_rotation),
-		glide_pitch
-	)
+	# Downward steepness, rather than a pitch limit, controls acceleration.
+	var angle_factor := clampf(sin(glide_pitch), 0.0, 1.0)
 	var current_acceleration := lerpf(
 		glide_shallow_acceleration,
 		glide_acceleration,
@@ -220,17 +234,23 @@ func _try_start_pounce(direction: float) -> void:
 
 
 func _start_pounce(direction: float) -> void:
+	pounce_started_from_glide = gliding
+	active_pounce_speed = (
+		velocity.length() * glide_pounce_speed_multiplier
+		if gliding
+		else pounce_speed
+	)
 	pounce_direction = facing_direction if gliding else direction
 	if absf(pounce_direction) <= 0.1:
 		pounce_direction = facing_direction
-	gliding = false
+	gliding = pounce_started_from_glide
 	pounce_timer = pounce_duration
 	pounce_cooldown_timer = pounce_cooldown
 	_play_sprite_feedback(pounce_stretch_scale, pounce_duration)
 
 
 func _apply_pounce(delta: float) -> void:
-	velocity.x = pounce_direction * pounce_speed
+	velocity.x = pounce_direction * active_pounce_speed
 	if not is_on_floor():
 		velocity.y += gravity * pounce_gravity_multiplier * delta
 
@@ -259,10 +279,39 @@ func rebound_from_pounce(hit_position: Vector2) -> void:
 	pounce_timer = 0.0
 	pounce_cooldown_timer = 0.0
 	pounce_hitbox.set_deferred("monitoring", false)
-	facing_direction = rebound_direction
+	if pounce_started_from_glide:
+		_apply_glide_pounce_rebound(hit_position)
+		glide_time_remaining = glide_duration
+	else:
+		velocity = Vector2(rebound_direction * pounce_rebound_speed.x, pounce_rebound_speed.y)
+
+	pounce_started_from_glide = false
+	facing_direction = signf(velocity.x) if not is_zero_approx(velocity.x) else rebound_direction
 	_update_sprite_facing()
-	velocity = Vector2(rebound_direction * pounce_rebound_speed.x, pounce_rebound_speed.y)
 	_play_sprite_feedback(pounce_rebound_scale, landing_recovery_time)
+
+
+func _apply_glide_pounce_rebound(hit_position: Vector2) -> void:
+	var incoming_speed := velocity.length()
+	var horizontal_offset := global_position.x - hit_position.x
+	var dome_x := 0.0
+	if absf(horizontal_offset) > glide_pounce_vertical_snap_distance:
+		dome_x = clampf(
+			horizontal_offset / maxf(glide_pounce_dome_half_width, 1.0),
+			-1.0,
+			1.0
+		)
+	var bounce_direction := Vector2(dome_x, -glide_pounce_upward_bias).normalized()
+	var minimum_rebound_speed := pounce_rebound_speed.length()
+	var rebound_speed := maxf(
+		minimum_rebound_speed,
+		incoming_speed * glide_pounce_momentum_retention
+	)
+	velocity = bounce_direction * rebound_speed
+	gliding = true
+	glide_momentum = rebound_speed
+	glide_speed_limit = maxf(glide_max_speed, rebound_speed)
+	glide_pitch = atan2(velocity.y, maxf(absf(velocity.x), 0.1))
 
 
 func _update_facing(direction: float) -> void:

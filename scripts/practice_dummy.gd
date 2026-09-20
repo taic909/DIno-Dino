@@ -2,28 +2,30 @@ extends Area2D
 
 @export_category("Impact Feedback")
 @export_range(0.01, 0.12, 0.005, "suffix:s") var hit_pause_duration := 0.055
+@export var stun_duration := 0.8
+@export var stun_color := Color(1.0, 0.9, 0.35, 1.0)
 
 @onready var visuals: Node2D = $Visuals
-@onready var hurtbox_shape: CollisionShape2D = $HurtboxShape
-@onready var defeat_burst: CPUParticles2D = $DefeatBurst
+@onready var stun_burst: CPUParticles2D = $StunBurst
 
-var defeated := false
+var stunned := false
+var stun_sequence := 0
 var hit_pause_active := false
 var time_scale_before_hit_pause := 1.0
+var stun_tween: Tween
 
 
 func receive_pounce(player: CharacterBody2D) -> void:
-	if defeated or not player.has_method("is_pouncing"):
+	if not player.has_method("is_pouncing"):
 		return
 	if not bool(player.call("is_pouncing")):
 		return
 
-	defeated = true
 	player.call("rebound_from_pounce", global_position)
-	hurtbox_shape.set_deferred("disabled", true)
 	await _play_hit_pause()
-	defeat_burst.emitting = true
-	_play_defeat_feedback()
+	stun_burst.restart()
+	stun_burst.emitting = true
+	_play_stun_feedback()
 
 
 func _play_hit_pause() -> void:
@@ -35,14 +37,30 @@ func _play_hit_pause() -> void:
 	hit_pause_active = false
 
 
-func _play_defeat_feedback() -> void:
-	var defeat_tween := create_tween().set_parallel()
-	defeat_tween.tween_property(visuals, "scale", Vector2(1.35, 0.15), 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	defeat_tween.tween_property(visuals, "modulate", Color.TRANSPARENT, 0.14)
-	await defeat_tween.finished
-	visuals.visible = false
-	await get_tree().create_timer(0.25).timeout
-	queue_free()
+func _play_stun_feedback() -> void:
+	stun_sequence += 1
+	var current_sequence := stun_sequence
+	stunned = true
+	if stun_tween and stun_tween.is_valid():
+		stun_tween.kill()
+
+	visuals.scale = Vector2(1.2, 0.72)
+	visuals.modulate = stun_color
+	stun_tween = create_tween().set_parallel()
+	stun_tween.tween_property(visuals, "scale", Vector2.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	stun_tween.tween_property(visuals, "rotation", deg_to_rad(8.0), 0.08).set_trans(Tween.TRANS_BACK)
+	await get_tree().create_timer(stun_duration).timeout
+	if current_sequence != stun_sequence:
+		return
+
+	stunned = false
+	stun_tween = create_tween().set_parallel()
+	stun_tween.tween_property(visuals, "modulate", Color.WHITE, 0.16)
+	stun_tween.tween_property(visuals, "rotation", 0.0, 0.16)
+
+
+func is_stunned() -> bool:
+	return stunned
 
 
 func _exit_tree() -> void:

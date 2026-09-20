@@ -28,7 +28,7 @@ polygon = PackedVector2Array(-17, -15, 17, -15, 17, 14, -17, 14)
 color = Color(0.239216, 0.14902, 0.12549, 1)
 polygon = PackedVector2Array(-4, -10, 5, -10, 5, -2, 12, -2, 12, 6, 5, 6, 5, 12, -4, 12, -4, 6, -11, 6, -11, -2, -4, -2)
 
-[node name="DefeatBurst" type="CPUParticles2D" parent="." unique_id=520458347]
+[node name="StunBurst" type="CPUParticles2D" parent="." unique_id=520458347]
 emitting = false
 amount = 14
 lifetime = 0.3
