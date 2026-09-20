@@ -15,21 +15,26 @@ extends CharacterBody2D
 @export var jump_buffer_time := 0.12
 
 @export_category("Glide")
-@export var glide_duration := 2.0
+@export var glide_duration := 5.0
 @export var glide_speed := 285.0
 @export var glide_acceleration := 1600.0
 @export var glide_shallow_acceleration := 80.0
+@export var glide_climb_drag := 700.0
 @export var glide_max_speed := 520.0
 @export var glide_pitch_speed := 100.0
 @export_range(0.0, 45.0, 1.0, "suffix:°") var neutral_glide_pitch := 10.0
 @export var neutral_glide_pitch_speed := 45.0
+@export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_climb_angle := 35.0
+@export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_dive_angle := 80.0
+@export var glide_low_momentum_threshold := 150.0
+@export var glide_low_momentum_cancel_time := 0.2
 
 @export_category("Air Rotation")
 @export var air_rotation_speed := 8.0
 
 @export_category("Pounce")
 @export var pounce_speed := 520.0
-@export var glide_pounce_speed_multiplier := 1.2
+@export var glide_pounce_speed_multiplier := 1.5
 @export var pounce_duration := 0.2
 @export var pounce_cooldown := 0.35
 @export_range(0.0, 1.0, 0.05) var pounce_gravity_multiplier := 0.7
@@ -59,6 +64,7 @@ var gliding := false
 var glide_momentum := 0.0
 var glide_speed_limit := 0.0
 var glide_pitch := 0.0
+var glide_low_momentum_timer := 0.0
 var pounce_timer := 0.0
 var pounce_cooldown_timer := 0.0
 var pounce_direction := 1.0
@@ -155,12 +161,32 @@ func _update_glide(delta: float) -> void:
 	if is_on_floor():
 		glide_time_remaining = glide_duration
 		gliding = false
+		glide_low_momentum_timer = 0.0
 		return
 
 	if pounce_timer > 0.0:
 		# A Glide Pounce remains part of the same Glide, including its artwork.
 		# Pause the Glide timer during the short burst so Pounce does not consume it.
 		gliding = pounce_started_from_glide
+		if pounce_started_from_glide:
+			# Keep glide_momentum/pitch in sync with the pounce's actual velocity
+			# (and raise the speed ceiling to match) so a pounce's burst of speed
+			# carries straight into the glide once the burst ends, instead of
+			# being discarded.
+			var current_speed := velocity.length()
+			glide_pitch = clampf(
+				atan2(velocity.y, maxf(absf(velocity.x), 0.01)),
+				deg_to_rad(-glide_max_climb_angle),
+				deg_to_rad(glide_max_dive_angle)
+			)
+			glide_speed_limit = maxf(glide_speed_limit, current_speed)
+			glide_momentum = current_speed
+		return
+
+	if gliding and Input.is_action_just_pressed("jump"):
+		gliding = false
+		jump_buffer_timer = 0.0
+		glide_low_momentum_timer = 0.0
 		return
 
 	var should_start_glide := (
@@ -176,22 +202,48 @@ func _update_glide(delta: float) -> void:
 
 	if gliding:
 		glide_time_remaining = maxf(glide_time_remaining - delta, 0.0)
-		if glide_time_remaining <= 0.0:
+
+		# Sustained climbing bleeds glide_momentum (see _apply_glide_movement).
+		# Once that momentum has been spent for too long, the glide cancels
+		# instead of letting the player hang there indefinitely.
+		if glide_momentum <= glide_low_momentum_threshold:
+			glide_low_momentum_timer += delta
+		else:
+			glide_low_momentum_timer = 0.0
+
+		if glide_time_remaining <= 0.0 or glide_low_momentum_timer >= glide_low_momentum_cancel_time:
 			gliding = false
+			glide_low_momentum_timer = 0.0
+	else:
+		glide_low_momentum_timer = 0.0
 
 
 func _begin_glide() -> void:
-	if absf(velocity.x) > 0.1:
-		facing_direction = signf(velocity.x)
-		_update_sprite_facing()
+	# facing_direction is not derived from velocity.x here: _update_facing()
+	# already keeps it in sync with the player's held input for every frame
+	# spent airborne and not gliding, including right after canceling a
+	# glide. Overriding it from velocity would re-point a fresh glide at
+	# whatever direction the old glide's momentum still happened to be
+	# carrying, even if the player has since turned around and is holding
+	# the opposite direction.
 
+	# Always start level (neutral pitch), regardless of how much vertical
+	# speed was carried into the glide - climbing is something the player
+	# chooses with input afterward, not an angle inherited from the jump that
+	# preceded it (glide can only start once coyote time has expired, so
+	# velocity.y is often still strongly upward, which used to point the
+	# glide - and the sprite - into a climb for the first second).
+	# That vertical speed isn't wasted, though: it still feeds into the
+	# glide's starting momentum, so a fast jump still yields a fast glide.
+	glide_pitch = deg_to_rad(neutral_glide_pitch)
 	glide_momentum = maxf(velocity.length(), glide_speed)
 	glide_speed_limit = maxf(glide_max_speed, glide_momentum)
-	var horizontal_speed := maxf(absf(velocity.x), 0.1)
-	glide_pitch = atan2(velocity.y, horizontal_speed)
 
 
 func _apply_glide_movement(pitch_input: float, delta: float) -> void:
+	var min_pitch := deg_to_rad(-glide_max_climb_angle)
+	var max_pitch := deg_to_rad(glide_max_dive_angle)
+
 	if absf(pitch_input) > 0.05:
 		var pitch_change := deg_to_rad(glide_pitch_speed) * pitch_input * delta
 		glide_pitch += pitch_change
@@ -201,17 +253,21 @@ func _apply_glide_movement(pitch_input: float, delta: float) -> void:
 			deg_to_rad(neutral_glide_pitch),
 			deg_to_rad(neutral_glide_pitch_speed) * delta
 		)
-	glide_pitch = wrapf(glide_pitch, -PI, PI)
+	glide_pitch = clampf(glide_pitch, min_pitch, max_pitch)
 
-	# Downward steepness, rather than a pitch limit, controls acceleration.
-	var angle_factor := clampf(sin(glide_pitch), 0.0, 1.0)
-	var current_acceleration := lerpf(
-		glide_shallow_acceleration,
-		glide_acceleration,
-		angle_factor
+	# Downward steepness controls acceleration: diving builds momentum, while
+	# climbing (a negative pitch) spends it - so pulling up trades speed for
+	# altitude instead of generating free lift, and a glide can't sustain or
+	# gain height forever without diving again to earn the momentum back.
+	var angle_factor := sin(glide_pitch)
+	var current_acceleration := (
+		lerpf(glide_shallow_acceleration, glide_acceleration, angle_factor)
+		if angle_factor >= 0.0
+		else angle_factor * glide_climb_drag
 	)
-	glide_momentum = minf(
+	glide_momentum = clampf(
 		glide_momentum + current_acceleration * delta,
+		0.0,
 		glide_speed_limit
 	)
 
@@ -311,7 +367,11 @@ func _apply_glide_pounce_rebound(hit_position: Vector2) -> void:
 	gliding = true
 	glide_momentum = rebound_speed
 	glide_speed_limit = maxf(glide_max_speed, rebound_speed)
-	glide_pitch = atan2(velocity.y, maxf(absf(velocity.x), 0.1))
+	glide_pitch = clampf(
+		atan2(velocity.y, maxf(absf(velocity.x), 0.1)),
+		deg_to_rad(-glide_max_climb_angle),
+		deg_to_rad(glide_max_dive_angle)
+	)
 
 
 func _update_facing(direction: float) -> void:

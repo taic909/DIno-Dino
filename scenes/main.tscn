@@ -37,7 +37,7 @@ color = Color(0.0862745, 0.141176, 0.156863, 1)
 polygon = PackedVector2Array(-100, 560, 100, 390, 260, 470, 430, 310, 620, 450, 790, 350, 940, 460, 1179.2255, 234, 1382.9813, 448, 1465.9625, 259, 1645.8921, 212, 1849.648, 366, 1756.7102, 425.35492, 1888.2631, 558, 1300, 650, -100, 650)
 
 [node name="Player" parent="." unique_id=1190349441 instance=ExtResource("1_player")]
-position = Vector2(172, 495)
+position = Vector2(111, 54)
 
 [node name="PracticeDummy" parent="." unique_id=1664186485 instance=ExtResource("2_dummy")]
 position = Vector2(1010, 528)
