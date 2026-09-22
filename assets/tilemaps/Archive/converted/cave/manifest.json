@@ -1,0 +1,2371 @@
+{
+  "tile_size": 128,
+  "scale": 0.25,
+  "sources": [
+    {
+      "name": "Solid platforms",
+      "texture": "res://assets/tilemaps/converted/cave/solid_platforms.png",
+      "solid": true,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -21,
+            15,
+            20,
+            56
+          ],
+          "source_bounds": [
+            5,
+            5,
+            54,
+            54
+          ],
+          "visible_pixels": 2168
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -45,
+            16,
+            45,
+            56
+          ],
+          "source_bounds": [
+            58,
+            5,
+            156,
+            53
+          ],
+          "visible_pixels": 4575
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -35,
+            -18,
+            35,
+            56
+          ],
+          "source_bounds": [
+            167,
+            13,
+            245,
+            95
+          ],
+          "visible_pixels": 6198
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -67,
+            -27,
+            67,
+            56
+          ],
+          "source_bounds": [
+            6,
+            56,
+            148,
+            147
+          ],
+          "visible_pixels": 12490
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -45,
+            -28,
+            45,
+            56
+          ],
+          "source_bounds": [
+            154,
+            99,
+            252,
+            191
+          ],
+          "visible_pixels": 8719
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            -28,
+            20,
+            56
+          ],
+          "source_bounds": [
+            12,
+            161,
+            60,
+            253
+          ],
+          "visible_pixels": 4211
+        },
+        {
+          "coord": [
+            7,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -35,
+            48,
+            34,
+            56
+          ],
+          "source_bounds": [
+            68,
+            161,
+            145,
+            177
+          ],
+          "visible_pixels": 1176
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -30,
+            24,
+            29,
+            56
+          ],
+          "source_bounds": [
+            73,
+            180,
+            140,
+            220
+          ],
+          "visible_pixels": 2644
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -41,
+            47,
+            40,
+            56
+          ],
+          "source_bounds": [
+            157,
+            198,
+            246,
+            215
+          ],
+          "visible_pixels": 1430
+        },
+        {
+          "coord": [
+            10,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -21,
+            37,
+            20,
+            56
+          ],
+          "source_bounds": [
+            180,
+            222,
+            229,
+            249
+          ],
+          "visible_pixels": 1223
+        },
+        {
+          "coord": [
+            11,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -46,
+            37,
+            45,
+            56
+          ],
+          "source_bounds": [
+            66,
+            225,
+            165,
+            252
+          ],
+          "visible_pixels": 2585
+        }
+      ]
+    },
+    {
+      "name": "Floor pieces",
+      "texture": "res://assets/tilemaps/converted/cave/floor_pieces.png",
+      "solid": true,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -23,
+            -25,
+            23,
+            56
+          ],
+          "source_bounds": [
+            430,
+            13,
+            484,
+            102
+          ],
+          "visible_pixels": 4294
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -42,
+            45,
+            42,
+            56
+          ],
+          "source_bounds": [
+            19,
+            18,
+            111,
+            37
+          ],
+          "visible_pixels": 1545
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -43,
+            45,
+            43,
+            56
+          ],
+          "source_bounds": [
+            124,
+            18,
+            218,
+            37
+          ],
+          "visible_pixels": 1594
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -15,
+            48,
+            15,
+            56
+          ],
+          "source_bounds": [
+            238,
+            19,
+            276,
+            35
+          ],
+          "visible_pixels": 575
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -23,
+            -25,
+            23,
+            56
+          ],
+          "source_bounds": [
+            336,
+            21,
+            390,
+            110
+          ],
+          "visible_pixels": 4294
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -50,
+            29,
+            49,
+            56
+          ],
+          "source_bounds": [
+            226,
+            44,
+            333,
+            79
+          ],
+          "visible_pixels": 2522
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -42,
+            45,
+            41,
+            56
+          ],
+          "source_bounds": [
+            17,
+            53,
+            108,
+            72
+          ],
+          "visible_pixels": 1502
+        },
+        {
+          "coord": [
+            7,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -43,
+            45,
+            43,
+            56
+          ],
+          "source_bounds": [
+            126,
+            53,
+            220,
+            72
+          ],
+          "visible_pixels": 1595
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -120,
+            43,
+            120,
+            56
+          ],
+          "source_bounds": [
+            17,
+            90,
+            265,
+            111
+          ],
+          "visible_pixels": 4362
+        },
+        {
+          "coord": [
+            10,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -96,
+            44,
+            95,
+            56
+          ],
+          "source_bounds": [
+            19,
+            128,
+            218,
+            148
+          ],
+          "visible_pixels": 3483
+        },
+        {
+          "coord": [
+            12,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -41,
+            9,
+            40,
+            56
+          ],
+          "source_bounds": [
+            319,
+            133,
+            408,
+            188
+          ],
+          "visible_pixels": 4362
+        },
+        {
+          "coord": [
+            13,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -41,
+            10,
+            40,
+            56
+          ],
+          "source_bounds": [
+            415,
+            134,
+            504,
+            188
+          ],
+          "visible_pixels": 4345
+        },
+        {
+          "coord": [
+            14,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -25,
+            45,
+            25,
+            56
+          ],
+          "source_bounds": [
+            187,
+            168,
+            245,
+            187
+          ],
+          "visible_pixels": 978
+        },
+        {
+          "coord": [
+            15,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -33,
+            44,
+            32,
+            56
+          ],
+          "source_bounds": [
+            19,
+            169,
+            92,
+            189
+          ],
+          "visible_pixels": 1207
+        },
+        {
+          "coord": [
+            0,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -34,
+            45,
+            33,
+            56
+          ],
+          "source_bounds": [
+            103,
+            169,
+            178,
+            188
+          ],
+          "visible_pixels": 1276
+        },
+        {
+          "coord": [
+            1,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -24,
+            45,
+            24,
+            56
+          ],
+          "source_bounds": [
+            253,
+            169,
+            309,
+            188
+          ],
+          "visible_pixels": 936
+        },
+        {
+          "coord": [
+            2,
+            1
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -180,
+            23,
+            180,
+            56
+          ],
+          "source_bounds": [
+            13,
+            200,
+            381,
+            241
+          ],
+          "visible_pixels": 10393
+        },
+        {
+          "coord": [
+            5,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -12,
+            -32,
+            12,
+            56
+          ],
+          "source_bounds": [
+            466,
+            214,
+            498,
+            310
+          ],
+          "visible_pixels": 2480
+        },
+        {
+          "coord": [
+            6,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -14,
+            -30,
+            14,
+            56
+          ],
+          "source_bounds": [
+            417,
+            215,
+            453,
+            309
+          ],
+          "visible_pixels": 2743
+        },
+        {
+          "coord": [
+            7,
+            1
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -175,
+            -1,
+            174,
+            56
+          ],
+          "source_bounds": [
+            16,
+            267,
+            373,
+            332
+          ],
+          "visible_pixels": 15795
+        },
+        {
+          "coord": [
+            10,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -43,
+            33,
+            43,
+            56
+          ],
+          "source_bounds": [
+            407,
+            328,
+            501,
+            359
+          ],
+          "visible_pixels": 2467
+        },
+        {
+          "coord": [
+            11,
+            1
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -81,
+            23,
+            81,
+            56
+          ],
+          "source_bounds": [
+            213,
+            352,
+            383,
+            393
+          ],
+          "visible_pixels": 4566
+        },
+        {
+          "coord": [
+            13,
+            1
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -85,
+            12,
+            84,
+            56
+          ],
+          "source_bounds": [
+            5,
+            356,
+            182,
+            408
+          ],
+          "visible_pixels": 6170
+        },
+        {
+          "coord": [
+            15,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -43,
+            37,
+            43,
+            56
+          ],
+          "source_bounds": [
+            408,
+            374,
+            502,
+            401
+          ],
+          "visible_pixels": 2194
+        },
+        {
+          "coord": [
+            0,
+            2
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -96,
+            -14,
+            95,
+            56
+          ],
+          "source_bounds": [
+            205,
+            413,
+            404,
+            491
+          ],
+          "visible_pixels": 10036
+        },
+        {
+          "coord": [
+            2,
+            2
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -96,
+            3,
+            95,
+            56
+          ],
+          "source_bounds": [
+            3,
+            438,
+            202,
+            499
+          ],
+          "visible_pixels": 8050
+        }
+      ]
+    },
+    {
+      "name": "Big rocks",
+      "texture": "res://assets/tilemaps/converted/cave/big_rocks.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -28,
+            12,
+            27,
+            56
+          ],
+          "source_bounds": [
+            442,
+            3,
+            505,
+            55
+          ],
+          "visible_pixels": 2395
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -88,
+            -14,
+            87,
+            120
+          ],
+          "source_bounds": [
+            6,
+            5,
+            189,
+            147
+          ],
+          "visible_pixels": 19632
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -45,
+            0,
+            44,
+            56
+          ],
+          "source_bounds": [
+            191,
+            5,
+            288,
+            69
+          ],
+          "visible_pixels": 4777
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -36,
+            2,
+            35,
+            120
+          ],
+          "source_bounds": [
+            354,
+            14,
+            433,
+            140
+          ],
+          "visible_pixels": 7679
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -26,
+            -63,
+            25,
+            120
+          ],
+          "source_bounds": [
+            444,
+            63,
+            503,
+            254
+          ],
+          "visible_pixels": 7439
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -69,
+            1,
+            68,
+            56
+          ],
+          "source_bounds": [
+            202,
+            77,
+            347,
+            140
+          ],
+          "visible_pixels": 6883
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -83,
+            -34,
+            83,
+            56
+          ],
+          "source_bounds": [
+            100,
+            157,
+            274,
+            255
+          ],
+          "visible_pixels": 12891
+        },
+        {
+          "coord": [
+            10,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -40,
+            -33,
+            39,
+            56
+          ],
+          "source_bounds": [
+            6,
+            158,
+            93,
+            255
+          ],
+          "visible_pixels": 6076
+        },
+        {
+          "coord": [
+            11,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -72,
+            -32,
+            71,
+            56
+          ],
+          "source_bounds": [
+            278,
+            159,
+            429,
+            255
+          ],
+          "visible_pixels": 10683
+        }
+      ]
+    },
+    {
+      "name": "Small rocks",
+      "texture": "res://assets/tilemaps/converted/cave/small_rocks.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            0,
+            17,
+            56
+          ],
+          "source_bounds": [
+            457,
+            16,
+            500,
+            80
+          ],
+          "visible_pixels": 1531
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -14,
+            -23,
+            14,
+            56
+          ],
+          "source_bounds": [
+            410,
+            18,
+            446,
+            105
+          ],
+          "visible_pixels": 1841
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -13,
+            31,
+            13,
+            56
+          ],
+          "source_bounds": [
+            26,
+            19,
+            60,
+            52
+          ],
+          "visible_pixels": 868
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            22,
+            17,
+            56
+          ],
+          "source_bounds": [
+            228,
+            19,
+            271,
+            61
+          ],
+          "visible_pixels": 1216
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            23,
+            19,
+            56
+          ],
+          "source_bounds": [
+            289,
+            19,
+            336,
+            60
+          ],
+          "visible_pixels": 1376
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            25,
+            18,
+            56
+          ],
+          "source_bounds": [
+            343,
+            20,
+            387,
+            59
+          ],
+          "visible_pixels": 1255
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            29,
+            17,
+            56
+          ],
+          "source_bounds": [
+            175,
+            24,
+            218,
+            59
+          ],
+          "visible_pixels": 1179
+        },
+        {
+          "coord": [
+            7,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -12,
+            42,
+            11,
+            56
+          ],
+          "source_bounds": [
+            80,
+            29,
+            111,
+            51
+          ],
+          "visible_pixels": 462
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -12,
+            46,
+            12,
+            56
+          ],
+          "source_bounds": [
+            130,
+            33,
+            162,
+            51
+          ],
+          "visible_pixels": 440
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            28,
+            19,
+            56
+          ],
+          "source_bounds": [
+            22,
+            69,
+            69,
+            105
+          ],
+          "visible_pixels": 1276
+        },
+        {
+          "coord": [
+            10,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -12,
+            25,
+            11,
+            56
+          ],
+          "source_bounds": [
+            182,
+            71,
+            213,
+            110
+          ],
+          "visible_pixels": 844
+        },
+        {
+          "coord": [
+            11,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -44,
+            20,
+            43,
+            56
+          ],
+          "source_bounds": [
+            292,
+            75,
+            387,
+            119
+          ],
+          "visible_pixels": 3217
+        },
+        {
+          "coord": [
+            12,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -17,
+            32,
+            17,
+            56
+          ],
+          "source_bounds": [
+            229,
+            76,
+            271,
+            108
+          ],
+          "visible_pixels": 1022
+        },
+        {
+          "coord": [
+            13,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -7,
+            44,
+            7,
+            56
+          ],
+          "source_bounds": [
+            135,
+            81,
+            157,
+            101
+          ],
+          "visible_pixels": 312
+        },
+        {
+          "coord": [
+            14,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -11,
+            48,
+            11,
+            56
+          ],
+          "source_bounds": [
+            80,
+            84,
+            110,
+            100
+          ],
+          "visible_pixels": 380
+        },
+        {
+          "coord": [
+            15,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -11,
+            19,
+            11,
+            56
+          ],
+          "source_bounds": [
+            466,
+            117,
+            496,
+            162
+          ],
+          "visible_pixels": 814
+        },
+        {
+          "coord": [
+            0,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -19,
+            -3,
+            19,
+            56
+          ],
+          "source_bounds": [
+            92,
+            119,
+            138,
+            186
+          ],
+          "visible_pixels": 2507
+        },
+        {
+          "coord": [
+            1,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -19,
+            -3,
+            18,
+            56
+          ],
+          "source_bounds": [
+            157,
+            119,
+            202,
+            186
+          ],
+          "visible_pixels": 2403
+        },
+        {
+          "coord": [
+            2,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            -4,
+            19,
+            56
+          ],
+          "source_bounds": [
+            224,
+            119,
+            271,
+            187
+          ],
+          "visible_pixels": 2459
+        },
+        {
+          "coord": [
+            3,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            25,
+            17,
+            56
+          ],
+          "source_bounds": [
+            407,
+            120,
+            450,
+            159
+          ],
+          "visible_pixels": 954
+        },
+        {
+          "coord": [
+            4,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -21,
+            19,
+            21,
+            56
+          ],
+          "source_bounds": [
+            23,
+            130,
+            73,
+            175
+          ],
+          "visible_pixels": 1653
+        },
+        {
+          "coord": [
+            5,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -35,
+            -3,
+            34,
+            56
+          ],
+          "source_bounds": [
+            300,
+            139,
+            377,
+            206
+          ],
+          "visible_pixels": 3951
+        },
+        {
+          "coord": [
+            6,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -34,
+            27,
+            34,
+            56
+          ],
+          "source_bounds": [
+            416,
+            173,
+            492,
+            210
+          ],
+          "visible_pixels": 1635
+        },
+        {
+          "coord": [
+            7,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -13,
+            19,
+            13,
+            56
+          ],
+          "source_bounds": [
+            206,
+            221,
+            240,
+            266
+          ],
+          "visible_pixels": 1165
+        },
+        {
+          "coord": [
+            8,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -13,
+            21,
+            13,
+            56
+          ],
+          "source_bounds": [
+            308,
+            222,
+            342,
+            265
+          ],
+          "visible_pixels": 1146
+        },
+        {
+          "coord": [
+            9,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -13,
+            22,
+            13,
+            56
+          ],
+          "source_bounds": [
+            411,
+            223,
+            445,
+            265
+          ],
+          "visible_pixels": 1032
+        },
+        {
+          "coord": [
+            10,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -12,
+            24,
+            12,
+            56
+          ],
+          "source_bounds": [
+            258,
+            224,
+            290,
+            264
+          ],
+          "visible_pixels": 1014
+        },
+        {
+          "coord": [
+            11,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -13,
+            38,
+            13,
+            56
+          ],
+          "source_bounds": [
+            360,
+            231,
+            394,
+            257
+          ],
+          "visible_pixels": 653
+        },
+        {
+          "coord": [
+            12,
+            1
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -88,
+            -14,
+            87,
+            120
+          ],
+          "source_bounds": [
+            9,
+            233,
+            192,
+            375
+          ],
+          "visible_pixels": 19751
+        },
+        {
+          "coord": [
+            14,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            -33,
+            19,
+            56
+          ],
+          "source_bounds": [
+            457,
+            253,
+            504,
+            350
+          ],
+          "visible_pixels": 2714
+        },
+        {
+          "coord": [
+            15,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            2,
+            19,
+            56
+          ],
+          "source_bounds": [
+            403,
+            288,
+            450,
+            350
+          ],
+          "visible_pixels": 1733
+        },
+        {
+          "coord": [
+            0,
+            3
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -87,
+            -39,
+            87,
+            56
+          ],
+          "source_bounds": [
+            203,
+            291,
+            385,
+            394
+          ],
+          "visible_pixels": 14331
+        },
+        {
+          "coord": [
+            2,
+            3
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -20,
+            -20,
+            20,
+            120
+          ],
+          "source_bounds": [
+            403,
+            356,
+            451,
+            504
+          ],
+          "visible_pixels": 4204
+        },
+        {
+          "coord": [
+            3,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -39,
+            -33,
+            39,
+            56
+          ],
+          "source_bounds": [
+            10,
+            405,
+            96,
+            502
+          ],
+          "visible_pixels": 6079
+        },
+        {
+          "coord": [
+            4,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -20,
+            -29,
+            20,
+            56
+          ],
+          "source_bounds": [
+            457,
+            411,
+            505,
+            504
+          ],
+          "visible_pixels": 2645
+        },
+        {
+          "coord": [
+            5,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -43,
+            -27,
+            42,
+            56
+          ],
+          "source_bounds": [
+            303,
+            413,
+            396,
+            504
+          ],
+          "visible_pixels": 4471
+        },
+        {
+          "coord": [
+            6,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -36,
+            -18,
+            35,
+            56
+          ],
+          "source_bounds": [
+            209,
+            420,
+            288,
+            502
+          ],
+          "visible_pixels": 4911
+        },
+        {
+          "coord": [
+            7,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -45,
+            0,
+            44,
+            56
+          ],
+          "source_bounds": [
+            106,
+            438,
+            203,
+            502
+          ],
+          "visible_pixels": 4780
+        }
+      ]
+    },
+    {
+      "name": "Rock combinations",
+      "texture": "res://assets/tilemaps/converted/cave/rock_combinations.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -68,
+            -23,
+            68,
+            56
+          ],
+          "source_bounds": [
+            6,
+            17,
+            150,
+            104
+          ],
+          "visible_pixels": 8937
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -55,
+            -26,
+            55,
+            56
+          ],
+          "source_bounds": [
+            247,
+            19,
+            365,
+            109
+          ],
+          "visible_pixels": 7275
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -45,
+            2,
+            45,
+            56
+          ],
+          "source_bounds": [
+            372,
+            21,
+            470,
+            83
+          ],
+          "visible_pixels": 3992
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -35,
+            0,
+            35,
+            56
+          ],
+          "source_bounds": [
+            159,
+            25,
+            237,
+            89
+          ],
+          "visible_pixels": 3531
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -33,
+            -4,
+            33,
+            56
+          ],
+          "source_bounds": [
+            396,
+            92,
+            470,
+            160
+          ],
+          "visible_pixels": 3369
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -51,
+            -37,
+            50,
+            56
+          ],
+          "source_bounds": [
+            7,
+            113,
+            116,
+            214
+          ],
+          "visible_pixels": 7673
+        },
+        {
+          "coord": [
+            7,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -50,
+            -1,
+            50,
+            56
+          ],
+          "source_bounds": [
+            130,
+            114,
+            238,
+            179
+          ],
+          "visible_pixels": 4950
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -27,
+            13,
+            27,
+            56
+          ],
+          "source_bounds": [
+            319,
+            116,
+            381,
+            167
+          ],
+          "visible_pixels": 2081
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -26,
+            1,
+            26,
+            56
+          ],
+          "source_bounds": [
+            248,
+            117,
+            308,
+            180
+          ],
+          "visible_pixels": 2752
+        },
+        {
+          "coord": [
+            10,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -83,
+            -29,
+            83,
+            56
+          ],
+          "source_bounds": [
+            327,
+            187,
+            501,
+            280
+          ],
+          "visible_pixels": 11496
+        },
+        {
+          "coord": [
+            12,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -68,
+            -29,
+            68,
+            56
+          ],
+          "source_bounds": [
+            158,
+            205,
+            302,
+            298
+          ],
+          "visible_pixels": 9740
+        },
+        {
+          "coord": [
+            14,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -68,
+            -9,
+            68,
+            56
+          ],
+          "source_bounds": [
+            8,
+            221,
+            152,
+            294
+          ],
+          "visible_pixels": 7027
+        },
+        {
+          "coord": [
+            0,
+            1
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -68,
+            -22,
+            68,
+            120
+          ],
+          "source_bounds": [
+            11,
+            308,
+            155,
+            458
+          ],
+          "visible_pixels": 13384
+        },
+        {
+          "coord": [
+            2,
+            1
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -42,
+            -34,
+            41,
+            120
+          ],
+          "source_bounds": [
+            291,
+            312,
+            382,
+            474
+          ],
+          "visible_pixels": 9099
+        },
+        {
+          "coord": [
+            3,
+            1
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -49,
+            -40,
+            49,
+            120
+          ],
+          "source_bounds": [
+            175,
+            321,
+            281,
+            489
+          ],
+          "visible_pixels": 9284
+        },
+        {
+          "coord": [
+            4,
+            1
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -47,
+            -30,
+            46,
+            120
+          ],
+          "source_bounds": [
+            392,
+            325,
+            493,
+            483
+          ],
+          "visible_pixels": 9436
+        }
+      ]
+    },
+    {
+      "name": "Black background",
+      "texture": "res://assets/tilemaps/converted/cave/black_background.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -56,
+            -56,
+            56,
+            56
+          ],
+          "source_bounds": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "visible_pixels": 14400
+        }
+      ]
+    }
+  ]
+}

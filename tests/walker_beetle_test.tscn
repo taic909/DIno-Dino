@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://tests/walker_beetle_test.gd" id="1_test"]
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(500, 30)
+
+[node name="WalkerBeetleTest" type="Node2D"]
+script = ExtResource("1_test")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 55)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("GroundShape")

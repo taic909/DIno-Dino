@@ -1,0 +1,149 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/level_editor.gd" id="1_editor"]
+
+[node name="LevelEditor" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_editor")
+
+[node name="Dock" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -354.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Dock"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="VBoxContainer" parent="Dock/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Dock/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "LEVEL EDITOR"
+
+[node name="LayerPicker" type="OptionButton" parent="Dock/Margin/Content"]
+layout_mode = 2
+tooltip_text = "Choose Background, Terrain, Decoration, or Foreground TileMap layer"
+
+[node name="TilesetPicker" type="OptionButton" parent="Dock/Margin/Content"]
+layout_mode = 2
+tooltip_text = "Choose TileMap art; new TileSets are discovered automatically"
+
+[node name="SourcePicker" type="OptionButton" parent="Dock/Margin/Content"]
+layout_mode = 2
+
+[node name="ToolRow" type="HBoxContainer" parent="Dock/Margin/Content"]
+layout_mode = 2
+
+[node name="PaintButton" type="Button" parent="Dock/Margin/Content/ToolRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_pressed = true
+text = "Paint"
+
+[node name="EraseButton" type="Button" parent="Dock/Margin/Content/ToolRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Erase"
+
+[node name="UndoButton" type="Button" parent="Dock/Margin/Content/ToolRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Undo"
+
+[node name="PaletteScroll" type="ScrollContainer" parent="Dock/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Palette" type="GridContainer" parent="Dock/Margin/Content/PaletteScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 4
+
+[node name="Selection" type="Label" parent="Dock/Margin/Content"]
+layout_mode = 2
+text = "Select a tile"
+
+[node name="PreviewPicture" type="TextureRect" parent="Dock/Margin/Content"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+mouse_filter = 2
+tooltip_text = "Live preview of the room around your brush"
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CameraZoomRow" type="HBoxContainer" parent="Dock/Margin/Content"]
+layout_mode = 2
+
+[node name="ZoomOutButton" type="Button" parent="Dock/Margin/Content/CameraZoomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "−"
+tooltip_text = "Zoom out from the dinosaur"
+
+[node name="ZoomLabel" type="Label" parent="Dock/Margin/Content/CameraZoomRow"]
+custom_minimum_size = Vector2(122, 0)
+layout_mode = 2
+text = "Camera 90%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoomInButton" type="Button" parent="Dock/Margin/Content/CameraZoomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+tooltip_text = "Zoom in on the dinosaur"
+
+[node name="PreviewViewport" type="SubViewport" parent="."]
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+
+[node name="PreviewCamera" type="Camera2D" parent="PreviewViewport"]
+zoom = Vector2(0.25, 0.25)
+
+[node name="Feedback" type="Label" parent="Dock/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.64, 0.78, 0.72, 1)
+text = "Edits save separately from scene files."
+autowrap_mode = 3
+
+[node name="Actions" type="HBoxContainer" parent="Dock/Margin/Content"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="Dock/Margin/Content/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="PlayButton" type="Button" parent="Dock/Margin/Content/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Done"
+
+[node name="Help" type="Label" parent="Dock/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Move: WASD / left stick • Aim: mouse / right stick\nWheel or +/-: camera zoom • Ctrl+Z: undo\nR-click/LB erase • RB paint • D-pad+A: select"

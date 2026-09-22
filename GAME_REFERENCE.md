@@ -107,7 +107,7 @@ The protagonist should feel good before collecting an artifact.
 - Variable-height jump
 - Coyote time and jump buffering
 - Useful but controlled air steering
-- A 5-second airborne glide started by a second Jump press in the air, with conventional vertical-stick pitch, dive-scaled acceleration, and momentum inherited from jumps, Pounces, and rebounds
+- A 5-second airborne glide started by a second Jump press in the air, with conventional vertical-stick pitch, gravity-projected acceleration, a walking-speed entry floor except during a turn-around ramp, and same-direction momentum inherited from faster horizontal travel, Glide Pounces, and rebounds
 - Glide visuals pitch with the movement arc while normal airborne movement and the upright collision shape remain stable
 - Clear landing, turnaround, and hit feedback
 - A movement attack tentatively called **Pounce**
@@ -121,7 +121,7 @@ The protagonist should feel good before collecting an artifact.
 
 The first enemy should communicate a clear opening, react strongly to a successful hit, and die in a way that makes momentum and impact obvious. Start with one excellent interaction rather than several enemy types.
 
-For prototype collision, keep the player environment collider, player Hurtbox, enemy hurtboxes, and attack hitboxes separate and simple. The player Hurtbox takes prototype contact damage when it overlaps an enemy. The active Pounce hitbox stuns the practice dummy, while distinct lateral and downward Tail Swipe hitboxes damage it.
+For prototype collision, keep the player environment collider, player Hurtbox, enemy hurtboxes, and attack hitboxes separate and simple. The player Hurtbox takes prototype contact damage when it overlaps an enemy. The active Pounce hitbox stuns the practice dummy or walker beetle, while distinct lateral and downward Tail Swipe hitboxes damage them.
 
 ## Artifact design rules
 
@@ -192,7 +192,7 @@ The project already contains:
 - A basic run/jump controller with acceleration, coyote time, jump buffering, variable jump height, and stronger fall gravity
 - A gray-box main scene with platforms
 - Temporary dinosaur art
-- A small developer overlay with live movement readouts and rapid room reset
+- A controller-navigable developer menu with movement snapshots and rapid room reset
 - A pause menu with persistent keyboard, mouse, and controller rebinding
 - `README.md` and `GODOT_CODE_LIBRARY.md`
 
@@ -294,3 +294,19 @@ Copy the following into a new Codex task opened in this project folder:
 - **2026-09-19:** Split lateral and downward Tail Swipe into separate hitboxes and indicators so each attack can receive distinct animation and presentation later.
 - **2026-09-19:** Increased default Glide-Pounce rebound carry to 90% of approach speed and raised its safety cap to 560.
 - **2026-09-20:** Integrated two-frame sprite sheets for grounded running, lateral Tail Swipe, and downward front-flip Tail Swipe while preserving separate attack hitboxes.
+- **2026-09-20:** Added an F4/left-stick developer toggle for live hitbox and hurtbox collision drawing.
+- **2026-09-20:** Changed Glide dive acceleration to ramp sharply near 90 degrees, allowing vertical dives to build and preserve more momentum than moderate angles.
+- **2026-09-20:** Replaced the artificial steep-dive boost with gravity projected along the Glide direction; dives now accelerate continuously, climbs spend momentum, and only a high safety speed limit remains.
+- **2026-09-20:** Added MetSys 1.6 for room-map authoring plus a minimal global RoomManager and reusable RoomDoor; saving, portals, and broader world systems remain deferred.
+- **2026-09-21:** Stopped converting vertical jump speed into forward Glide momentum. Glide now enters at walking speed or current horizontal speed, whichever is faster; the existing pitch, gravity, duration, and Pounce settings remain unchanged.
+- **2026-09-21:** Added a beginner walker beetle with a short ledge-aware patrol, one point of touch damage, a Pounce stun opening, and a two-Swipe defeat (one Swipe while stunned). It is placed in the movement sandbox for testing.
+- **2026-09-21:** Enabled A / Cross selection in the controller pause menu, made the controls list scroll with focus, and exposed the Dev Mode toggle as a persistent rebindable action.
+- **2026-09-21:** Replaced unlimited-air-jump testing with rebindable developer Flight Mode: direct four-direction movement, no gravity, and immediate midair stopping; normal movement returns when it is off.
+- **2026-09-21:** Converted the Stringstar 16-pixel and Tinyforest 32-pixel art sheets into paintable 128-pixel Godot TileSets with non-solid parallax chunks and conservative starter ground collision.
+- **2026-09-21:** Added a live developer level editor that paints separate runtime TileMapLayers over each room, saves them per room under `res://level_edits`, and keeps authored scene tiles untouched. A `@tool` preview shows saved overlays in Godot's 2D canvas.
+- **2026-09-21:** Added stroke-level Ctrl+Z/Undo, an explicit Erase tool, automatic TileSet discovery from `assets/tilemaps`, and a small live room preview centered on the editor brush.
+- **2026-09-21:** Let gameplay continue during live tile editing; left stick moves the dinosaur while D-pad navigates the dock. Added player-camera zoom controls, a 90% default camera zoom, and a 1920×1080 output window while retaining the existing 1152×648 logical canvas.
+- **2026-09-21:** Opposite-direction Glide restarts no longer convert old horizontal speed into immediate new-direction speed; they use a short, tunable acceleration ramp, while same-direction restarts keep earned speed.
+- **2026-09-21:** Simplified developer room cycling to Y / Triangle only, advancing through registered rooms and wrapping to the first. Reserved B / Circle for menu Back/Cancel, including migration of saved gameplay bindings. Raised the beetle's terrain probes above short steps so only true walls or ledges reverse its patrol; restored its intended two-hit beginner health.
+- **2026-09-21:** Walker beetles keep their normal patrol until struck by Pounce or Tail Swipe. After a hit, they lock onto that player and pursue beyond patrol bounds, but wait at walls and ledges.
+- **2026-09-21:** Terrain contact during Glide now consumes stored momentum and ends the Glide. Near-parallel wall grazes make a reduced rebound; direct wall or other surface hits take a much larger momentum penalty.

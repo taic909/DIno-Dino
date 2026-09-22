@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dekhnf2gwno1e" path="res://scenes/enemy/practice_dummy.tscn" id="2_dummy"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="3_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dev_mode.tscn" id="4_dev"]
+[ext_resource type="PackedScene" uid="uid://c6m0esjqy2s7p" path="res://scenes/enemy/walker_beetle.tscn" id="5_beetle"]
+[ext_resource type="PackedScene" path="res://scenes/world/level_edit_preview.tscn" id="6_preview"]
 
 [sub_resource type="RectangleShape2D" id="GroundShape"]
 size = Vector2(2499, 96)
@@ -43,7 +45,13 @@ position = Vector2(111, 54)
 [node name="PracticeDummy" parent="." unique_id=1664186485 instance=ExtResource("2_dummy")]
 position = Vector2(1010, 528)
 
+[node name="WalkerBeetle" parent="." unique_id=1423889783 instance=ExtResource("5_beetle")]
+position = Vector2(670, 530)
+
 [node name="DevMode" parent="." unique_id=814075032 instance=ExtResource("4_dev")]
+
+[node name="LevelEditPreview" parent="." instance=ExtResource("6_preview")]
+room_scene_path = "res://scenes/main.tscn"
 
 [node name="PauseMenu" parent="." unique_id=275163722 instance=ExtResource("3_pause")]
 visible = false

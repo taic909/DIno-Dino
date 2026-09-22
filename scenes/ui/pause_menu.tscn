@@ -93,8 +93,15 @@ layout_mode = 2
 text = "Controller"
 horizontal_alignment = 1
 
-[node name="ControlsRows" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+[node name="ControlsScroll" type="ScrollContainer" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="ControlsRows" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel/ControlsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 5
 
 [node name="ControlsHelp" type="Label" parent="Dimmer/Center/MenuPanel/Margin/ControlsPanel"]

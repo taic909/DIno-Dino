@@ -1,0 +1,4211 @@
+{
+  "tile_size": 128,
+  "source_cell_size": 32,
+  "sources": [
+    {
+      "name": "Pixel tiles (flat ground has starter collision)",
+      "texture": "res://assets/tilemaps/converted/tinyforest/tiles.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            0
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            0
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            0
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            0,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            1
+          ]
+        },
+        {
+          "coord": [
+            1,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            1
+          ]
+        },
+        {
+          "coord": [
+            2,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            1
+          ]
+        },
+        {
+          "coord": [
+            4,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            1
+          ]
+        },
+        {
+          "coord": [
+            5,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            5,
+            1
+          ]
+        },
+        {
+          "coord": [
+            6,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            6,
+            1
+          ]
+        },
+        {
+          "coord": [
+            9,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            1
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            10,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            10,
+            1
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            11,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            11,
+            1
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            13,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            1
+          ]
+        },
+        {
+          "coord": [
+            14,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            1
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            15,
+            1
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            15,
+            1
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            0,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            2
+          ]
+        },
+        {
+          "coord": [
+            1,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            2
+          ]
+        },
+        {
+          "coord": [
+            2,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            2
+          ]
+        },
+        {
+          "coord": [
+            0,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            3
+          ]
+        },
+        {
+          "coord": [
+            1,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            3
+          ]
+        },
+        {
+          "coord": [
+            2,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            3
+          ]
+        },
+        {
+          "coord": [
+            7,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            3
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            8,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            3
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            9,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            3
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            13,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            3
+          ]
+        },
+        {
+          "coord": [
+            14,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            3
+          ]
+        },
+        {
+          "coord": [
+            15,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            15,
+            3
+          ]
+        },
+        {
+          "coord": [
+            16,
+            3
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            16,
+            3
+          ]
+        },
+        {
+          "coord": [
+            7,
+            4
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            4
+          ]
+        },
+        {
+          "coord": [
+            8,
+            4
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            4
+          ]
+        },
+        {
+          "coord": [
+            9,
+            4
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            4
+          ]
+        },
+        {
+          "coord": [
+            0,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            1,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            2,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            5,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            5,
+            5
+          ]
+        },
+        {
+          "coord": [
+            6,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            6,
+            5
+          ]
+        },
+        {
+          "coord": [
+            7,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            5
+          ]
+        },
+        {
+          "coord": [
+            8,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            5
+          ]
+        },
+        {
+          "coord": [
+            9,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            5
+          ]
+        },
+        {
+          "coord": [
+            10,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            10,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            11,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            11,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            13,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            5
+          ]
+        },
+        {
+          "coord": [
+            14,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            5
+          ]
+        },
+        {
+          "coord": [
+            16,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            16,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            17,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            17,
+            5
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            48,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            48,
+            5
+          ]
+        },
+        {
+          "coord": [
+            49,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            49,
+            5
+          ]
+        },
+        {
+          "coord": [
+            0,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            6
+          ]
+        },
+        {
+          "coord": [
+            1,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            6
+          ]
+        },
+        {
+          "coord": [
+            2,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            6
+          ]
+        },
+        {
+          "coord": [
+            5,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            5,
+            6
+          ]
+        },
+        {
+          "coord": [
+            6,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            6,
+            6
+          ]
+        },
+        {
+          "coord": [
+            7,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            6
+          ]
+        },
+        {
+          "coord": [
+            8,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            6
+          ]
+        },
+        {
+          "coord": [
+            9,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            6
+          ]
+        },
+        {
+          "coord": [
+            10,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            10,
+            6
+          ]
+        },
+        {
+          "coord": [
+            11,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            11,
+            6
+          ]
+        },
+        {
+          "coord": [
+            13,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            6
+          ]
+        },
+        {
+          "coord": [
+            14,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            6
+          ]
+        },
+        {
+          "coord": [
+            52,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            52,
+            6
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            53,
+            6
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            53,
+            6
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            0,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            7
+          ]
+        },
+        {
+          "coord": [
+            1,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            7
+          ]
+        },
+        {
+          "coord": [
+            2,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            7
+          ]
+        },
+        {
+          "coord": [
+            7,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            7
+          ]
+        },
+        {
+          "coord": [
+            8,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            7
+          ]
+        },
+        {
+          "coord": [
+            9,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            7
+          ]
+        },
+        {
+          "coord": [
+            16,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            16,
+            7
+          ]
+        },
+        {
+          "coord": [
+            17,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            17,
+            7
+          ]
+        },
+        {
+          "coord": [
+            43,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            43,
+            7
+          ]
+        },
+        {
+          "coord": [
+            44,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            44,
+            7
+          ]
+        },
+        {
+          "coord": [
+            52,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            52,
+            7
+          ]
+        },
+        {
+          "coord": [
+            53,
+            7
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            53,
+            7
+          ]
+        },
+        {
+          "coord": [
+            7,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            8
+          ]
+        },
+        {
+          "coord": [
+            8,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            8
+          ]
+        },
+        {
+          "coord": [
+            9,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            8
+          ]
+        },
+        {
+          "coord": [
+            16,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            16,
+            8
+          ]
+        },
+        {
+          "coord": [
+            17,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            17,
+            8
+          ]
+        },
+        {
+          "coord": [
+            52,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            52,
+            8
+          ]
+        },
+        {
+          "coord": [
+            53,
+            8
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            53,
+            8
+          ]
+        },
+        {
+          "coord": [
+            13,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            9
+          ]
+        },
+        {
+          "coord": [
+            14,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            9
+          ]
+        },
+        {
+          "coord": [
+            31,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            31,
+            9
+          ]
+        },
+        {
+          "coord": [
+            32,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            32,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            33,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            33,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            34,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            34,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            35,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            35,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            36,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            36,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -48,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            37,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            37,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -44,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            38,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            38,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            39,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            39,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            40,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            40,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            41,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            41,
+            9
+          ]
+        },
+        {
+          "coord": [
+            42,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            42,
+            9
+          ]
+        },
+        {
+          "coord": [
+            43,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            43,
+            9
+          ]
+        },
+        {
+          "coord": [
+            44,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            44,
+            9
+          ]
+        },
+        {
+          "coord": [
+            45,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            45,
+            9
+          ]
+        },
+        {
+          "coord": [
+            46,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            46,
+            9
+          ]
+        },
+        {
+          "coord": [
+            47,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            47,
+            9
+          ]
+        },
+        {
+          "coord": [
+            48,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            48,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            49,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            49,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -60,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            50,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            50,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            51,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            51,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            52,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            52,
+            9
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            53,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            53,
+            9
+          ]
+        },
+        {
+          "coord": [
+            54,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            54,
+            9
+          ]
+        },
+        {
+          "coord": [
+            55,
+            9
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            55,
+            9
+          ]
+        },
+        {
+          "coord": [
+            1,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            10
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            2,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            10
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            3,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            10
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            13,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            10
+          ]
+        },
+        {
+          "coord": [
+            14,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            10
+          ]
+        },
+        {
+          "coord": [
+            16,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            16,
+            10
+          ]
+        },
+        {
+          "coord": [
+            17,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            17,
+            10
+          ]
+        },
+        {
+          "coord": [
+            30,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            30,
+            10
+          ]
+        },
+        {
+          "coord": [
+            31,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            31,
+            10
+          ]
+        },
+        {
+          "coord": [
+            32,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            32,
+            10
+          ]
+        },
+        {
+          "coord": [
+            33,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            33,
+            10
+          ]
+        },
+        {
+          "coord": [
+            34,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            34,
+            10
+          ]
+        },
+        {
+          "coord": [
+            35,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            35,
+            10
+          ]
+        },
+        {
+          "coord": [
+            38,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            38,
+            10
+          ]
+        },
+        {
+          "coord": [
+            39,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            39,
+            10
+          ]
+        },
+        {
+          "coord": [
+            40,
+            10
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            40,
+            10
+          ]
+        },
+        {
+          "coord": [
+            0,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            11
+          ]
+        },
+        {
+          "coord": [
+            1,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            11
+          ]
+        },
+        {
+          "coord": [
+            2,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            11
+          ]
+        },
+        {
+          "coord": [
+            3,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            11
+          ]
+        },
+        {
+          "coord": [
+            4,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            11
+          ]
+        },
+        {
+          "coord": [
+            7,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            11
+          ]
+        },
+        {
+          "coord": [
+            8,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            11
+          ]
+        },
+        {
+          "coord": [
+            9,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            11
+          ]
+        },
+        {
+          "coord": [
+            29,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            29,
+            11
+          ]
+        },
+        {
+          "coord": [
+            30,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            30,
+            11
+          ]
+        },
+        {
+          "coord": [
+            31,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            31,
+            11
+          ]
+        },
+        {
+          "coord": [
+            32,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            32,
+            11
+          ]
+        },
+        {
+          "coord": [
+            33,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            33,
+            11
+          ]
+        },
+        {
+          "coord": [
+            34,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            34,
+            11
+          ]
+        },
+        {
+          "coord": [
+            35,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            35,
+            11
+          ]
+        },
+        {
+          "coord": [
+            38,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            38,
+            11
+          ]
+        },
+        {
+          "coord": [
+            39,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            39,
+            11
+          ]
+        },
+        {
+          "coord": [
+            40,
+            11
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            40,
+            11
+          ]
+        },
+        {
+          "coord": [
+            0,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            12
+          ]
+        },
+        {
+          "coord": [
+            1,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            12
+          ]
+        },
+        {
+          "coord": [
+            2,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            12
+          ]
+        },
+        {
+          "coord": [
+            3,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            12
+          ]
+        },
+        {
+          "coord": [
+            4,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            12
+          ]
+        },
+        {
+          "coord": [
+            6,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            6,
+            12
+          ]
+        },
+        {
+          "coord": [
+            7,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            12
+          ]
+        },
+        {
+          "coord": [
+            8,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            12
+          ]
+        },
+        {
+          "coord": [
+            9,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            12
+          ]
+        },
+        {
+          "coord": [
+            10,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            10,
+            12
+          ]
+        },
+        {
+          "coord": [
+            13,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            12
+          ]
+        },
+        {
+          "coord": [
+            14,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            12
+          ]
+        },
+        {
+          "coord": [
+            24,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            24,
+            12
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            25,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            25,
+            12
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            26,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            26,
+            12
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            27,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            27,
+            12
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            28,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            28,
+            12
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            29,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            29,
+            12
+          ]
+        },
+        {
+          "coord": [
+            30,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            30,
+            12
+          ]
+        },
+        {
+          "coord": [
+            31,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            31,
+            12
+          ]
+        },
+        {
+          "coord": [
+            32,
+            12
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            32,
+            12
+          ]
+        },
+        {
+          "coord": [
+            0,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            13
+          ]
+        },
+        {
+          "coord": [
+            1,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            13
+          ]
+        },
+        {
+          "coord": [
+            2,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            13
+          ]
+        },
+        {
+          "coord": [
+            3,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            13
+          ]
+        },
+        {
+          "coord": [
+            4,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            13
+          ]
+        },
+        {
+          "coord": [
+            6,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            6,
+            13
+          ]
+        },
+        {
+          "coord": [
+            7,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            13
+          ]
+        },
+        {
+          "coord": [
+            8,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            13
+          ]
+        },
+        {
+          "coord": [
+            9,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            13
+          ]
+        },
+        {
+          "coord": [
+            10,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            10,
+            13
+          ]
+        },
+        {
+          "coord": [
+            13,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            13
+          ]
+        },
+        {
+          "coord": [
+            14,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            13
+          ]
+        },
+        {
+          "coord": [
+            24,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            24,
+            13
+          ]
+        },
+        {
+          "coord": [
+            25,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            25,
+            13
+          ]
+        },
+        {
+          "coord": [
+            26,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            26,
+            13
+          ]
+        },
+        {
+          "coord": [
+            27,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            27,
+            13
+          ]
+        },
+        {
+          "coord": [
+            28,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            28,
+            13
+          ]
+        },
+        {
+          "coord": [
+            29,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            29,
+            13
+          ]
+        },
+        {
+          "coord": [
+            30,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            30,
+            13
+          ]
+        },
+        {
+          "coord": [
+            31,
+            13
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            31,
+            13
+          ]
+        },
+        {
+          "coord": [
+            1,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            14
+          ]
+        },
+        {
+          "coord": [
+            2,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            14
+          ]
+        },
+        {
+          "coord": [
+            3,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            14
+          ]
+        },
+        {
+          "coord": [
+            7,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            14
+          ]
+        },
+        {
+          "coord": [
+            8,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            14
+          ]
+        },
+        {
+          "coord": [
+            9,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            14
+          ]
+        },
+        {
+          "coord": [
+            24,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            24,
+            14
+          ]
+        },
+        {
+          "coord": [
+            25,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            25,
+            14
+          ]
+        },
+        {
+          "coord": [
+            26,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            26,
+            14
+          ]
+        },
+        {
+          "coord": [
+            27,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            27,
+            14
+          ]
+        },
+        {
+          "coord": [
+            28,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            28,
+            14
+          ]
+        },
+        {
+          "coord": [
+            29,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            29,
+            14
+          ]
+        },
+        {
+          "coord": [
+            30,
+            14
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            30,
+            14
+          ]
+        },
+        {
+          "coord": [
+            13,
+            15
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            15
+          ]
+        },
+        {
+          "coord": [
+            14,
+            15
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            15
+          ]
+        },
+        {
+          "coord": [
+            15,
+            15
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            15,
+            15
+          ]
+        },
+        {
+          "coord": [
+            7,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            16
+          ]
+        },
+        {
+          "coord": [
+            8,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            16
+          ]
+        },
+        {
+          "coord": [
+            9,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            16
+          ]
+        },
+        {
+          "coord": [
+            13,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            16
+          ]
+        },
+        {
+          "coord": [
+            14,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            16
+          ]
+        },
+        {
+          "coord": [
+            15,
+            16
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            15,
+            16
+          ]
+        },
+        {
+          "coord": [
+            1,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            17
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            2,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            17
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            3,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            17
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            7,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            17
+          ]
+        },
+        {
+          "coord": [
+            8,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            17
+          ]
+        },
+        {
+          "coord": [
+            9,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            17
+          ]
+        },
+        {
+          "coord": [
+            13,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            17
+          ]
+        },
+        {
+          "coord": [
+            14,
+            17
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            17
+          ]
+        },
+        {
+          "coord": [
+            0,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            18
+          ]
+        },
+        {
+          "coord": [
+            1,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            18
+          ]
+        },
+        {
+          "coord": [
+            2,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            18
+          ]
+        },
+        {
+          "coord": [
+            3,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            18
+          ]
+        },
+        {
+          "coord": [
+            4,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            18
+          ]
+        },
+        {
+          "coord": [
+            13,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            18
+          ]
+        },
+        {
+          "coord": [
+            14,
+            18
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            18
+          ]
+        },
+        {
+          "coord": [
+            0,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            19
+          ]
+        },
+        {
+          "coord": [
+            1,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            19
+          ]
+        },
+        {
+          "coord": [
+            2,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            19
+          ]
+        },
+        {
+          "coord": [
+            3,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            19
+          ]
+        },
+        {
+          "coord": [
+            4,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            19
+          ]
+        },
+        {
+          "coord": [
+            7,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            19
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            8,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            19
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            9,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            19
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            13,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            19
+          ]
+        },
+        {
+          "coord": [
+            14,
+            19
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            19
+          ]
+        },
+        {
+          "coord": [
+            0,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            20
+          ]
+        },
+        {
+          "coord": [
+            1,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            20
+          ]
+        },
+        {
+          "coord": [
+            2,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            20
+          ]
+        },
+        {
+          "coord": [
+            3,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            20
+          ]
+        },
+        {
+          "coord": [
+            4,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            4,
+            20
+          ]
+        },
+        {
+          "coord": [
+            13,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            20
+          ]
+        },
+        {
+          "coord": [
+            14,
+            20
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            20
+          ]
+        },
+        {
+          "coord": [
+            1,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            21
+          ]
+        },
+        {
+          "coord": [
+            2,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            21
+          ]
+        },
+        {
+          "coord": [
+            3,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            21
+          ]
+        },
+        {
+          "coord": [
+            7,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            21
+          ]
+        },
+        {
+          "coord": [
+            8,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            21
+          ]
+        },
+        {
+          "coord": [
+            9,
+            21
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            21
+          ]
+        },
+        {
+          "coord": [
+            7,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            22
+          ]
+        },
+        {
+          "coord": [
+            8,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            22
+          ]
+        },
+        {
+          "coord": [
+            9,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            22
+          ]
+        },
+        {
+          "coord": [
+            13,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            13,
+            22
+          ]
+        },
+        {
+          "coord": [
+            14,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            14,
+            22
+          ]
+        },
+        {
+          "coord": [
+            15,
+            22
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            15,
+            22
+          ]
+        },
+        {
+          "coord": [
+            0,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            23
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            1,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            23
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            2,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            23
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            3,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            23
+          ],
+          "solid": true,
+          "collision": [
+            -64,
+            -64,
+            64,
+            64
+          ]
+        },
+        {
+          "coord": [
+            7,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            23
+          ]
+        },
+        {
+          "coord": [
+            8,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            23
+          ]
+        },
+        {
+          "coord": [
+            9,
+            23
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            9,
+            23
+          ]
+        },
+        {
+          "coord": [
+            0,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            24
+          ]
+        },
+        {
+          "coord": [
+            1,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            24
+          ]
+        },
+        {
+          "coord": [
+            2,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            24
+          ]
+        },
+        {
+          "coord": [
+            3,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            24
+          ]
+        },
+        {
+          "coord": [
+            7,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            7,
+            24
+          ]
+        },
+        {
+          "coord": [
+            8,
+            24
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            8,
+            24
+          ]
+        },
+        {
+          "coord": [
+            0,
+            25
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            25
+          ]
+        },
+        {
+          "coord": [
+            1,
+            25
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            25
+          ]
+        },
+        {
+          "coord": [
+            2,
+            25
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            25
+          ]
+        },
+        {
+          "coord": [
+            3,
+            25
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            25
+          ]
+        },
+        {
+          "coord": [
+            0,
+            26
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            0,
+            26
+          ]
+        },
+        {
+          "coord": [
+            1,
+            26
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            1,
+            26
+          ]
+        },
+        {
+          "coord": [
+            2,
+            26
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            2,
+            26
+          ]
+        },
+        {
+          "coord": [
+            3,
+            26
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "source_coord": [
+            3,
+            26
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Parallax 1",
+      "texture": "res://assets/tilemaps/converted/tinyforest/background_0.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            12,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Parallax 2",
+      "texture": "res://assets/tilemaps/converted/tinyforest/background_1.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            12,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Parallax 3",
+      "texture": "res://assets/tilemaps/converted/tinyforest/background_2.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            12,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Parallax 4",
+      "texture": "res://assets/tilemaps/converted/tinyforest/background_3.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            12,
+            7
+          ]
+        }
+      ]
+    }
+  ]
+}

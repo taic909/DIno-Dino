@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_room_instance"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dev_mode.tscn" id="3_dev"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="TileSet" path="res://assets/tilemaps/Archive/prehistoric_vibrant_tileset.tres" id="5_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/world/level_edit_preview.tscn" id="6_preview"]
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(1152, 64)
+
+[sub_resource type="RectangleShape2D" id="LeftWallShape"]
+size = Vector2(32, 648)
+
+[sub_resource type="RectangleShape2D" id="RightWallShape"]
+size = Vector2(32, 648)
+
+[node name="LevelRoomTemplate" type="Node2D"]
+
+[node name="RoomInstance" parent="." instance=ExtResource("1_room_instance")]
+
+[node name="Backdrop" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Sky" type="ColorRect" parent="Backdrop"]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.0470588, 0.0705882, 0.0941176, 1)
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="BackgroundTiles" type="TileMapLayer" parent="Background"]
+z_index = -5
+tile_set = ExtResource("5_tileset")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Geometry" type="Node2D" parent="Environment"]
+
+[node name="TerrainTiles" type="TileMapLayer" parent="Environment/Geometry"]
+tile_set = ExtResource("5_tileset")
+
+[node name="PlaceholderGround" type="StaticBody2D" parent="Environment/Geometry"]
+position = Vector2(576, 616)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Geometry/PlaceholderGround"]
+shape = SubResource("GroundShape")
+
+[node name="VisibleGround" type="Polygon2D" parent="Environment/Geometry/PlaceholderGround"]
+color = Color(0.180392, 0.231373, 0.235294, 1)
+polygon = PackedVector2Array(-576, -32, 576, -32, 576, 32, -576, 32)
+
+[node name="PlaceholderLeftWall" type="StaticBody2D" parent="Environment/Geometry"]
+position = Vector2(-16, 324)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Geometry/PlaceholderLeftWall"]
+shape = SubResource("LeftWallShape")
+
+[node name="PlaceholderRightWall" type="StaticBody2D" parent="Environment/Geometry"]
+position = Vector2(1168, 324)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Geometry/PlaceholderRightWall"]
+shape = SubResource("RightWallShape")
+
+[node name="Decoration" type="Node2D" parent="Environment"]
+
+[node name="DecorationTiles" type="TileMapLayer" parent="Environment/Decoration"]
+z_index = -1
+tile_set = ExtResource("5_tileset")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="DefaultSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(576, 520)
+
+[node name="LeftEntrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(96, 520)
+
+[node name="RightEntrance" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1056, 520)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(576, 520)
+
+[node name="Foreground" type="Node2D" parent="."]
+
+[node name="ForegroundTiles" type="TileMapLayer" parent="Foreground"]
+z_index = 10
+tile_set = ExtResource("5_tileset")
+
+[node name="DevMode" parent="." instance=ExtResource("3_dev")]
+
+[node name="LevelEditPreview" parent="." instance=ExtResource("6_preview")]
+room_scene_path = "res://scenes/levels/level_room_template.tscn"
+
+[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
+visible = false

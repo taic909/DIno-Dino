@@ -1,13 +1,18 @@
 extends CharacterBody2D
 
+signal dev_flight_changed(active: bool)
+
 @export_category("Movement")
 @export var max_speed := 300.0
 @export var ground_acceleration := 650.0
 @export var ground_deceleration := 2200.0
 @export var air_acceleration := 1100.0
 
+@export_category("Developer Flight")
+@export var dev_flight_speed := 720.0
+
 @export_category("Jump")
-@export var jump_velocity := -1000.0
+@export var jump_velocity := -600.0
 @export var gravity := 1200.0
 @export var fall_gravity_multiplier := 1.35
 @export var jump_release_multiplier := 0.5
@@ -15,22 +20,25 @@ extends CharacterBody2D
 @export var jump_buffer_time := 0.12
 
 @export_category("Glide")
-@export var glide_duration := 5.0
-@export var glide_speed := 285.0
-@export var glide_acceleration := 1600.0
-@export var glide_shallow_acceleration := 80.0
-@export var glide_climb_drag := 700.0
-@export var glide_max_speed := 520.0
+@export var glide_duration := 4.0
+@export_range(0.0, 2.0, 0.05) var glide_gravity_multiplier := 1.0
+@export var glide_max_speed := 1400.0
 @export var glide_pitch_speed := 100.0
 @export_range(0.0, 45.0, 1.0, "suffix:°") var neutral_glide_pitch := 10.0
 @export var neutral_glide_pitch_speed := 45.0
 @export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_climb_angle := 35.0
-@export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_dive_angle := 80.0
+@export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_dive_angle := 90.0
 @export var glide_low_momentum_threshold := 150.0
 @export var glide_low_momentum_cancel_time := 0.2
 @export var glide_exit_momentum_time := 1.0
 @export var glide_exit_drag := 220.0
 @export var glide_exit_air_steering := 100.0
+@export var glide_reverse_acceleration := 1800.0
+@export_range(0.0, 1.0, 0.05) var glide_wall_glance_max_incidence := 0.3
+@export_range(0.0, 1.0, 0.05) var glide_wall_glance_speed_retention := 0.65
+@export_range(0.0, 1.0, 0.05) var glide_hard_impact_speed_retention := 0.2
+@export var glide_wall_hard_impact_recoil := 40.0
+@export var glide_min_surface_impact_speed := 25.0
 
 @export_category("Air Rotation")
 @export var air_rotation_speed := 8.0
@@ -58,7 +66,7 @@ extends CharacterBody2D
 @export_range(0.0, 1.0, 0.05) var tail_swipe_gravity_multiplier := 0.4
 @export_range(0.0, 1.0, 0.05) var tail_swipe_lateral_hit_momentum_retention := 0.6
 @export var tail_swipe_lateral_recoil_speed := 180.0
-@export var tail_swipe_down_bounce_speed := 420.0
+@export var tail_swipe_down_bounce_speed := 600.0
 @export var tail_swipe_scale := Vector2(1.12, 0.9)
 @export var tail_swipe_reach := 82.0
 @export_range(0.0, 1.0, 0.05) var tail_swipe_down_aim_threshold := 0.5
@@ -110,6 +118,7 @@ var glide_pitch := 0.0
 var glide_low_momentum_timer := 0.0
 var glide_exit_timer := 0.0
 var glide_exit_active := false
+var glide_reversal_active := false
 var pounce_timer := 0.0
 var pounce_cooldown_timer := 0.0
 var pounce_direction := 1.0
@@ -120,6 +129,7 @@ var tail_swipe_timer := 0.0
 var tail_swipe_cooldown_timer := 0.0
 var tail_swipe_direction := Vector2.RIGHT
 var facing_direction := 1.0
+var dev_flight_mode := false # Allow precise, gravity-free movement for room testing.
 var current_health := 0
 var contact_invulnerability_timer := 0.0
 var visuals_rest_scale := Vector2.ONE
@@ -131,6 +141,7 @@ func _ready() -> void:
 	visuals_rest_scale = visuals.scale
 	glide_time_remaining = glide_duration
 	current_health = max_health # Fill the prototype health value.
+	RoomManager.apply_pending_entry(self) # Restore state when entering through a RoomDoor.
 	pounce_hitbox.monitoring = false
 	tail_swipe_hitbox.monitoring = false
 	downward_tail_swipe_hitbox.monitoring = false # Disable the downward attack at startup.
@@ -139,6 +150,13 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("dev_toggle_flight"):
+		set_dev_flight_mode(not dev_flight_mode) # Toggle flight from the rebindable gameplay shortcut.
+	if dev_flight_mode:
+		_apply_dev_flight() # Replace ordinary physics with direct four-direction movement.
+		move_and_slide() # Keep terrain collision active while flying.
+		_update_sprite_state() # Keep player art visible during flight.
+		return # Skip gravity, Glide, jumps, and attacks in flight mode.
 	var direction := Input.get_axis("move_left", "move_right")
 	# These action names predate the switch to conventional controls. Reversing
 	# the axis here also updates existing saved bindings without discarding them.
@@ -146,8 +164,8 @@ func _physics_process(delta: float) -> void:
 	var was_on_floor := is_on_floor()
 	var fall_speed := velocity.y
 	_update_timers(delta)
+	_update_facing(direction) # Let a new Glide see a turn made on this same physics frame.
 	_update_glide(delta)
-	_update_facing(direction)
 	_try_start_pounce(direction)
 	_try_start_tail_swipe(direction, glide_pitch_input)
 	_update_pounce_hitbox()
@@ -165,9 +183,42 @@ func _physics_process(delta: float) -> void:
 		_apply_gravity(delta)
 		_handle_jump()
 
+	var gliding_into_terrain := gliding and pounce_timer <= 0.0 # Leave the Glide-Pounce burst's own momentum rules intact.
+	var velocity_before_collision := velocity
 	move_and_slide()
+	if gliding_into_terrain:
+		_handle_glide_surface_collisions(velocity_before_collision) # Apply the actual surface impact before the next Glide frame.
 	_update_air_rotation(delta)
 	_handle_landing_feedback(was_on_floor, fall_speed)
+
+
+func set_dev_flight_mode(active: bool) -> void:
+	if dev_flight_mode == active:
+		return # Avoid resetting momentum on a duplicate menu update.
+	dev_flight_mode = active
+	velocity = Vector2.ZERO # Freeze immediately when flight changes, including in midair.
+	gliding = false # Leave the normal Glide state behind.
+	glide_exit_active = false # Do not carry Glide momentum into or out of flight.
+	glide_reversal_active = false # Clear a mid-turn acceleration ramp when switching to flight.
+	jump_buffer_timer = 0.0 # Discard presses buffered before free movement started.
+	coyote_timer = 0.0 # Avoid an unexpected grace-period jump when flight ends.
+	pounce_timer = 0.0 # Cancel an in-progress movement attack.
+	tail_swipe_timer = 0.0 # Cancel an in-progress close attack.
+	_update_pounce_hitbox() # Disable Pounce collision during free flight.
+	_update_tail_swipe_hitbox() # Hide swipe hitboxes and indicators when flight interrupts an attack.
+	visuals.rotation = 0.0 # Keep the dinosaur upright while hovering.
+	_update_sprite_state() # Restore neutral artwork immediately after cancelling attacks or Glide.
+	dev_flight_changed.emit(active) # Keep the dev-menu checkbox synchronized.
+
+
+func _apply_dev_flight() -> void:
+	var horizontal := Input.get_axis("move_left", "move_right")
+	var vertical := Input.get_axis("glide_dive", "glide_climb")
+	var flight_direction := Vector2(horizontal, vertical).limit_length() # Prevent diagonal movement from exceeding flight speed.
+	velocity = flight_direction * dev_flight_speed # Zero stick input stops the player on this physics frame.
+	if horizontal != 0.0:
+		facing_direction = signf(horizontal) # Face the direction of horizontal flight.
+		_update_sprite_facing() # Mirror the current artwork to match movement.
 
 
 func _update_timers(delta: float) -> void:
@@ -218,7 +269,7 @@ func _apply_gravity(delta: float) -> void:
 
 
 func _handle_jump() -> void:
-	if jump_buffer_timer > 0.0 and coyote_timer > 0.0:
+	if jump_buffer_timer > 0.0 and coyote_timer > 0.0: # Keep normal jumps grounded when flight is off.
 		velocity.y = jump_velocity
 		jump_sfx.play() # Play the placeholder jump sound.
 		jump_buffer_timer = 0.0
@@ -234,6 +285,7 @@ func _update_glide(delta: float) -> void:
 		gliding = false
 		glide_low_momentum_timer = 0.0
 		glide_exit_active = false # Stop carrying Glide momentum on landing.
+		glide_reversal_active = false # A grounded start uses the normal walking-speed floor.
 		return
 
 	if pounce_timer > 0.0:
@@ -305,10 +357,11 @@ func _begin_glide() -> void:
 	# preceded it (glide can only start once coyote time has expired, so
 	# velocity.y is often still strongly upward, which used to point the
 	# glide - and the sprite - into a climb for the first second).
-	# That vertical speed isn't wasted, though: it still feeds into the
-	# glide's starting momentum, so a fast jump still yields a fast glide.
+	# A stationary or same-direction start uses at least walking speed.
+	# Ignore vertical jump speed, and ramp up when old travel opposes the new facing.
 	glide_pitch = deg_to_rad(neutral_glide_pitch)
-	glide_momentum = maxf(velocity.length(), glide_speed)
+	glide_reversal_active = velocity.x * facing_direction < -0.1 # Opposite travel cannot become free speed in the new direction.
+	glide_momentum = 0.0 if glide_reversal_active else maxf(absf(velocity.x), max_speed) # Reversing starts slow; other entries keep earned speed.
 	glide_speed_limit = maxf(glide_max_speed, glide_momentum)
 	glide_exit_active = false # Stop any previous exit carry.
 	glide_sfx.play() # Play the placeholder Glide sound.
@@ -316,6 +369,7 @@ func _begin_glide() -> void:
 
 func _begin_glide_exit() -> void: # Start a soft transition from Glide.
 	gliding = false # Leave active Glide physics.
+	glide_reversal_active = false # A later Glide decides its own entry direction.
 	glide_exit_active = true # Keep overspeed air movement temporarily.
 	glide_exit_timer = glide_exit_momentum_time # Set the minimum carry time.
 
@@ -334,28 +388,47 @@ func _apply_glide_movement(pitch_input: float, delta: float) -> void:
 			deg_to_rad(neutral_glide_pitch_speed) * delta
 		)
 	glide_pitch = clampf(glide_pitch, min_pitch, max_pitch)
+	if glide_reversal_active:
+		glide_momentum = minf(glide_momentum + glide_reverse_acceleration * delta, max_speed) # Build speed in the new direction over a short ramp.
+		if glide_momentum >= max_speed:
+			glide_reversal_active = false # Return to gravity-driven Glide speed after reaching walking pace.
 
-	# Downward steepness controls acceleration: diving builds momentum, while
-	# climbing (a negative pitch) spends it - so pulling up trades speed for
-	# altitude instead of generating free lift, and a glide can't sustain or
-	# gain height forever without diving again to earn the momentum back.
-	var angle_factor := sin(glide_pitch)
-	var current_acceleration := (
-		lerpf(glide_shallow_acceleration, glide_acceleration, angle_factor)
-		if angle_factor >= 0.0
-		else angle_factor * glide_climb_drag
-	)
-	glide_momentum = clampf(
-		glide_momentum + current_acceleration * delta,
-		0.0,
-		glide_speed_limit
-	)
+	# Project gravity onto the chosen flight direction so downward travel gains
+	# speed continuously, level travel gains none, and climbing spends momentum.
+	var gravity_along_glide := gravity * sin(glide_pitch) * glide_gravity_multiplier
+	glide_momentum = clampf(glide_momentum + gravity_along_glide * delta, 0.0, glide_speed_limit) # Apply gravity without a low artificial Glide cap.
 
 	var glide_direction := Vector2(
 		cos(glide_pitch) * facing_direction,
 		sin(glide_pitch)
 	)
 	velocity = glide_direction * glide_momentum
+
+
+func _handle_glide_surface_collisions(incoming_velocity: Vector2) -> void: # Choose the strongest terrain impact from this slide.
+	var strongest_normal := Vector2.ZERO
+	var strongest_impact_speed := glide_min_surface_impact_speed
+	for collision_index: int in get_slide_collision_count():
+		var surface_normal := get_slide_collision(collision_index).get_normal()
+		var impact_speed := -incoming_velocity.dot(surface_normal)
+		if impact_speed > strongest_impact_speed:
+			strongest_normal = surface_normal # Use the surface absorbing the most speed.
+			strongest_impact_speed = impact_speed
+	if strongest_normal != Vector2.ZERO:
+		_apply_glide_surface_impact(incoming_velocity, strongest_normal) # Resolve one meaningful impact per physics frame.
+
+
+func _apply_glide_surface_impact(incoming_velocity: Vector2, surface_normal: Vector2) -> void: # Trade Glide speed for a glancing bounce or a hard stop.
+	var impact_fraction := -incoming_velocity.normalized().dot(surface_normal)
+	var is_wall := absf(surface_normal.x) > absf(surface_normal.y)
+	if is_wall and impact_fraction <= glide_wall_glance_max_incidence:
+		velocity = incoming_velocity.bounce(surface_normal) * glide_wall_glance_speed_retention # Keep a reduced tangent and reflect the small wallward component.
+	else:
+		velocity = incoming_velocity.slide(surface_normal) * glide_hard_impact_speed_retention # Remove most of a direct impact's momentum.
+		if is_wall:
+			velocity += surface_normal * glide_wall_hard_impact_recoil # Push slightly away so the player does not stick to the wall.
+	glide_momentum = velocity.length() # Do not restore the old Glide speed on the next frame.
+	_begin_glide_exit() # Let normal air physics carry the bounce or slowdown afterward.
 
 
 func is_gliding() -> bool:
@@ -375,6 +448,7 @@ func _try_start_pounce(direction: float) -> void:
 
 func _start_pounce(direction: float) -> void:
 	pounce_started_from_glide = gliding
+	glide_reversal_active = false # A Pounce takes over velocity instead of continuing a turn ramp.
 	glide_speed_before_pounce = velocity.length() if gliding else 0.0
 	active_pounce_speed = (
 		velocity.length() * glide_pounce_speed_multiplier
@@ -566,6 +640,7 @@ func _apply_glide_pounce_rebound(hit_position: Vector2) -> void:
 	)
 	velocity = bounce_direction * rebound_speed
 	gliding = true
+	glide_reversal_active = false # Rebound momentum is earned speed, not a fresh reversal.
 	glide_momentum = rebound_speed
 	glide_speed_limit = maxf(glide_max_speed, rebound_speed)
 	glide_pitch = clampf(

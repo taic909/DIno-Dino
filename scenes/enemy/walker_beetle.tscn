@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://c6m0esjqy2s7p"]
+
+[ext_resource type="Script" uid="uid://c6kd0ojkllkvm" path="res://scripts/walker_beetle.gd" id="1_beetle"]
+[ext_resource type="AudioStream" uid="uid://d6q3bbf4c2bp" path="res://assets/audio/enemy_stun.wav" id="2_stun"]
+[ext_resource type="AudioStream" uid="uid://cjkrp8kui6yse" path="res://assets/audio/enemy_hit.wav" id="3_hit"]
+[ext_resource type="AudioStream" uid="uid://c8p0jyle343ki" path="res://assets/audio/enemy_defeat.wav" id="4_defeat"]
+
+[sub_resource type="RectangleShape2D" id="BeetleShape"]
+size = Vector2(98, 65)
+
+[node name="WalkerBeetle" type="Area2D" unique_id=452602922]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_beetle")
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="." unique_id=152722626]
+position = Vector2(0, 0.5)
+shape = SubResource("BeetleShape")
+
+[node name="FloorProbe" type="RayCast2D" parent="." unique_id=526849803]
+position = Vector2(-47, 0)
+target_position = Vector2(0, 70)
+
+[node name="WallProbe" type="RayCast2D" parent="." unique_id=850311013]
+position = Vector2(-46, 0)
+target_position = Vector2(-20, 0)
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1996092023]
+scale = Vector2(-1, 1)
+
+[node name="BackLeg" type="Line2D" parent="Visuals" unique_id=2106696342]
+points = PackedVector2Array(-29, 15, -40, 35, -31, 39)
+width = 6.0
+default_color = Color(0.101961, 0.247059, 0.172549, 1)
+
+[node name="MiddleLeg" type="Line2D" parent="Visuals" unique_id=1159881917]
+points = PackedVector2Array(-6, 18, -12, 37, -2, 40)
+width = 6.0
+default_color = Color(0.101961, 0.247059, 0.172549, 1)
+
+[node name="FrontLeg" type="Line2D" parent="Visuals" unique_id=1058517162]
+points = PackedVector2Array(26, 15, 38, 35, 47, 37)
+width = 6.0
+default_color = Color(0.101961, 0.247059, 0.172549, 1)
+
+[node name="Belly" type="Polygon2D" parent="Visuals" unique_id=1134544502]
+color = Color(0.117647, 0.305882, 0.219608, 1)
+polygon = PackedVector2Array(-45, 2, -35, -16, 28, -16, 48, 0, 43, 24, 28, 32, -29, 32, -45, 18)
+
+[node name="Shell" type="Polygon2D" parent="Visuals" unique_id=1608886190]
+color = Color(0.137255, 0.490196, 0.321569, 1)
+polygon = PackedVector2Array(-48, 4, -45, -14, -31, -29, -8, -36, 17, -33, 39, -23, 50, -5, 47, 15, 33, 25, -30, 25, -46, 15)
+
+[node name="ShellHighlight" type="Polygon2D" parent="Visuals" unique_id=34207673]
+color = Color(0.407843, 0.780392, 0.392157, 1)
+polygon = PackedVector2Array(-36, -13, -25, -27, -8, -31, 13, -28, 24, -19, 6, -20, -12, -13, -31, -5)
+
+[node name="ShellSeam" type="Line2D" parent="Visuals" unique_id=2141282368]
+points = PackedVector2Array(0, -32, -2, -12, 0, 24)
+width = 3.0
+default_color = Color(0.0745098, 0.290196, 0.215686, 1)
+
+[node name="Face" type="Polygon2D" parent="Visuals" unique_id=1085181872]
+color = Color(0.207843, 0.603922, 0.333333, 1)
+polygon = PackedVector2Array(34, -21, 49, -15, 55, -4, 52, 13, 39, 19, 35, 7)
+
+[node name="Eye" type="Polygon2D" parent="Visuals" unique_id=937917704]
+color = Color(1, 0.909804, 0.596078, 1)
+polygon = PackedVector2Array(44, -11, 49, -10, 50, -4, 45, -3, 42, -6)
+
+[node name="Pupil" type="Polygon2D" parent="Visuals" unique_id=2029679581]
+color = Color(0.054902, 0.137255, 0.105882, 1)
+polygon = PackedVector2Array(47, -9, 50, -8, 50, -5, 47, -5)
+
+[node name="Antenna" type="Line2D" parent="Visuals" unique_id=264588222]
+points = PackedVector2Array(43, -18, 51, -33, 58, -37)
+width = 3.0
+default_color = Color(0.121569, 0.352941, 0.215686, 1)
+
+[node name="DefeatBurst" type="CPUParticles2D" parent="." unique_id=902324543]
+emitting = false
+amount = 16
+lifetime = 0.32
+one_shot = true
+explosiveness = 1.0
+randomness = 0.4
+color = Color(0.407843, 0.780392, 0.392157, 1)
+
+[node name="StunSfx" type="AudioStreamPlayer2D" parent="." unique_id=172822002]
+stream = ExtResource("2_stun")
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="." unique_id=1250216355]
+stream = ExtResource("3_hit")
+
+[node name="DefeatSfx" type="AudioStreamPlayer2D" parent="." unique_id=818457491]
+stream = ExtResource("4_defeat")

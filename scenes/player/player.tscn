@@ -24,9 +24,9 @@ size = Vector2(68, 42)
 points = PackedVector2Array(0, -48, 31, -44, 58, -34, 76, -18, 82, 0, 76, 18, 58, 34, 31, 44, 0, 48)
 
 [sub_resource type="ConvexPolygonShape2D" id="DownwardTailSwipeShape"]
-points = PackedVector2Array(48, 0, 44, 31, 34, 58, 18, 76, 0, 82, -18, 76, -34, 58, -44, 31, -48, 0)
+points = PackedVector2Array(25, 25, 15, 42, 11, 55, 10, 102, -2, 104, -14, 102, -15, 55, -20, 42, -28, 25)
 
-[node name="Player" type="CharacterBody2D" unique_id=1223879638]
+[node name="Player" type="CharacterBody2D" unique_id=1223879638 groups=["player"]]
 script = ExtResource("1_controller")
 
 [node name="EnvironmentCollider" type="CollisionShape2D" parent="." unique_id=438265270]
@@ -65,19 +65,18 @@ end_cap_mode = 2
 antialiased = true
 
 [node name="DownwardTailSwipeHitbox" type="Area2D" parent="." unique_id=872337249]
-visible = false
 collision_layer = 0
 collision_mask = 2
 monitoring = false
 
 [node name="HitboxShape" type="CollisionShape2D" parent="DownwardTailSwipeHitbox" unique_id=4124716]
-visible = false
 shape = SubResource("DownwardTailSwipeShape")
 
 [node name="DownwardTailSwipeIndicator" type="Line2D" parent="." unique_id=1309969617]
-visible = false
 z_index = 2
-points = PackedVector2Array(0, 0, 0, 82)
+position = Vector2(-2.4999976, 24.673906)
+scale = Vector2(5.100001, 0.9347826)
+points = PackedVector2Array(0, 0, 0.09803873, 35.54238, 0, 82)
 width = 5.0
 default_color = Color(0.3714973, 0.67652726, 0.57070065, 0.59607846)
 begin_cap_mode = 2
@@ -129,8 +128,8 @@ texture = ExtResource("12_down_tail")
 hframes = 2
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1185614905]
-visible = false
 position = Vector2(120, -40)
+zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 

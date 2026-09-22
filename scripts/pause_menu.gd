@@ -13,6 +13,8 @@ const CONTROL_ACTIONS: Array[StringName] = [
 	&"pounce",
 	&"tail_swipe",
 	&"pause",
+	&"toggle_dev_mode",
+	&"dev_toggle_flight",
 ]
 const CONTROL_LABELS: Dictionary = {
 	&"move_left": "Move Left",
@@ -23,13 +25,16 @@ const CONTROL_LABELS: Dictionary = {
 	&"pounce": "Pounce",
 	&"tail_swipe": "Tail Swipe",
 	&"pause": "Pause",
+	&"toggle_dev_mode": "Dev Mode",
+	&"dev_toggle_flight": "Flight Mode",
 }
 
 static var project_default_bindings: Dictionary = {}
 
 @onready var main_panel: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/MainPanel
 @onready var controls_panel: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/ControlsPanel
-@onready var controls_rows: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/ControlsRows
+@onready var controls_rows: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/ControlsScroll/ControlsRows
+@onready var controls_scroll: ScrollContainer = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/ControlsScroll
 @onready var controls_help: Label = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/ControlsHelp
 @onready var resume_button: Button = $Dimmer/Center/MenuPanel/Margin/MainPanel/ResumeButton
 @onready var controls_button: Button = $Dimmer/Center/MenuPanel/Margin/MainPanel/ControlsButton
@@ -46,8 +51,12 @@ var is_listening := false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
+	_ensure_controller_menu_accept() # Let A / Cross activate focused menu buttons.
+	_reserve_menu_back_button() # Keep B / Circle out of gameplay actions before capturing defaults.
 	_capture_default_bindings()
 	_load_bindings()
+	if _reserve_menu_back_button():
+		_save_bindings() # Migrate an older saved binding that used B for gameplay.
 	_build_control_rows()
 	resume_button.pressed.connect(_close_menu)
 	controls_button.pressed.connect(_show_controls)
@@ -55,9 +64,45 @@ func _ready() -> void:
 	reset_defaults_button.pressed.connect(_reset_defaults)
 
 
+func _ensure_controller_menu_accept() -> void: # Add the missing gamepad confirm action without changing keyboard UI defaults.
+	var confirm_event := InputEventJoypadButton.new()
+	confirm_event.device = -1 # Accept the confirm button from any connected controller.
+	confirm_event.button_index = JOY_BUTTON_A # Match the familiar A / Cross menu confirm button.
+	for existing_event: InputEvent in InputMap.action_get_events("ui_accept"): # Avoid duplicating an existing binding.
+		if existing_event is InputEventJoypadButton and existing_event.button_index == JOY_BUTTON_A: # Keep a project-provided mapping.
+			return
+	InputMap.action_add_event("ui_accept", confirm_event) # Enable standard button activation on the controller.
+
+
+func _reserve_menu_back_button() -> bool: # Give B / Circle only the menu Back/Cancel role.
+	var bindings_changed := false
+	for action: StringName in InputMap.get_actions():
+		if action == &"ui_cancel":
+			continue # Keep the standard menu-cancel action available.
+		for event: InputEvent in InputMap.action_get_events(action):
+			if event is InputEventJoypadButton and event.button_index == JOY_BUTTON_B:
+				InputMap.action_erase_event(action, event) # Remove old gameplay and developer B bindings.
+				bindings_changed = true
+	for event: InputEvent in InputMap.action_get_events("ui_cancel"):
+		if event is InputEventJoypadButton and event.button_index == JOY_BUTTON_B:
+			return bindings_changed # Avoid adding a duplicate menu-cancel button.
+	var cancel_event := InputEventJoypadButton.new()
+	cancel_event.device = -1 # Let any connected controller use the Back button.
+	cancel_event.button_index = JOY_BUTTON_B # Use B / Circle for menus only.
+	InputMap.action_add_event("ui_cancel", cancel_event) # Make B available to pause and developer menus.
+	return true # The InputMap gained its dedicated Back binding.
+
+
 func _input(event: InputEvent) -> void:
 	if is_listening:
 		_handle_rebind_event(event)
+		return
+	if visible and event.is_action_pressed("ui_cancel"):
+		if controls_panel.visible:
+			_show_main_panel() # Back out of controls without leaving the pause menu.
+		else:
+			_close_menu() # Return to gameplay from the main pause panel.
+		get_viewport().set_input_as_handled() # Do not send the same Back press to gameplay.
 		return
 
 	if event.is_action_pressed("pause"):
@@ -130,6 +175,7 @@ func _add_binding_cell(row: HBoxContainer, action: StringName, device_type: Stri
 	var binding_button := Button.new()
 	binding_button.custom_minimum_size = Vector2(205.0, 40.0)
 	binding_button.pressed.connect(_queue_listening.bind(action, device_type))
+	binding_button.focus_entered.connect(_scroll_to_binding.bind(binding_button)) # Keep lower rebindable actions visible to controller users.
 	cell.add_child(binding_button)
 	binding_buttons[_button_key(action, device_type)] = binding_button
 
@@ -139,6 +185,10 @@ func _add_binding_cell(row: HBoxContainer, action: StringName, device_type: Stri
 	clear_button.custom_minimum_size = Vector2(38.0, 40.0)
 	clear_button.pressed.connect(_clear_binding.bind(action, device_type))
 	cell.add_child(clear_button)
+
+
+func _scroll_to_binding(button: Button) -> void:
+	controls_scroll.ensure_control_visible.call_deferred(button) # Wait for the controls panel layout before scrolling to focus.
 
 
 func _queue_listening(action: StringName, device_type: String) -> void:
@@ -189,6 +239,11 @@ func _handle_rebind_event(event: InputEvent) -> void:
 
 
 func _apply_new_binding(event: InputEvent) -> void:
+	if event is InputEventJoypadButton and event.button_index == JOY_BUTTON_B:
+		_cancel_listening() # Reserve B for menu Back/Cancel instead of any gameplay action.
+		controls_help.text = "B / Circle is reserved for menu Back."
+		get_viewport().set_input_as_handled() # Do not let this B press close the menu too.
+		return
 	var clean_event := event.duplicate() as InputEvent
 	clean_event.device = -1
 

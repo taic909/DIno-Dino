@@ -1,0 +1,1658 @@
+{
+  "tile_size": 128,
+  "scale": 0.25,
+  "sources": [
+    {
+      "name": "Solid terrain",
+      "texture": "res://assets/tilemaps/converted/mossy/solid_terrain.png",
+      "solid": true,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            5,
+            5
+          ],
+          "collision": [
+            -251,
+            -193,
+            250,
+            312
+          ],
+          "source_bounds": [
+            387,
+            0,
+            896,
+            513
+          ],
+          "visible_pixels": 202435
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            3,
+            3
+          ],
+          "collision": [
+            -180,
+            -177,
+            180,
+            184
+          ],
+          "source_bounds": [
+            8,
+            7,
+            376,
+            376
+          ],
+          "visible_pixels": 124388
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -52,
+            -172,
+            52,
+            184
+          ],
+          "source_bounds": [
+            392,
+            7,
+            504,
+            371
+          ],
+          "visible_pixels": 34091
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -128,
+            -49,
+            127,
+            56
+          ],
+          "source_bounds": [
+            61,
+            391,
+            324,
+            504
+          ],
+          "visible_pixels": 23307
+        },
+        {
+          "coord": [
+            0,
+            5
+          ],
+          "size": [
+            5,
+            4
+          ],
+          "collision": [
+            -253,
+            -129,
+            252,
+            248
+          ],
+          "source_bounds": [
+            0,
+            511,
+            513,
+            896
+          ],
+          "visible_pixels": 121740
+        },
+        {
+          "coord": [
+            5,
+            5
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -125,
+            -113,
+            125,
+            120
+          ],
+          "source_bounds": [
+            255,
+            519,
+            513,
+            760
+          ],
+          "visible_pixels": 57178
+        },
+        {
+          "coord": [
+            8,
+            5
+          ],
+          "size": [
+            3,
+            3
+          ],
+          "collision": [
+            -180,
+            -177,
+            180,
+            184
+          ],
+          "source_bounds": [
+            520,
+            519,
+            888,
+            888
+          ],
+          "visible_pixels": 120984
+        }
+      ]
+    },
+    {
+      "name": "Floating platforms",
+      "texture": "res://assets/tilemaps/converted/mossy/floating_platforms.png",
+      "solid": true,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -128,
+            -49,
+            127,
+            56
+          ],
+          "source_bounds": [
+            119,
+            9,
+            382,
+            122
+          ],
+          "visible_pixels": 23314
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -53,
+            -107,
+            52,
+            120
+          ],
+          "source_bounds": [
+            398,
+            11,
+            511,
+            246
+          ],
+          "visible_pixels": 20974
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -28,
+            -17,
+            28,
+            56
+          ],
+          "source_bounds": [
+            29,
+            12,
+            93,
+            93
+          ],
+          "visible_pixels": 3756
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -128,
+            -49,
+            127,
+            56
+          ],
+          "source_bounds": [
+            124,
+            134,
+            387,
+            247
+          ],
+          "visible_pixels": 23294
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -44,
+            -29,
+            44,
+            56
+          ],
+          "source_bounds": [
+            11,
+            135,
+            107,
+            228
+          ],
+          "visible_pixels": 6861
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            4,
+            1
+          ],
+          "collision": [
+            -192,
+            -50,
+            191,
+            56
+          ],
+          "source_bounds": [
+            109,
+            273,
+            500,
+            387
+          ],
+          "visible_pixels": 35694
+        },
+        {
+          "coord": [
+            13,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -32,
+            -5,
+            31,
+            56
+          ],
+          "source_bounds": [
+            28,
+            277,
+            99,
+            346
+          ],
+          "visible_pixels": 3296
+        },
+        {
+          "coord": [
+            0,
+            2
+          ],
+          "size": [
+            4,
+            1
+          ],
+          "collision": [
+            -248,
+            -49,
+            248,
+            56
+          ],
+          "source_bounds": [
+            5,
+            391,
+            509,
+            504
+          ],
+          "visible_pixels": 46764
+        }
+      ]
+    },
+    {
+      "name": "Hills",
+      "texture": "res://assets/tilemaps/converted/mossy/hills.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -141,
+            5,
+            140,
+            120
+          ],
+          "source_bounds": [
+            172,
+            9,
+            461,
+            132
+          ],
+          "visible_pixels": 25658
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -29,
+            -17,
+            28,
+            56
+          ],
+          "source_bounds": [
+            34,
+            20,
+            99,
+            101
+          ],
+          "visible_pixels": 3750
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -44,
+            -29,
+            44,
+            56
+          ],
+          "source_bounds": [
+            17,
+            143,
+            113,
+            236
+          ],
+          "visible_pixels": 6859
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -151,
+            -87,
+            151,
+            120
+          ],
+          "source_bounds": [
+            162,
+            154,
+            472,
+            369
+          ],
+          "visible_pixels": 44241
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -32,
+            -6,
+            31,
+            56
+          ],
+          "source_bounds": [
+            33,
+            285,
+            104,
+            355
+          ],
+          "visible_pixels": 3311
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            3,
+            1
+          ],
+          "collision": [
+            -162,
+            -50,
+            162,
+            56
+          ],
+          "source_bounds": [
+            15,
+            377,
+            347,
+            491
+          ],
+          "visible_pixels": 25383
+        },
+        {
+          "coord": [
+            12,
+            0
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -63,
+            -42,
+            63,
+            56
+          ],
+          "source_bounds": [
+            364,
+            395,
+            498,
+            501
+          ],
+          "visible_pixels": 11262
+        }
+      ]
+    },
+    {
+      "name": "Decorations and hazards",
+      "texture": "res://assets/tilemaps/converted/mossy/decorations_and_hazards.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -128,
+            -101,
+            128,
+            120
+          ],
+          "source_bounds": [
+            723,
+            2,
+            987,
+            231
+          ],
+          "visible_pixels": 34342
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -157,
+            -49,
+            156,
+            120
+          ],
+          "source_bounds": [
+            58,
+            48,
+            379,
+            225
+          ],
+          "visible_pixels": 38928
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -139,
+            -1,
+            138,
+            120
+          ],
+          "source_bounds": [
+            401,
+            100,
+            686,
+            229
+          ],
+          "visible_pixels": 28647
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -181,
+            -29,
+            180,
+            120
+          ],
+          "source_bounds": [
+            31,
+            240,
+            400,
+            397
+          ],
+          "visible_pixels": 21518
+        },
+        {
+          "coord": [
+            12,
+            0
+          ],
+          "size": [
+            3,
+            2
+          ],
+          "collision": [
+            -150,
+            -74,
+            149,
+            120
+          ],
+          "source_bounds": [
+            516,
+            243,
+            823,
+            445
+          ],
+          "visible_pixels": 21376
+        },
+        {
+          "coord": [
+            0,
+            2
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -111,
+            -86,
+            111,
+            120
+          ],
+          "source_bounds": [
+            108,
+            408,
+            338,
+            622
+          ],
+          "visible_pixels": 20853
+        },
+        {
+          "coord": [
+            2,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -54,
+            -42,
+            53,
+            56
+          ],
+          "source_bounds": [
+            416,
+            473,
+            531,
+            579
+          ],
+          "visible_pixels": 5639
+        },
+        {
+          "coord": [
+            3,
+            2
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -72,
+            -37,
+            72,
+            56
+          ],
+          "source_bounds": [
+            586,
+            473,
+            738,
+            574
+          ],
+          "visible_pixels": 5776
+        },
+        {
+          "coord": [
+            5,
+            2
+          ],
+          "size": [
+            2,
+            1
+          ],
+          "collision": [
+            -89,
+            -16,
+            88,
+            56
+          ],
+          "source_bounds": [
+            791,
+            484,
+            976,
+            564
+          ],
+          "visible_pixels": 5957
+        },
+        {
+          "coord": [
+            7,
+            2
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -27,
+            -184,
+            27,
+            184
+          ],
+          "source_bounds": [
+            930,
+            637,
+            992,
+            1013
+          ],
+          "visible_pixels": 14778
+        },
+        {
+          "coord": [
+            8,
+            2
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -49,
+            -178,
+            49,
+            184
+          ],
+          "source_bounds": [
+            777,
+            640,
+            883,
+            1010
+          ],
+          "visible_pixels": 15502
+        },
+        {
+          "coord": [
+            9,
+            2
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -48,
+            -175,
+            48,
+            184
+          ],
+          "source_bounds": [
+            528,
+            641,
+            632,
+            1008
+          ],
+          "visible_pixels": 15649
+        },
+        {
+          "coord": [
+            10,
+            2
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -50,
+            -177,
+            49,
+            184
+          ],
+          "source_bounds": [
+            652,
+            641,
+            759,
+            1010
+          ],
+          "visible_pixels": 15674
+        },
+        {
+          "coord": [
+            11,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -31,
+            -31,
+            30,
+            56
+          ],
+          "source_bounds": [
+            164,
+            656,
+            233,
+            751
+          ],
+          "visible_pixels": 1905
+        },
+        {
+          "coord": [
+            12,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -16,
+            -27,
+            15,
+            56
+          ],
+          "source_bounds": [
+            308,
+            657,
+            347,
+            748
+          ],
+          "visible_pixels": 1218
+        },
+        {
+          "coord": [
+            13,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -33,
+            -1,
+            32,
+            56
+          ],
+          "source_bounds": [
+            24,
+            660,
+            97,
+            725
+          ],
+          "visible_pixels": 2388
+        },
+        {
+          "coord": [
+            14,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -5,
+            21,
+            4,
+            56
+          ],
+          "source_bounds": [
+            395,
+            683,
+            412,
+            726
+          ],
+          "visible_pixels": 435
+        },
+        {
+          "coord": [
+            15,
+            2
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -5,
+            22,
+            4,
+            56
+          ],
+          "source_bounds": [
+            449,
+            685,
+            466,
+            727
+          ],
+          "visible_pixels": 425
+        },
+        {
+          "coord": [
+            0,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -6,
+            27,
+            5,
+            56
+          ],
+          "source_bounds": [
+            486,
+            690,
+            505,
+            727
+          ],
+          "visible_pixels": 390
+        },
+        {
+          "coord": [
+            1,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -6,
+            26,
+            5,
+            56
+          ],
+          "source_bounds": [
+            432,
+            691,
+            451,
+            729
+          ],
+          "visible_pixels": 419
+        },
+        {
+          "coord": [
+            2,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -5,
+            31,
+            5,
+            56
+          ],
+          "source_bounds": [
+            410,
+            693,
+            428,
+            726
+          ],
+          "visible_pixels": 343
+        },
+        {
+          "coord": [
+            3,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -4,
+            31,
+            4,
+            56
+          ],
+          "source_bounds": [
+            469,
+            693,
+            485,
+            726
+          ],
+          "visible_pixels": 338
+        },
+        {
+          "coord": [
+            4,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -14,
+            19,
+            13,
+            56
+          ],
+          "source_bounds": [
+            356,
+            733,
+            391,
+            778
+          ],
+          "visible_pixels": 888
+        },
+        {
+          "coord": [
+            5,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -47,
+            -48,
+            46,
+            56
+          ],
+          "source_bounds": [
+            400,
+            768,
+            501,
+            880
+          ],
+          "visible_pixels": 6790
+        },
+        {
+          "coord": [
+            6,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -38,
+            -47,
+            38,
+            56
+          ],
+          "source_bounds": [
+            22,
+            769,
+            106,
+            880
+          ],
+          "visible_pixels": 2426
+        },
+        {
+          "coord": [
+            7,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -18,
+            -39,
+            18,
+            56
+          ],
+          "source_bounds": [
+            292,
+            775,
+            336,
+            878
+          ],
+          "visible_pixels": 1577
+        },
+        {
+          "coord": [
+            8,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -34,
+            7,
+            34,
+            56
+          ],
+          "source_bounds": [
+            154,
+            795,
+            230,
+            852
+          ],
+          "visible_pixels": 2390
+        },
+        {
+          "coord": [
+            9,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -29,
+            -55,
+            28,
+            56
+          ],
+          "source_bounds": [
+            143,
+            893,
+            208,
+            1012
+          ],
+          "visible_pixels": 2156
+        },
+        {
+          "coord": [
+            10,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -9,
+            -49,
+            8,
+            56
+          ],
+          "source_bounds": [
+            55,
+            896,
+            80,
+            1009
+          ],
+          "visible_pixels": 1024
+        },
+        {
+          "coord": [
+            11,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -42,
+            -37,
+            42,
+            56
+          ],
+          "source_bounds": [
+            400,
+            904,
+            492,
+            1005
+          ],
+          "visible_pixels": 4714
+        },
+        {
+          "coord": [
+            12,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -7,
+            -35,
+            7,
+            56
+          ],
+          "source_bounds": [
+            314,
+            908,
+            336,
+            1007
+          ],
+          "visible_pixels": 821
+        },
+        {
+          "coord": [
+            13,
+            5
+          ],
+          "size": [
+            1,
+            1
+          ],
+          "collision": [
+            -4,
+            -36,
+            4,
+            56
+          ],
+          "source_bounds": [
+            220,
+            911,
+            236,
+            1011
+          ],
+          "visible_pixels": 818
+        }
+      ]
+    },
+    {
+      "name": "Hanging plants",
+      "texture": "res://assets/tilemaps/converted/mossy/hanging_plants.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -30,
+            -120,
+            29,
+            109
+          ],
+          "source_bounds": [
+            417,
+            26,
+            484,
+            263
+          ],
+          "visible_pixels": 8227
+        },
+        {
+          "coord": [
+            1,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -42,
+            -120,
+            41,
+            116
+          ],
+          "source_bounds": [
+            129,
+            29,
+            220,
+            273
+          ],
+          "visible_pixels": 8744
+        },
+        {
+          "coord": [
+            2,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -42,
+            -120,
+            41,
+            117
+          ],
+          "source_bounds": [
+            228,
+            29,
+            319,
+            274
+          ],
+          "visible_pixels": 8796
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            1,
+            2
+          ],
+          "collision": [
+            -34,
+            -120,
+            34,
+            77
+          ],
+          "source_bounds": [
+            327,
+            29,
+            403,
+            234
+          ],
+          "visible_pixels": 6363
+        },
+        {
+          "coord": [
+            4,
+            0
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -42,
+            -184,
+            41,
+            102
+          ],
+          "source_bounds": [
+            28,
+            30,
+            119,
+            324
+          ],
+          "visible_pixels": 10157
+        },
+        {
+          "coord": [
+            5,
+            0
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -92,
+            -120,
+            91,
+            0
+          ],
+          "source_bounds": [
+            294,
+            280,
+            485,
+            408
+          ],
+          "visible_pixels": 4579
+        },
+        {
+          "coord": [
+            7,
+            0
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -55,
+            -184,
+            54,
+            152
+          ],
+          "source_bounds": [
+            22,
+            350,
+            139,
+            694
+          ],
+          "visible_pixels": 21654
+        },
+        {
+          "coord": [
+            8,
+            0
+          ],
+          "size": [
+            1,
+            3
+          ],
+          "collision": [
+            -55,
+            -184,
+            54,
+            152
+          ],
+          "source_bounds": [
+            179,
+            350,
+            296,
+            694
+          ],
+          "visible_pixels": 21654
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -91,
+            -120,
+            91,
+            0
+          ],
+          "source_bounds": [
+            306,
+            431,
+            496,
+            559
+          ],
+          "visible_pixels": 4558
+        },
+        {
+          "coord": [
+            11,
+            0
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -92,
+            -120,
+            91,
+            0
+          ],
+          "source_bounds": [
+            305,
+            588,
+            496,
+            716
+          ],
+          "visible_pixels": 4730
+        }
+      ]
+    },
+    {
+      "name": "Background decoration",
+      "texture": "res://assets/tilemaps/converted/mossy/background_decoration.png",
+      "solid": false,
+      "tiles": [
+        {
+          "coord": [
+            0,
+            0
+          ],
+          "size": [
+            3,
+            8
+          ],
+          "collision": [
+            -128,
+            -496,
+            127,
+            504
+          ],
+          "source_bounds": [
+            4,
+            11,
+            267,
+            1019
+          ],
+          "visible_pixels": 192054
+        },
+        {
+          "coord": [
+            3,
+            0
+          ],
+          "size": [
+            3,
+            5
+          ],
+          "collision": [
+            -126,
+            -267,
+            125,
+            312
+          ],
+          "source_bounds": [
+            298,
+            11,
+            557,
+            598
+          ],
+          "visible_pixels": 104709
+        },
+        {
+          "coord": [
+            6,
+            0
+          ],
+          "size": [
+            3,
+            3
+          ],
+          "collision": [
+            -132,
+            -60,
+            131,
+            184
+          ],
+          "source_bounds": [
+            669,
+            31,
+            940,
+            283
+          ],
+          "visible_pixels": 50375
+        },
+        {
+          "coord": [
+            9,
+            0
+          ],
+          "size": [
+            4,
+            2
+          ],
+          "collision": [
+            -207,
+            -101,
+            206,
+            120
+          ],
+          "source_bounds": [
+            596,
+            352,
+            1017,
+            581
+          ],
+          "visible_pixels": 74173
+        },
+        {
+          "coord": [
+            0,
+            8
+          ],
+          "size": [
+            4,
+            4
+          ],
+          "collision": [
+            -207,
+            -176,
+            207,
+            248
+          ],
+          "source_bounds": [
+            599,
+            590,
+            1021,
+            1022
+          ],
+          "visible_pixels": 119513
+        },
+        {
+          "coord": [
+            4,
+            8
+          ],
+          "size": [
+            2,
+            2
+          ],
+          "collision": [
+            -112,
+            -34,
+            112,
+            120
+          ],
+          "source_bounds": [
+            303,
+            652,
+            535,
+            814
+          ],
+          "visible_pixels": 28174
+        }
+      ]
+    }
+  ]
+}

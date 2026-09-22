@@ -1,0 +1,20 @@
+{
+	"layers": [
+		{
+			"cells": [
+				{
+					"alternative": 0,
+					"atlas_x": 0,
+					"atlas_y": 0,
+					"source": 1,
+					"x": 3,
+					"y": -1
+				}
+			],
+			"kind": 1,
+			"tileset": "res://assets/tilemaps/mossy_tileset.tres"
+		}
+	],
+	"room": "res://scenes/main.tscn",
+	"version": 1
+}
