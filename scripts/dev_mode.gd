@@ -3,6 +3,7 @@ extends CanvasLayer
 @export_category("Enemy Spawns")
 @export var spawnable_enemies: Array[PackedScene] = [
 	preload("res://scenes/enemy/walker_beetle.tscn"),
+	preload("res://scenes/enemy/flyer_beetle.tscn"),
 	preload("res://scenes/enemy/practice_dummy.tscn"),
 ]
 @export var spawn_distance := 190.0
