@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://cwaeg6uvvr2or"]
+
+[ext_resource type="Script" path="res://scripts/flyer_dragonfly.gd" id="1_jaip4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Dragonfly-sheet.png" id="2_dutbr"]
+[ext_resource type="AudioStream" uid="uid://d6q3bbf4c2bp" path="res://assets/audio/enemy_stun.wav" id="3_foabe"]
+[ext_resource type="AudioStream" uid="uid://cjkrp8kui6yse" path="res://assets/audio/enemy_hit.wav" id="4_pi7bj"]
+[ext_resource type="AudioStream" uid="uid://c8p0jyle343ki" path="res://assets/audio/enemy_defeat.wav" id="5_4oasc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4c2q"]
+atlas = ExtResource("2_dutbr")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfosc"]
+atlas = ExtResource("2_dutbr")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yvhc3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4c2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfosc")
+}],
+"loop": 1,
+"name": &"Flying",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o31gk"]
+size = Vector2(237, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wl40g"]
+size = Vector2(20, 97)
+
+[node name="FlyerDragonfly" type="Area2D" unique_id=452602922]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_jaip4")
+
+[node name="WallProbe" type="RayCast2D" parent="." unique_id=1884274738]
+target_position = Vector2(-155, 0)
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1996092023]
+rotation = 3.1415927
+scale = Vector2(1, -1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=2078123641]
+visible = false
+position = Vector2(-58.999996, -26)
+scale = Vector2(5, 5)
+texture = ExtResource("2_dutbr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=258757329]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_yvhc3")
+animation = &"Flying"
+autoplay = "Flying"
+
+[node name="Hurtboxshape" type="CollisionShape2D" parent="." unique_id=1398387821]
+position = Vector2(-1.5, 13)
+shape = SubResource("RectangleShape2D_o31gk")
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="." unique_id=152722626]
+position = Vector2(66.5, 34)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_wl40g")
+
+[node name="DefeatBurst" type="CPUParticles2D" parent="." unique_id=902324543]
+emitting = false
+amount = 16
+lifetime = 0.32
+one_shot = true
+explosiveness = 1.0
+randomness = 0.4
+color = Color(0.407843, 0.780392, 0.392157, 1)
+
+[node name="StunSfx" type="AudioStreamPlayer2D" parent="." unique_id=172822002]
+stream = ExtResource("3_foabe")
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="." unique_id=1250216355]
+stream = ExtResource("4_pi7bj")
+
+[node name="DefeatSfx" type="AudioStreamPlayer2D" parent="." unique_id=818457491]
+stream = ExtResource("5_4oasc")

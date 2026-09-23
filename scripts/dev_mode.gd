@@ -35,6 +35,7 @@ func _ready() -> void:
 	get_tree().debug_collisions_hint = false # Start with collision drawing hidden.
 	_refresh_room_paths() # Collect the current MetSys test-room list.
 	_fill_enemy_picker() # Build the spawn list from the scenes registered above.
+	_style_overlay() # Give developer tools the same look as the pause menu.
 	flight_mode_button.toggled.connect(_on_flight_mode_toggled) # Allow mouse or controller to change developer flight.
 	player.dev_flight_changed.connect(_on_player_flight_changed) # Reflect the live shortcut in the menu.
 	spawn_button.pressed.connect(_on_spawn_pressed) # Give the selected enemy a single spawn action.
@@ -43,6 +44,19 @@ func _ready() -> void:
 	level_editor = preload("res://scenes/ui/level_editor.tscn").instantiate() as Control
 	add_child(level_editor) # Give every room with DevMode the same editor without changing authored scenes.
 	level_editor.play_requested.connect(_close_dev_mode) # Resume gameplay directly from the editor.
+
+
+func _style_overlay() -> void: # Style the existing controls without changing their behavior.
+	overlay.add_theme_stylebox_override("panel", UiStyle.panel(UiStyle.FOREST, UiStyle.CREAM, 20, 4))
+	UiStyle.style_tree(overlay)
+	UiStyle.label($Overlay/Margin/Content/Kicker, UiStyle.MOSS, 13)
+	UiStyle.label($Overlay/Margin/Content/Heading, UiStyle.CREAM, 30)
+	UiStyle.label(status_label, UiStyle.CREAM, 13)
+	UiStyle.label(spawn_feedback, UiStyle.MOSS, 13)
+	UiStyle.label($Overlay/Margin/Content/ControllerHint, UiStyle.MUTED, 12)
+	UiStyle.button(spawn_button, UiStyle.RED, true)
+	UiStyle.button(clear_button, UiStyle.RED, true)
+	UiStyle.button(edit_level_button, UiStyle.RED, true)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -96,7 +110,7 @@ func _process(_delta: float) -> void:
 	var collision_state := "ON" if collision_shapes_visible else "OFF"
 	var room_state := _get_room_state()
 
-	status_label.text = "DEV MODE\nToggle: set in Pause > Controls\nF4 / Left Stick: Hit/Hurt Boxes %s\nR / View: Reset room\nY / Triangle: Next room %s\nB / Circle: Back\nPosition: %s\nVelocity: %s\nHealth: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [ # Show developer controls and movement state.
+	status_label.text = "Toggle: set in Pause > Controls\nF4 / Left Stick: Hit/Hurt Boxes %s\nR / View: Reset room\nY / Triangle: Next room %s\nB / Circle: Back\nPosition: %s\nVelocity: %s\nHealth: %s\nGlide: %s (%.2fs, %.0f°, speed %.0f)\nPounce: %s" % [ # Show developer controls and movement state.
 		collision_state, # Display whether collision drawing is enabled.
 		room_state, # Display the current room and cycle position.
 		player.position.round(),

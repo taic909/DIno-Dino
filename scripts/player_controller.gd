@@ -3,89 +3,169 @@ extends CharacterBody2D
 signal dev_flight_changed(active: bool)
 
 @export_category("Movement")
+## Top horizontal running speed.
 @export var max_speed := 300.0
+## How quickly ground movement reaches running speed.
 @export var ground_acceleration := 650.0
+## How quickly the player stops after releasing movement.
 @export var ground_deceleration := 2200.0
+## How quickly horizontal input changes speed in the air.
 @export var air_acceleration := 1100.0
 
 @export_category("Developer Flight")
-@export var dev_flight_speed := 720.0
+## Direct movement speed while developer Flight Mode is active.
+@export var dev_flight_speed := 2020.0
 
 @export_category("Jump")
+## Initial upward jump speed; a more negative value jumps higher.
 @export var jump_velocity := -600.0
+## Downward acceleration applied while airborne.
 @export var gravity := 1200.0
+## Extra gravity while falling; higher values make falls snappier.
 @export var fall_gravity_multiplier := 1.35
+## Upward speed kept when Jump is released early; lower values shorten jumps more.
 @export var jump_release_multiplier := 0.5
+## Seconds after leaving a ledge that a jump is still allowed.
 @export var coyote_time := 0.1
+## Seconds an early Jump press is remembered before landing.
 @export var jump_buffer_time := 0.12
 
 @export_category("Glide")
-@export var glide_duration := 4.0
+## Maximum seconds one Glide can remain active.
+@export var glide_duration := 10.0
+## Strength of gravity projected along the Glide direction.
 @export_range(0.0, 2.0, 0.05) var glide_gravity_multiplier := 1.0
+## Safety cap for extremely fast Glide movement.
 @export var glide_max_speed := 1400.0
+## Degrees per second that climb or dive input changes pitch.
 @export var glide_pitch_speed := 100.0
+## Downward angle the Glide settles toward with no pitch input.
 @export_range(0.0, 45.0, 1.0, "suffix:°") var neutral_glide_pitch := 10.0
+## Degrees per second that pitch returns toward its neutral angle.
 @export var neutral_glide_pitch_speed := 45.0
+## Steepest upward Glide angle.
 @export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_climb_angle := 35.0
-@export_range(0.0, 90.0, 1.0, "suffix:°") var glide_max_dive_angle := 90.0
+## Steepest downward Glide angle.
+@export_range(0.0, 180.0, 1.0, "suffix:°") var glide_max_dive_angle := 115.0
+## Furthest pitch reachable after an inverted roll, allowing a midair U-turn.
+@export_range(90.0, 360.0, 1.0, "suffix:°") var glide_inverted_turn_limit := 270.0
+## Speed below which Glide is considered too slow to sustain.
 @export var glide_low_momentum_threshold := 150.0
+## Seconds spent below the low-speed threshold before Glide ends.
 @export var glide_low_momentum_cancel_time := 0.2
+## Minimum seconds that post-Glide momentum handling remains active.
 @export var glide_exit_momentum_time := 1.0
+## Speed removed per second after Glide ends.
 @export var glide_exit_drag := 220.0
+## Horizontal steering strength while carrying momentum after Glide.
 @export var glide_exit_air_steering := 100.0
+## Acceleration used when restarting Glide in the opposite direction.
 @export var glide_reverse_acceleration := 1800.0
-@export_range(0.0, 1.0, 0.05) var glide_wall_glance_max_incidence := 0.3
-@export_range(0.0, 1.0, 0.05) var glide_wall_glance_speed_retention := 0.65
-@export_range(0.0, 1.0, 0.05) var glide_hard_impact_speed_retention := 0.2
+## Seconds for one visual 180-degree Glide roll.
+@export_range(0.05, 2.0, 0.01) var glide_spin_duration := 0.28
+## Roll angle where steering is halfway between upright and inverted.
+@export_range(90.0, 150.0, 1.0, "suffix:°") var glide_spin_steering_switch_angle := 115.0
+## Flight-path angle allowed while rolling before inverted steering takes over.
+@export_range(90.0, 180.0, 1.0, "suffix:°") var glide_spin_transition_pitch_limit := 115.0
+## Maximum degrees from parallel for a glancing wall or ceiling bounce.
+@export_range(0.0, 45.0, 1.0, "suffix:°") var glide_surface_glance_max_angle := 20.0
+## Fraction of speed kept after a shallow wall or ceiling bounce.
+@export_range(0.0, 1.0, 0.05) var glide_surface_glance_speed_retention := 0.65
+## Fraction of speed kept after a direct wall or ceiling impact.
+@export_range(0.0, 1.0, 0.05) var glide_hard_impact_speed_retention := 0.3
+## Fraction of horizontal Glide speed kept on landing.
+@export_range(0.0, 1.0, 0.05) var glide_ground_impact_speed_retention := 0.55
+## Horizontal speed removed per second while the landing carry settles.
+@export var glide_ground_momentum_drag := 1600.0
+## Minimum seconds spent easing out of a Glide landing.
+@export var glide_ground_momentum_time := 0.2
+## Extra speed pushing the player away after a hard wall impact.
 @export var glide_wall_hard_impact_recoil := 40.0
+## Minimum speed into a surface before it counts as a Glide impact.
 @export var glide_min_surface_impact_speed := 25.0
 
 @export_category("Air Rotation")
+## How quickly Glide artwork rotates to match the movement angle.
 @export var air_rotation_speed := 8.0
 
 @export_category("Pounce")
+## Fixed horizontal Pounce speed when not Gliding.
 @export var pounce_speed := 520.0
+## Multiplier applied to current speed for a Glide Pounce.
 @export var glide_pounce_speed_multiplier := 1.5
+## Seconds the Pounce movement burst lasts.
 @export var pounce_duration := 0.2
+## Seconds before Pounce can be used again.
 @export var pounce_cooldown := 0.35
+## Fraction of normal gravity applied during a Pounce.
 @export_range(0.0, 1.0, 0.05) var pounce_gravity_multiplier := 0.7
+## Temporary visual stretch at Pounce startup.
 @export var pounce_stretch_scale := Vector2(1.24, 0.82)
+## Horizontal and vertical launch speed after a normal Pounce rebound.
 @export var pounce_rebound_speed := Vector2(220.0, -320.0)
+## Temporary visual squash after a Pounce rebound.
 @export var pounce_rebound_scale := Vector2(0.86, 1.18)
+## Fraction of pre-Pounce Glide speed kept by an enemy rebound.
 @export_range(0.0, 1.0, 0.05) var glide_pounce_momentum_retention := 0.9
+## Maximum speed allowed after a Glide-Pounce rebound.
 @export var glide_pounce_rebound_speed_cap := 560.0
+## Minimum Glide time remaining after a successful Pounce hit.
 @export var glide_pounce_refill_time := 1.25
+## Upward strength of the rounded enemy rebound direction.
 @export_range(0.1, 3.0, 0.05) var glide_pounce_upward_bias := 1.0
+## Horizontal distance used to shape an enemy like a rounded bounce surface.
 @export var glide_pounce_dome_half_width := 48.0
+## Distance from enemy center that produces a straight-up rebound.
 @export var glide_pounce_vertical_snap_distance := 6.0
 
 @export_category("Tail Swipe")
+## Seconds a Tail Swipe remains active.
 @export var tail_swipe_duration := 0.16
+## Seconds before Tail Swipe can be used again.
 @export var tail_swipe_cooldown := 0.3
+## Fraction of vertical speed kept when starting a downward Swipe.
 @export_range(0.0, 1.0, 0.05) var tail_swipe_down_stutter_vertical_retention := 0.35
+## Fraction of normal gravity applied during a Tail Swipe.
 @export_range(0.0, 1.0, 0.05) var tail_swipe_gravity_multiplier := 0.4
+## Fraction of horizontal speed kept when a lateral Swipe hits.
 @export_range(0.0, 1.0, 0.05) var tail_swipe_lateral_hit_momentum_retention := 0.6
+## Minimum recoil speed away from a lateral Swipe target.
 @export var tail_swipe_lateral_recoil_speed := 180.0
+## Upward bounce speed after a downward Swipe connects.
 @export var tail_swipe_down_bounce_speed := 600.0
+## Temporary visual scale while Tail Swipe is active.
 @export var tail_swipe_scale := Vector2(1.12, 0.9)
+## Distance the Tail Swipe hitbox reaches from the player.
 @export var tail_swipe_reach := 82.0
+## Down-input strength required to choose the downward Swipe.
 @export_range(0.0, 1.0, 0.05) var tail_swipe_down_aim_threshold := 0.5
 
 @export_category("Landing Feedback")
+## Minimum falling speed required to show landing squash feedback.
 @export var minimum_squash_speed := 180.0
+## Temporary visual squash used on a hard landing.
 @export var landing_squash_scale := Vector2(1.12, 0.82)
+## Seconds for landing squash to return to normal.
 @export var landing_recovery_time := 0.12
 
 @export_category("Contact Damage")
+## Player health points at the start of a room.
 @export var max_health := 3
+## Seconds of protection after taking enemy contact damage.
 @export var contact_invulnerability_time := 0.6
+## Horizontal and vertical velocity applied when hurt.
 @export var contact_knockback := Vector2(260.0, -260.0)
+## Temporary player tint after taking damage.
 @export var damage_flash_color := Color(1.0, 0.35, 0.35, 1.0)
+## Seconds the damage tint takes to fade.
 @export var damage_flash_time := 0.14
 
 @export_category("Animation")
+## Playback speed of the two-frame running animation.
 @export var run_animation_fps := 8.0
+## Alignment correction for the first running frame.
 @export var run_frame_zero_offset := Vector2(-3.4, 0.0)
+## Alignment correction for the second running frame.
 @export var run_frame_one_offset := Vector2(3.4, 0.4)
 
 @onready var visuals: Node2D = $Visuals
@@ -115,6 +195,10 @@ var gliding := false
 var glide_momentum := 0.0
 var glide_speed_limit := 0.0
 var glide_pitch := 0.0
+var glide_visual_pitch := 0.0
+var glide_roll_angle := 0.0
+var glide_roll_target := 0.0
+var glide_sprite_rest_scale_y := 0.0
 var glide_low_momentum_timer := 0.0
 var glide_exit_timer := 0.0
 var glide_exit_active := false
@@ -139,6 +223,7 @@ var damage_tween: Tween
 
 func _ready() -> void:
 	visuals_rest_scale = visuals.scale
+	glide_sprite_rest_scale_y = glide_sprite.scale.y # Preserve the authored sprite size for the roll.
 	glide_time_remaining = glide_duration
 	current_health = max_health # Fill the prototype health value.
 	RoomManager.apply_pending_entry(self) # Restore state when entering through a RoomDoor.
@@ -160,12 +245,14 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
 	# These action names predate the switch to conventional controls. Reversing
 	# the axis here also updates existing saved bindings without discarding them.
+	# Existing action names remain so saved bindings work; inversion reverses pitch below.
 	var glide_pitch_input := Input.get_axis("glide_dive", "glide_climb")
 	var was_on_floor := is_on_floor()
 	var fall_speed := velocity.y
 	_update_timers(delta)
 	_update_facing(direction) # Let a new Glide see a turn made on this same physics frame.
 	_update_glide(delta)
+	_try_glide_spin() # Accept a roll only during an active Glide.
 	_try_start_pounce(direction)
 	_try_start_tail_swipe(direction, glide_pitch_input)
 	_update_pounce_hitbox()
@@ -207,6 +294,7 @@ func set_dev_flight_mode(active: bool) -> void:
 	_update_pounce_hitbox() # Disable Pounce collision during free flight.
 	_update_tail_swipe_hitbox() # Hide swipe hitboxes and indicators when flight interrupts an attack.
 	visuals.rotation = 0.0 # Keep the dinosaur upright while hovering.
+	_reset_glide_spin() # Keep the dinosaur upright while hovering.
 	_update_sprite_state() # Restore neutral artwork immediately after cancelling attacks or Glide.
 	dev_flight_changed.emit(active) # Keep the dev-menu checkbox synchronized.
 
@@ -244,11 +332,14 @@ func _apply_horizontal_movement(direction: float, delta: float) -> void:
 	var target_speed := direction * max_speed
 	var acceleration := air_acceleration
 
-	if not is_on_floor() and glide_exit_active: # Use gentle air handling after Glide.
-		velocity.x = move_toward(velocity.x, 0.0, glide_exit_drag * delta) # Bleed horizontal momentum gradually.
-		velocity.x += direction * glide_exit_air_steering * delta # Allow mild steering during the carry.
-		if glide_exit_timer <= 0.0 and absf(velocity.x) <= max_speed: # End after speed returns to running range.
-			glide_exit_active = false # Restore ordinary air movement.
+	if glide_exit_active: # Keep earned speed briefly after either an air exit or a landing.
+		if is_on_floor():
+			velocity.x = move_toward(velocity.x, target_speed, glide_ground_momentum_drag * delta) # Settle toward running speed without an instant clamp.
+		else:
+			velocity.x = move_toward(velocity.x, 0.0, glide_exit_drag * delta) # Bleed horizontal air momentum gradually.
+			velocity.x += direction * glide_exit_air_steering * delta # Allow mild steering during the air carry.
+		if glide_exit_timer <= 0.0 and absf(velocity.x) <= max_speed: # End once carry time and overspeed have both passed.
+			glide_exit_active = false # Restore ordinary ground or air movement.
 		return # Skip the normal speed clamp.
 
 	if is_on_floor():
@@ -281,10 +372,10 @@ func _handle_jump() -> void:
 
 func _update_glide(delta: float) -> void:
 	if is_on_floor():
+		_adopt_glide_return_heading() # Keep the new facing when an inverted turn reaches ground.
 		glide_time_remaining = glide_duration
 		gliding = false
 		glide_low_momentum_timer = 0.0
-		glide_exit_active = false # Stop carrying Glide momentum on landing.
 		glide_reversal_active = false # A grounded start uses the normal walking-speed floor.
 		return
 
@@ -298,11 +389,10 @@ func _update_glide(delta: float) -> void:
 			# carries straight into the glide once the burst ends, instead of
 			# being discarded.
 			var current_speed := velocity.length()
-			glide_pitch = clampf(
-				atan2(velocity.y, maxf(absf(velocity.x), 0.01)),
-				deg_to_rad(-glide_max_climb_angle),
-				deg_to_rad(glide_max_dive_angle)
-			)
+			var pounce_pitch := atan2(velocity.y, velocity.x * facing_direction)
+			if glide_pitch > PI * 0.5 and pounce_pitch < 0.0:
+				pounce_pitch += TAU # Keep a U-turn arc continuous when the heading crosses left.
+			glide_pitch = clampf(pounce_pitch, deg_to_rad(-glide_max_climb_angle), deg_to_rad(glide_inverted_turn_limit))
 			glide_speed_limit = maxf(glide_speed_limit, current_speed)
 			glide_momentum = current_speed
 		return
@@ -368,25 +458,43 @@ func _begin_glide() -> void:
 
 
 func _begin_glide_exit() -> void: # Start a soft transition from Glide.
+	_adopt_glide_return_heading() # Keep the new facing after a completed U-turn.
 	gliding = false # Leave active Glide physics.
 	glide_reversal_active = false # A later Glide decides its own entry direction.
 	glide_exit_active = true # Keep overspeed air movement temporarily.
 	glide_exit_timer = glide_exit_momentum_time # Set the minimum carry time.
 
 
+func _adopt_glide_return_heading() -> void:
+	if gliding and glide_pitch > PI * 0.5 and absf(velocity.x) > 0.1:
+		facing_direction = signf(velocity.x) # Face the new travel direction after the return arc.
+		_update_sprite_facing()
+
+
 func _apply_glide_movement(pitch_input: float, delta: float) -> void:
 	var min_pitch := deg_to_rad(-glide_max_climb_angle)
-	var max_pitch := deg_to_rad(glide_max_dive_angle)
+	var roll_phase := fposmod(glide_roll_angle, TAU)
+	var switch_angle := deg_to_rad(glide_spin_steering_switch_angle)
+	var blend_half_width := deg_to_rad(25.0)
+	var inversion_weight := smoothstep(switch_angle - blend_half_width, switch_angle + blend_half_width, roll_phase)
+	if roll_phase > PI:
+		inversion_weight = 1.0 - smoothstep(PI + switch_angle - blend_half_width, PI + switch_angle + blend_half_width, roll_phase)
+	var rolling := not is_equal_approx(glide_roll_angle, glide_roll_target)
+	var pitch_limit := glide_max_dive_angle
+	if rolling or inversion_weight > 0.0:
+		pitch_limit = lerpf(glide_spin_transition_pitch_limit, glide_inverted_turn_limit, inversion_weight) # Permit a little extra turn before steering fully inverts.
+	var max_pitch := maxf(deg_to_rad(pitch_limit), glide_pitch) # Rolling upright mid-turn cannot snap the heading.
 
 	if absf(pitch_input) > 0.05:
-		var pitch_change := deg_to_rad(glide_pitch_speed) * pitch_input * delta
+		var local_pitch_input := pitch_input * (1.0 - 2.0 * inversion_weight) # Ease through the control reversal instead of flipping it in one frame.
+		var pitch_change := deg_to_rad(glide_pitch_speed) * local_pitch_input * delta
 		glide_pitch += pitch_change
-	else:
+	elif not rolling and (inversion_weight < 0.5 or glide_pitch <= PI * 0.5):
 		glide_pitch = move_toward(
 			glide_pitch,
 			deg_to_rad(neutral_glide_pitch),
 			deg_to_rad(neutral_glide_pitch_speed) * delta
-		)
+		) # Hold the return-arc angle while inverted with no stick input.
 	glide_pitch = clampf(glide_pitch, min_pitch, max_pitch)
 	if glide_reversal_active:
 		glide_momentum = minf(glide_momentum + glide_reverse_acceleration * delta, max_speed) # Build speed in the new direction over a short ramp.
@@ -420,15 +528,23 @@ func _handle_glide_surface_collisions(incoming_velocity: Vector2) -> void: # Cho
 
 func _apply_glide_surface_impact(incoming_velocity: Vector2, surface_normal: Vector2) -> void: # Trade Glide speed for a glancing bounce or a hard stop.
 	var impact_fraction := -incoming_velocity.normalized().dot(surface_normal)
+	var impact_angle_from_parallel := rad_to_deg(asin(clampf(impact_fraction, 0.0, 1.0)))
 	var is_wall := absf(surface_normal.x) > absf(surface_normal.y)
-	if is_wall and impact_fraction <= glide_wall_glance_max_incidence:
-		velocity = incoming_velocity.bounce(surface_normal) * glide_wall_glance_speed_retention # Keep a reduced tangent and reflect the small wallward component.
+	var is_ceiling := surface_normal.y > absf(surface_normal.x)
+	var is_floor := surface_normal.y < -absf(surface_normal.x)
+	var can_glance_bounce := (is_wall or is_ceiling) and impact_angle_from_parallel <= glide_surface_glance_max_angle
+	if can_glance_bounce:
+		velocity = incoming_velocity.bounce(surface_normal) * glide_surface_glance_speed_retention # Reflect a shallow hit without restoring full speed.
+	elif is_floor:
+		velocity = incoming_velocity.slide(surface_normal) * glide_ground_impact_speed_retention # Preserve some horizontal landing travel.
 	else:
-		velocity = incoming_velocity.slide(surface_normal) * glide_hard_impact_speed_retention # Remove most of a direct impact's momentum.
+		velocity = incoming_velocity.bounce(surface_normal) * glide_hard_impact_speed_retention # Rebound hard wall or ceiling hits at much lower speed.
 		if is_wall:
 			velocity += surface_normal * glide_wall_hard_impact_recoil # Push slightly away so the player does not stick to the wall.
 	glide_momentum = velocity.length() # Do not restore the old Glide speed on the next frame.
 	_begin_glide_exit() # Let normal air physics carry the bounce or slowdown afterward.
+	if is_floor:
+		glide_exit_timer = glide_ground_momentum_time # Hold the gentler ground carry briefly after landing.
 
 
 func is_gliding() -> bool:
@@ -455,7 +571,7 @@ func _start_pounce(direction: float) -> void:
 		if gliding
 		else pounce_speed
 	)
-	pounce_direction = facing_direction if gliding else direction
+	pounce_direction = signf(velocity.x) if gliding and absf(velocity.x) > 0.1 else direction # Follow the U-turn's real heading.
 	if absf(pounce_direction) <= 0.1:
 		pounce_direction = facing_direction
 	gliding = pounce_started_from_glide
@@ -684,14 +800,31 @@ func _update_sprite_state() -> void: # Select and advance the current player art
 	downward_tail_swipe_sprite.frame = tail_frame # Advance the downward strike once per attack.
 
 
+func _try_glide_spin() -> void:
+	if gliding and Input.is_action_just_pressed("glide_spin"):
+		glide_roll_target += PI # Each press alternates inverted and upright.
+
+
+func _reset_glide_spin() -> void:
+	glide_visual_pitch = 0.0 # Clear the previous Glide's pitch.
+	glide_roll_angle = 0.0 # Clear any unfinished visual roll.
+	glide_roll_target = 0.0 # Start the next Glide upright.
+	glide_sprite.scale.y = glide_sprite_rest_scale_y # Restore the authored sprite scale.
+	visuals.rotation = 0.0 # Keep normal artwork upright.
+
+
 func _update_air_rotation(delta: float) -> void:
 	if not gliding:
-		visuals.rotation = 0.0
+		_reset_glide_spin() # Landing, cancelling, or colliding ends the inverted pose.
 		return
 
-	var target_rotation := glide_pitch * facing_direction
+	var target_pitch := glide_pitch * facing_direction
 	var rotation_weight := clampf(air_rotation_speed * delta, 0.0, 1.0)
-	visuals.rotation = lerp_angle(visuals.rotation, target_rotation, rotation_weight)
+	glide_visual_pitch = lerpf(glide_visual_pitch, target_pitch, rotation_weight) # Smooth steering independently of the roll.
+	var roll_step := PI * delta / maxf(glide_spin_duration, 0.01)
+	glide_roll_angle = move_toward(glide_roll_angle, glide_roll_target, roll_step) # Rotate through the half-turn.
+	glide_sprite.scale.y = glide_sprite_rest_scale_y * cos(glide_roll_angle) # Invert the art while its head stays forward.
+	visuals.rotation = glide_visual_pitch # Leave the collision body unaffected.
 
 
 func _handle_landing_feedback(was_on_floor: bool, fall_speed: float) -> void:

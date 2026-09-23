@@ -9,22 +9,26 @@ const CONTROL_ACTIONS: Array[StringName] = [
 	&"move_right",
 	&"glide_dive",
 	&"glide_climb",
+	&"glide_spin",
 	&"jump",
 	&"pounce",
 	&"tail_swipe",
 	&"pause",
+	&"field_journal",
 	&"toggle_dev_mode",
 	&"dev_toggle_flight",
 ]
 const CONTROL_LABELS: Dictionary = {
 	&"move_left": "Move Left",
 	&"move_right": "Move Right",
-	&"glide_dive": "Glide Climb",
-	&"glide_climb": "Glide Dive",
+	&"glide_dive": "Glide Stick Up",
+	&"glide_climb": "Glide Stick Down",
+	&"glide_spin": "Glide Spin",
 	&"jump": "Jump / Glide",
 	&"pounce": "Pounce",
 	&"tail_swipe": "Tail Swipe",
 	&"pause": "Pause",
+	&"field_journal": "Field Journal",
 	&"toggle_dev_mode": "Dev Mode",
 	&"dev_toggle_flight": "Flight Mode",
 }
@@ -40,6 +44,15 @@ static var project_default_bindings: Dictionary = {}
 @onready var controls_button: Button = $Dimmer/Center/MenuPanel/Margin/MainPanel/ControlsButton
 @onready var controls_back_button: Button = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/BackButton
 @onready var reset_defaults_button: Button = $Dimmer/Center/MenuPanel/Margin/ControlsPanel/ResetDefaultsButton
+@onready var menu_panel: PanelContainer = $Dimmer/Center/MenuPanel
+@onready var journal_panel: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/JournalPanel
+@onready var journal_content: VBoxContainer = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalBody/JournalContent
+@onready var journal_body: PanelContainer = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalBody
+@onready var journal_button: Button = $Dimmer/Center/MenuPanel/Margin/MainPanel/JournalButton
+@onready var inventory_tab: Button = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs/InventoryTab
+@onready var map_tab: Button = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs/MapTab
+@onready var codex_tab: Button = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs/CodexTab
+@onready var journal_back_button: Button = $Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalBackButton
 
 var default_bindings: Dictionary = {}
 var binding_buttons: Dictionary = {}
@@ -58,8 +71,14 @@ func _ready() -> void:
 	if _reserve_menu_back_button():
 		_save_bindings() # Migrate an older saved binding that used B for gameplay.
 	_build_control_rows()
+	_apply_look() # Share the expedition palette across the pause and journal screens.
 	resume_button.pressed.connect(_close_menu)
 	controls_button.pressed.connect(_show_controls)
+	journal_button.pressed.connect(_show_journal.bind(0))
+	inventory_tab.pressed.connect(_fill_journal.bind(0))
+	map_tab.pressed.connect(_fill_journal.bind(1))
+	codex_tab.pressed.connect(_fill_journal.bind(2))
+	journal_back_button.pressed.connect(_show_main_panel)
 	controls_back_button.pressed.connect(_show_main_panel)
 	reset_defaults_button.pressed.connect(_reset_defaults)
 
@@ -98,7 +117,7 @@ func _input(event: InputEvent) -> void:
 		_handle_rebind_event(event)
 		return
 	if visible and event.is_action_pressed("ui_cancel"):
-		if controls_panel.visible:
+		if controls_panel.visible or journal_panel.visible:
 			_show_main_panel() # Back out of controls without leaving the pause menu.
 		else:
 			_close_menu() # Return to gameplay from the main pause panel.
@@ -106,12 +125,22 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("pause"):
-		if visible and controls_panel.visible:
+		if visible and (controls_panel.visible or journal_panel.visible):
 			_show_main_panel()
 		elif visible:
 			_close_menu()
 		else:
 			_open_menu()
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("field_journal") and not event.is_echo():
+		if visible and journal_panel.visible:
+			_close_menu()
+		elif visible:
+			_show_journal(0)
+		else:
+			_open_menu()
+			_show_journal(0)
 		get_viewport().set_input_as_handled()
 
 
@@ -131,6 +160,7 @@ func _close_menu() -> void:
 func _show_controls() -> void:
 	main_panel.visible = false
 	controls_panel.visible = true
+	journal_panel.visible = false
 	controls_help.text = "Choose a slot, then press a new input. Delete clears it; Escape cancels."
 	var first_button := binding_buttons.get(_button_key(CONTROL_ACTIONS[0], KEYBOARD_DEVICE)) as Button
 	if first_button:
@@ -140,9 +170,84 @@ func _show_controls() -> void:
 func _show_main_panel() -> void:
 	_cancel_listening()
 	controls_panel.visible = false
+	journal_panel.visible = false
 	main_panel.visible = true
 	if visible:
 		resume_button.grab_focus()
+
+
+func _apply_look() -> void: # Apply one consistent palette to authored and generated menu controls.
+	menu_panel.add_theme_stylebox_override("panel", UiStyle.panel(UiStyle.BLUE, UiStyle.CREAM, 24, 5))
+	journal_body.add_theme_stylebox_override("panel", UiStyle.panel(UiStyle.FOREST, UiStyle.CREAM, 18, 2))
+	$Dimmer/Center/MenuPanel/Margin/MainPanel/Hero.add_theme_stylebox_override("panel", UiStyle.panel(UiStyle.FOREST, UiStyle.MOSS, 18, 2))
+	UiStyle.style_tree($Dimmer/Center/MenuPanel)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/MainPanel/Eyebrow, UiStyle.MOSS, 14)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords/HeroKicker, UiStyle.MOSS, 15)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords/HeroTitle, UiStyle.CREAM, 56)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords/HeroSubtitle, UiStyle.CREAM, 15)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTitle, UiStyle.CREAM, 38)
+	UiStyle.label($Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalKicker, UiStyle.MOSS, 14)
+	UiStyle.button(resume_button, UiStyle.RED)
+	UiStyle.button(journal_button, UiStyle.RED)
+
+
+func _show_journal(tab: int) -> void: # Open the three-page field journal from pause or its own shortcut.
+	main_panel.visible = false
+	controls_panel.visible = false
+	journal_panel.visible = true
+	_fill_journal(tab)
+	inventory_tab.grab_focus()
+
+
+func _fill_journal(tab: int) -> void: # Populate the selected prototype page with real current-room context.
+	for child: Node in journal_content.get_children():
+		child.queue_free()
+	var tabs: Array[Button] = [inventory_tab, map_tab, codex_tab]
+	for index: int in tabs.size():
+		UiStyle.button(tabs[index], UiStyle.RED if index == tab else UiStyle.BLUE, true)
+		if index == tab:
+			tabs[index].add_theme_stylebox_override("normal", UiStyle.panel(UiStyle.RED, UiStyle.CREAM, 13, 2))
+			tabs[index].add_theme_color_override("font_color", UiStyle.CREAM)
+	if tab == 0:
+		_add_journal_card("CARRIED RELICS", "Your pack is empty. Future finds will appear here as the adventure grows.", UiStyle.RED)
+		_add_journal_card("EXPLORER'S KIT", "Pounce and Tail Swipe are innate moves. Check Controls to see their current bindings.", UiStyle.MOSS)
+	elif tab == 1:
+		var room: Node = get_parent()
+		var room_name := room.name.replace("_", " ")
+		var player := room.get_node_or_null("Player") as Node2D
+		var position_note := ""
+		if player:
+			position_note = "  •  X %d / Y %d" % [roundi(player.global_position.x), roundi(player.global_position.y)]
+		_add_journal_card("CURRENT LOCATION", room_name + position_note, UiStyle.MOSS)
+		var map := preload("res://scripts/ui_room_map.gd").new() as Control
+		map.custom_minimum_size = Vector2(0, 185)
+		map.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		map.set("room", room)
+		journal_content.add_child(map)
+		_add_journal_card("TRAIL MAP", "Green marks charted terrain. Red marks your current position.", UiStyle.RED)
+	else:
+		_add_journal_card("01  ARCHAEOPTERYX", "A feathered explorer built for speed. Glide, dive, Pounce, and use your tail to finish a fight.", UiStyle.RED)
+		_add_journal_card("02  WALKER BEETLE", "A ground patrol. A Pounce stuns it; Tail Swipe defeats it in two hits, or one while stunned.", UiStyle.MOSS)
+		_add_journal_card("03  FLYER BEETLE", "A hovering threat. Time a Pounce to open a brief, safe strike window.", UiStyle.MOSS)
+
+
+func _add_journal_card(heading: String, body: String, accent: Color) -> void: # Keep journal information in large, readable field cards.
+	var card := PanelContainer.new()
+	card.custom_minimum_size = Vector2(0, 82)
+	card.add_theme_stylebox_override("panel", UiStyle.panel(UiStyle.CREAM, accent, 14, 3))
+	journal_content.add_child(card)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 4)
+	card.add_child(column)
+	var title := Label.new()
+	title.text = heading
+	UiStyle.label(title, UiStyle.BLUE, 20)
+	column.add_child(title)
+	var description := Label.new()
+	description.text = body
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	UiStyle.label(description, UiStyle.INK, 15)
+	column.add_child(description)
 
 
 func _build_control_rows() -> void:
@@ -384,6 +489,10 @@ func _friendly_event_name(event: InputEvent) -> String:
 			return "Left Stick Left" if event.axis_value < 0.0 else "Left Stick Right"
 		if event.axis == JOY_AXIS_LEFT_Y:
 			return "Left Stick Up" if event.axis_value < 0.0 else "Left Stick Down"
+		if event.axis == JOY_AXIS_TRIGGER_LEFT:
+			return "LT / L2"
+		if event.axis == JOY_AXIS_TRIGGER_RIGHT:
+			return "RT / R2"
 	if event is InputEventJoypadButton:
 		var button_names := {
 			JOY_BUTTON_A: "A / Cross",

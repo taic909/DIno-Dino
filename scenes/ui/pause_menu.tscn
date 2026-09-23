@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_pause"]
+[ext_resource type="Texture2D" path="res://assets/sprites/archeopteryx-white-blue-red-v3.png" id="2_dino"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dino"]
+atlas = ExtResource("2_dino")
+region = Rect2(285, 465, 720, 465)
 
 [node name="PauseMenu" type="CanvasLayer"]
 layer = 100
@@ -12,7 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0196078, 0.027451, 0.0352941, 0.88)
+color = Color(0.035, 0.09, 0.09, 0.87)
 
 [node name="Center" type="CenterContainer" parent="Dimmer"]
 layout_mode = 1
@@ -23,26 +28,65 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MenuPanel" type="PanelContainer" parent="Dimmer/Center"]
-custom_minimum_size = Vector2(820, 590)
+custom_minimum_size = Vector2(940, 584)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="Dimmer/Center/MenuPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 26
 
 [node name="MainPanel" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 12
 alignment = 1
+
+[node name="Eyebrow" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+layout_mode = 2
+text = "FIELD NOTES  /  PREHISTORIC EXPEDITION"
+
+[node name="Hero" type="PanelContainer" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+custom_minimum_size = Vector2(0, 186)
+layout_mode = 2
+
+[node name="HeroRow" type="HBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeroWords" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HeroKicker" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords"]
+layout_mode = 2
+text = "THE JOURNEY CONTINUES"
+
+[node name="HeroTitle" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 54
+text = "PAUSED"
+
+[node name="HeroSubtitle" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow/HeroWords"]
+layout_mode = 2
+text = "Catch your breath. The wild can wait."
+
+[node name="HeroArt" type="TextureRect" parent="Dimmer/Center/MenuPanel/Margin/MainPanel/Hero/HeroRow"]
+custom_minimum_size = Vector2(290, 170)
+layout_mode = 2
+texture_filter = 1
+texture = SubResource("AtlasTexture_dino")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Title" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "PAUSED"
 horizontal_alignment = 1
+visible = false
 
 [node name="ResumeButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
 custom_minimum_size = Vector2(0, 56)
@@ -56,10 +100,62 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Controls"
 
+[node name="JournalButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Field Journal  /  Inventory · Map · Dino Codex"
+
 [node name="Hint" type="Label" parent="Dimmer/Center/MenuPanel/Margin/MainPanel"]
 layout_mode = 2
 text = "Escape or Menu / Options resumes the game"
 horizontal_alignment = 1
+
+[node name="JournalPanel" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="JournalKicker" type="Label" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel"]
+layout_mode = 2
+text = "FIELD JOURNAL  /  EXPLORER'S NOTES"
+
+[node name="JournalTitle" type="Label" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 38
+text = "THE WILD, RECORDED"
+
+[node name="JournalTabs" type="HBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="InventoryTab" type="Button" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs"]
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+text = "01  INVENTORY"
+
+[node name="MapTab" type="Button" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs"]
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+text = "02  MAP"
+
+[node name="CodexTab" type="Button" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalTabs"]
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+text = "03  DINO CODEX"
+
+[node name="JournalBody" type="PanelContainer" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel"]
+custom_minimum_size = Vector2(0, 340)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="JournalContent" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel/JournalBody"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="JournalBackButton" type="Button" parent="Dimmer/Center/MenuPanel/Margin/JournalPanel"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Back to pause menu"
 
 [node name="ControlsPanel" type="VBoxContainer" parent="Dimmer/Center/MenuPanel/Margin"]
 visible = false

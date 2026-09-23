@@ -9,25 +9,33 @@ script = ExtResource("1_dev")
 [node name="Overlay" type="PanelContainer" parent="."]
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 358.0
-offset_bottom = 384.0
+offset_right = 428.0
+offset_bottom = 530.0
 
 [node name="Margin" type="MarginContainer" parent="Overlay"]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
 
 [node name="Content" type="VBoxContainer" parent="Overlay/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 7
+theme_override_constants/separation = 9
+
+[node name="Kicker" type="Label" parent="Overlay/Margin/Content"]
+layout_mode = 2
+text = "EXPEDITION TOOLS  /  01"
+
+[node name="Heading" type="Label" parent="Overlay/Margin/Content"]
+layout_mode = 2
+text = "DEV MODE"
 
 [node name="Status" type="Label" parent="Overlay/Margin/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.984314, 0.74902, 0.27451, 1)
 theme_override_font_sizes/font_size = 14
-text = "DEV MODE"
+text = "ROOM TELEMETRY"
 
 [node name="Separator" type="HSeparator" parent="Overlay/Margin/Content"]
 layout_mode = 2

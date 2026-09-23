@@ -17,11 +17,15 @@ func _run() -> void:
 		return
 	player.set("gliding", true)
 	player.call("_apply_glide_surface_impact", Vector2(600.0, 100.0), Vector2.LEFT) # Strike the same wall mostly head-on.
-	if not _check(player.velocity.x < 0.0 and player.velocity.length() < 100.0 and float(player.get("glide_momentum")) < 100.0, "Direct wall contact did not heavily reduce Glide momentum."):
+	if not _check(player.velocity.x < -150.0 and player.velocity.length() < 260.0 and float(player.get("glide_momentum")) < 260.0, "Direct wall contact did not heavily reduce Glide momentum."):
 		return
 	player.set("gliding", true)
-	player.call("_apply_glide_surface_impact", Vector2(100.0, 600.0), Vector2.UP) # Land on a horizontal surface.
-	if not _check(player.velocity.y == 0.0 and player.velocity.x < 30.0, "Floor contact incorrectly used the wall-bounce rule."):
+	player.call("_apply_glide_surface_impact", Vector2(600.0, -100.0), Vector2.DOWN) # Graze a ceiling within 20 degrees of parallel.
+	if not _check(player.velocity.x > 300.0 and player.velocity.y > 0.0 and player.velocity.length() < 500.0, "Shallow ceiling contact did not produce a reduced bounce."):
+		return
+	player.set("gliding", true)
+	player.call("_apply_glide_surface_impact", Vector2(600.0, 600.0), Vector2.UP) # Land on a horizontal surface.
+	if not _check(player.velocity.y == 0.0 and player.velocity.x > 300.0 and player.velocity.x < 400.0 and bool(player.get("glide_exit_active")) and float(player.get("glide_exit_timer")) > 0.0, "Floor contact did not retain a short horizontal carry."):
 		return
 	var wall := StaticBody2D.new()
 	wall.position = Vector2(100.0, 0.0)
@@ -45,9 +49,9 @@ func _run() -> void:
 		await get_tree().physics_frame # Allow the flying player to reach the wall.
 		if not bool(player.get("gliding")):
 			break # Observe the first impact before ordinary air movement takes over.
-	if not _check(not bool(player.get("gliding")) and float(player.get("glide_momentum")) < 200.0, "A live wall collision restored the old Glide momentum."):
+	if not _check(not bool(player.get("gliding")) and float(player.get("glide_momentum")) < 300.0, "A live wall collision restored the old Glide momentum."):
 		return
-	print("PASS: glancing wall bounces, direct impacts lose momentum, and live Glide collision exits cleanly.") # Report the complete regression check.
+	print("PASS: wall and ceiling grazes bounce, direct impacts lose momentum, and landings retain brief carry.") # Report the complete regression check.
 	player.queue_free() # Release the production controller after testing.
 	wall.queue_free() # Remove the test-only collision surface.
 	await get_tree().process_frame # Finish queued cleanup before exiting.
